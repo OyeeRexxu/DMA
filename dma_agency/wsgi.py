@@ -8,7 +8,7 @@ if path not in sys.path:
 
 os.environ.setdefault(
     'DJANGO_SETTINGS_MODULE',
-    'DMA.settings'
+    'dma_agency.settings'
 )
 
 from django.core.wsgi import get_wsgi_application
