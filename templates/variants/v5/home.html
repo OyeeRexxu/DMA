@@ -1,0 +1,352 @@
+{% extends 'variants/v5/base.html' %}
+{% block title %}DMA. — Cyberpunk Production Agency{% endblock %}
+
+{% block extra_css %}
+/* 1. Cyberpunk Hero */
+.hero { height: 100vh; position: relative; display: flex; align-items: center; padding: 0 52px; overflow: hidden; background: #050505; }
+.hero:hover .hero-bg-video { filter: contrast(1.2) brightness(0.6) grayscale(20%) sepia(30%) hue-rotate(340deg); }
+.hero-content { position: relative; z-index: 2; width: 100%; }
+.glitch-wrapper { position: relative; display: inline-block; }
+.hero-title { font-size: clamp(60px,10vw,150px); font-weight: 900; line-height: 0.88; letter-spacing: -0.04em; text-transform: uppercase; color: #fff; position: relative; }
+.hero-title span { color: var(--r); }
+
+/* Glitch Animation */
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; }
+.glitch::before { left: 4px; text-shadow: -2px 0 var(--r); clip: rect(24px, 550px, 90px, 0); animation: glitch-anim-2 3s infinite linear alternate-reverse; }
+.glitch::after { left: -4px; text-shadow: -2px 0 #00ffff; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
+@keyframes glitch-anim { 0% { clip: rect(10px, 9999px, 83px, 0); } 20% { clip: rect(79px, 9999px, 15px, 0); } 40% { clip: rect(32px, 9999px, 99px, 0); } 60% { clip: rect(61px, 9999px, 12px, 0); } 80% { clip: rect(85px, 9999px, 50px, 0); } 100% { clip: rect(18px, 9999px, 134px, 0); } }
+@keyframes glitch-anim-2 { 0% { clip: rect(29px, 9999px, 15px, 0); } 20% { clip: rect(81px, 9999px, 63px, 0); } 40% { clip: rect(44px, 9999px, 10px, 0); } 60% { clip: rect(72px, 9999px, 86px, 0); } 80% { clip: rect(12px, 9999px, 25px, 0); } 100% { clip: rect(59px, 9999px, 11px, 0); } }
+
+/* 2. Cyber Pillars Matrix */
+.pillars-section { padding: 140px 52px; position: relative; border-top: 1px solid rgba(255,59,59,0.15); background: transparent; }
+.sec-lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 60px; display: inline-block; padding: 4px 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
+.svc-row { display: flex; justify-content: space-between; align-items: center; padding: 48px 0; border-bottom: 1px solid rgba(255,59,59,0.15); cursor: pointer; position: relative; z-index:2; transition: padding 0.3s, background 0.3s; }
+.svc-row::before { content:''; position:absolute; left:0; top:0; width:4px; height:0%; background:var(--r); transition:height 0.3s; }
+.svc-row h3 { font-size: clamp(32px, 5vw, 80px); font-weight: 900; letter-spacing: -0.03em; color: rgba(255,255,255,0.2); transition: color 0.4s, transform 0.4s; }
+.svc-row:hover { padding-left: 24px; background: rgba(255,59,59,0.05); }
+.svc-row:hover::before { height:100%; }
+.svc-row:hover h3 { color: #fff; transform: translateX(10px); text-shadow: 0 0 20px rgba(255,59,59,0.5); }
+.svc-row p { font-size: 0.85rem; color: rgba(255,255,255,0.5); max-width: 300px; text-align: right; opacity: 0; transition: opacity 0.4s, transform 0.4s; transform: translateX(-20px); }
+.svc-row:hover p { opacity: 1; transform: translateX(0); }
+
+.hover-bg-wrap { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0.3s; }
+.hover-bg-wrap.active { opacity: 0.25; }
+.hover-bg-wrap video { width: 100%; height: 100%; object-fit: cover; filter: hue-rotate(320deg) contrast(1.2) grayscale(30%); }
+
+/* 3. Horizontal Cyber-Gallery */
+.work-section { overflow: hidden; padding-bottom: 140px; background: #050505; border-top: 1px solid rgba(255,59,59,0.15); padding-top: 140px; }
+.work-gallery-wrap { height: 100vh; position: relative; }
+.work-gallery { display: flex; gap: 6vw; padding: 0 52px; width: max-content; height: 100%; align-items: center; }
+.work-item { width: 60vw; max-width: 800px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border: 1px solid rgba(255,59,59,0.2); box-shadow: 0 0 40px rgba(255,59,59,0); transition: box-shadow 0.4s; }
+.work-item:hover { box-shadow: 0 0 40px rgba(255,59,59,0.3); border-color: var(--r); }
+.work-item video, .work-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.2); transition: filter 0.5s; transform: scale(1.1); }
+.work-item:hover video, .work-item:hover img { filter: grayscale(0%) contrast(1.1); }
+.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); display: flex; flex-direction:column; justify-content: flex-end; padding: 40px; opacity: 0; transition: opacity 0.4s; }
+.work-item:hover .work-info { opacity: 1; }
+.work-info h3 { font-size: clamp(24px, 3vw, 48px); font-weight: 900; color: #fff; text-transform:uppercase; margin-bottom: 8px; }
+.work-info p { color: var(--r); font-weight: 700; letter-spacing: 0.2em; font-size: 0.7rem; text-transform:uppercase; }
+
+/* 4. Draggable Creator Roster */
+.roster-section { padding: 140px 0; background: #0a0a0a; overflow: hidden; cursor: grab; border-top: 1px solid rgba(255,59,59,0.15); }
+.roster-section:active { cursor: grabbing; }
+.roster-header { padding: 0 52px; margin-bottom: 60px; }
+.roster-track { display: flex; gap: 40px; padding: 0 52px; width: max-content; }
+.creator-card { width: 320px; height: 480px; position: relative; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; user-select: none; background: #111; }
+.creator-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; filter: sepia(0.5) hue-rotate(320deg) brightness(0.6); transition: filter 0.4s; }
+.creator-card:hover img { filter: sepia(0) hue-rotate(0) brightness(1); }
+.c-info { position: absolute; bottom: 20px; left: 20px; right: 20px; padding: 16px; background: rgba(10,10,10,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,59,59,0.3); border-left: 4px solid var(--r); }
+.c-info h4 { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; color: #fff; }
+.c-info span { font-size: 0.65rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); text-transform: uppercase; }
+
+/* 5. BTS Parallax Grid */
+.bts-section { padding: 140px 52px; max-width: 1400px; margin: 0 auto; overflow: hidden; }
+.bts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 1000px; }
+.bts-col { display: flex; flex-direction: column; gap: 20px; }
+.bts-col img { width: 100%; border: 1px solid rgba(255,255,255,0.1); object-fit: cover; filter: grayscale(100%); transition: filter 0.3s; }
+.bts-col img:hover { filter: grayscale(0%); border-color: var(--r); box-shadow: 0 0 20px rgba(255,59,59,0.2); }
+.bts-col:nth-child(1) img { height: 400px; } .bts-col:nth-child(2) img { height: 600px; } .bts-col:nth-child(3) img { height: 350px; }
+
+/* 6. Cyber Process Timeline */
+.process-section { padding: 140px 52px; background: #050505; border-top: 1px solid rgba(255,59,59,0.15); }
+.p-cards-wrap { position: relative; height: 300vh; }
+.p-card { position: sticky; top: 120px; height: 60vh; background: #0c0c0c; border: 1px solid rgba(255,59,59,0.2); padding: 60px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 -20px 40px rgba(0,0,0,0.8); transform-origin: top center; margin-bottom: 40px; }
+.p-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, transparent, var(--r), transparent); }
+.p-card h3 { font-size: clamp(40px, 6vw, 100px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 0 20px rgba(255,59,59,0.3); }
+.p-card p { font-size: 1.2rem; color: rgba(255,255,255,0.5); max-width: 600px; line-height: 1.6; }
+
+/* NEW: Marquee */
+.marquee-sec { border-top: 1px solid rgba(255,59,59,0.15); padding: 24px 0; overflow: hidden; background: #000; }
+.marquee-inner { display: flex; white-space: nowrap; }
+.marquee-part { font-size: 1rem; font-weight: 900; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,59,59,0.8); padding: 0 4vw; display:flex; gap:8vw; align-items:center; text-shadow: 0 0 10px rgba(255,59,59,0.4); }
+.dot { color: #fff; }
+
+/* NEW: Cyber FAQ Accordion */
+.faq-section { padding: 140px 52px; border-top: 1px solid rgba(255,59,59,0.15); background: #0a0a0a; max-width: 1000px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+.faq-q { padding: 32px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: clamp(20px, 2.5vw, 32px); font-weight: 800; color: rgba(255,255,255,0.8); transition: color 0.3s; }
+.faq-q:hover { color: #fff; }
+.faq-icon { color: var(--r); font-weight: 300; transition: transform 0.4s; }
+.faq-item.active .faq-icon { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+.faq-a-inner { padding-bottom: 32px; font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* 7. Kinetic Stats */
+.stats-section { padding:140px 52px; display:grid; grid-template-columns:repeat(3, 1fr); gap:40px; border-top:1px solid rgba(255,59,59,0.15); background:#0a0a0a; }
+.stat-box { display:flex; flex-direction:column; gap:12px; border-left: 2px solid rgba(255,59,59,0.3); padding-left: 24px; }
+.stat-box h2 { font-size:clamp(60px,10vw,160px); font-weight:900; color:var(--r); letter-spacing:-0.05em; line-height: 0.8; text-shadow: 0 0 40px rgba(255,59,59,0.4); }
+.stat-box p { font-size:0.7rem; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.2em; }
+{% endblock %}
+
+{% block content %}
+<div class="hover-bg-wrap" id="svc-hover-bg"></div>
+
+<!-- 1. Hero -->
+<section class="hero" id="hero-vanta" data-cursor="ACCESS">
+  <div class="hero-content">
+    <div class="glitch-wrapper">
+      <h1 class="hero-title glitch" data-text="We Build The New.">We Build <br><span>The New.</span></h1>
+    </div>
+    <div style="margin-top:40px;">
+      <a href="{% url 'v5_work' %}" class="btn-r" data-cursor="INITIALIZE">Enter System</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEW: Infinite Marquee -->
+<div class="marquee-sec">
+  <div class="marquee-inner" id="marquee-inner">
+    <div class="marquee-part"><span>Social & AI</span><span class="dot">✦</span><span>Influencers</span><span class="dot">✦</span><span>Commercial Production</span><span class="dot">✦</span><span>Brand Scaling</span><span class="dot">✦</span></div>
+    <div class="marquee-part"><span>Social & AI</span><span class="dot">✦</span><span>Influencers</span><span class="dot">✦</span><span>Commercial Production</span><span class="dot">✦</span><span>Brand Scaling</span><span class="dot">✦</span></div>
+  </div>
+</div>
+
+<!-- 2. Cyber Pillars -->
+<section class="pillars-section">
+  <div class="sec-lbl">01 / System Architecture</div>
+  <div class="svc-list">
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4" data-hue="0" data-cursor="EXPLORE">
+      <h3>Social & AI Content</h3>
+      <p>High-volume, algorithm-optimized content engines powered by AI workflows.</p>
+    </div>
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4" data-hue="280" data-cursor="EXPLORE">
+      <h3>Influencer Sync</h3>
+      <p>Integrating top-tier creators directly into your brand's digital mainframe.</p>
+    </div>
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4" data-hue="140" data-cursor="EXPLORE">
+      <h3>Production Grids</h3>
+      <p>Cinema-grade commercial production, studio photography, and global shoots.</p>
+    </div>
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4" data-hue="200" data-cursor="EXPLORE">
+      <h3>Campaign Rollout</h3>
+      <p>End-to-end paid media distribution and aggressive brand activation sequences.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Horizontal Cyber-Gallery -->
+<section class="work-section">
+  <div class="sec-lbl" style="margin-left: 52px; margin-bottom: 60px;">02 / Encrypted Archives</div>
+  <div class="work-gallery-wrap">
+    <div class="work-gallery">
+      <!-- Item 1 -->
+      <a href="#" class="work-item" data-cursor="DECRYPT">
+        <video autoplay loop muted playsinline class="parallax-img"><source src="https://videos.pexels.com/video-files/5343288/5343288-uhd_2560_1440_25fps.mp4" type="video/mp4"></video>
+        <div class="work-info"><h3>Global Fashion Week</h3><p>Production / Campaign</p></div>
+      </a>
+      <!-- Item 2 -->
+      <a href="#" class="work-item" data-cursor="DECRYPT">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" class="parallax-img">
+        <div class="work-info"><h3>AI Product Launch</h3><p>Generative AI / Strategy</p></div>
+      </a>
+      <!-- Item 3 -->
+      <a href="#" class="work-item" data-cursor="DECRYPT">
+        <video autoplay loop muted playsinline class="parallax-img"><source src="https://videos.pexels.com/video-files/2882126/2882126-uhd_2560_1440_24fps.mp4" type="video/mp4"></video>
+        <div class="work-info"><h3>Creator House 2026</h3><p>Influencer Activation</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Draggable Roster -->
+<section class="roster-section" data-cursor="← DRAG →">
+  <div class="roster-header"><div class="sec-lbl">03 / Talent Nodes</div></div>
+  <div class="roster-track" id="drag-track">
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Emma J.</h4><span>Fashion Node</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Marcus T.</h4><span>Tech Node</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Sarah K.</h4><span>Beauty Node</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>David O.</h4><span>Fitness Node</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Chloe S.</h4><span>Vlog Node</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1528892952291-009c663ce843?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Liam V.</h4><span>Gaming Node</span></div></div>
+  </div>
+</section>
+
+<!-- 5. BTS Grid -->
+<section class="bts-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">04 / Server Logs (BTS)</div>
+  <div class="bts-grid">
+    <div class="bts-col bts-up">
+      <img src="https://images.unsplash.com/photo-1594681313093-9c882103f6f1?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop">
+    </div>
+    <div class="bts-col bts-down" style="transform:translateY(-200px);">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop">
+    </div>
+    <div class="bts-col bts-up">
+      <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=800&auto=format&fit=crop">
+    </div>
+  </div>
+</section>
+
+<!-- 6. Process Timeline -->
+<section class="process-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">05 / Execution Protocols</div>
+  <div class="p-cards-wrap">
+    <div class="p-card" style="top:120px; z-index:1;">
+      <h3>1. Protocol: Pre-Vis</h3>
+      <p>Data-driven insights and AI storyboarding mapped to guarantee algorithmic success.</p>
+    </div>
+    <div class="p-card" style="top:150px; z-index:2; background:#0f0f0f;">
+      <h3>2. Protocol: Production</h3>
+      <p>High-end commercial shoots combined with organic, creator-led content.</p>
+    </div>
+    <div class="p-card" style="top:180px; z-index:3; background:#141414;">
+      <h3>3. Protocol: Rollout</h3>
+      <p>Paid and organic network deployment, leveraging influencer rosters to ignite viral sequences.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEW: Cyber FAQ Accordion -->
+<section class="faq-section">
+  <div class="sec-lbl" style="margin-bottom: 20px;">06 / Core Queries</div>
+  <div class="faq-item">
+    <div class="faq-q" data-cursor="EXPAND">Do you handle end-to-end production? <span class="faq-icon">+</span></div>
+    <div class="faq-a"><div class="faq-a-inner">Yes. From strategy and AI storyboarding to casting, commercial shooting, and post-production. We provide the complete infrastructure.</div></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" data-cursor="EXPAND">How does AI integrate into your workflow? <span class="faq-icon">+</span></div>
+    <div class="faq-a"><div class="faq-a-inner">We use Generative AI for rapid prototyping, pre-visualization, and high-volume asset variations, allowing us to execute faster and scale campaigns dynamically.</div></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" data-cursor="EXPAND">What is your typical turnaround time? <span class="faq-icon">+</span></div>
+    <div class="faq-a"><div class="faq-a-inner">Speed is our advantage. While traditional agencies take months, we move from brief to live assets in weeks, and sometimes days for reactive cultural moments.</div></div>
+  </div>
+</section>
+
+<!-- 7. Kinetic Stats -->
+<section class="stats-section">
+  <div class="stat-box"><h2 class="counter" data-val="12">0</h2><p>System Awards</p></div>
+  <div class="stat-box"><h2 class="counter" data-val="400">0</h2><p>Campaigns Shipped</p></div>
+  <div class="stat-box"><h2 class="counter" data-val="50">0</h2><p>Global Brands</p></div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+<script>
+// Init Interactive WebGL Background
+if (document.getElementById('hero-vanta')) {
+  VANTA.NET({
+    el: "#hero-vanta",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    color: 0xff3b3b,
+    backgroundColor: 0x050505,
+    points: 15.00,
+    maxDistance: 25.00,
+    spacing: 18.00,
+    showDots: true
+  });
+}
+
+gsap.registerPlugin(ScrollTrigger, Draggable);
+
+// Pillars Hover Video Effect
+const svcRows = document.querySelectorAll('.svc-row');
+const hoverWrap = document.getElementById('svc-hover-bg');
+let currentVideoSrc = '';
+
+svcRows.forEach(row => {
+  row.addEventListener('mouseenter', () => {
+    const videoSrc = row.getAttribute('data-video');
+    const hue = row.getAttribute('data-hue') || '0';
+    
+    if (videoSrc !== currentVideoSrc) {
+      hoverWrap.innerHTML = `<video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"><source src="${videoSrc}" type="video/mp4"></video>`;
+      currentVideoSrc = videoSrc;
+    }
+    
+    const vid = hoverWrap.querySelector('video');
+    if (vid) {
+      vid.style.filter = `hue-rotate(${hue}deg) contrast(1.2) brightness(0.8)`;
+      vid.play().catch(() => {});
+    }
+    
+    hoverWrap.classList.add('active');
+  });
+  row.addEventListener('mouseleave', () => {
+    hoverWrap.classList.remove('active');
+  });
+});
+
+// Horizontal Cyber-Gallery
+const workGallery = document.querySelector('.work-gallery');
+const workWrap = document.querySelector('.work-gallery-wrap');
+let scrollTween = gsap.to(workGallery, {
+  x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
+  ease: "none",
+  scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
+});
+gsap.utils.toArray('.parallax-img').forEach(img => {
+  gsap.to(img, { x: 150, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
+});
+
+// Draggable Roster
+const track = document.getElementById('drag-track');
+Draggable.create(track, { type: "x", bounds: { minX: -(track.scrollWidth - window.innerWidth + 104), maxX: 0 }, inertia: true });
+
+// BTS Parallax
+gsap.to('.bts-up', { y: -150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+gsap.to('.bts-down', { y: 150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+
+// Process Sticky Cards
+gsap.utils.toArray('.p-card').forEach(card => { ScrollTrigger.create({ trigger: card, start: "top 120px", pinSpacing: false }); });
+
+// Marquee
+gsap.to('#marquee-inner', { xPercent: -50, ease: "none", duration: 15, repeat: -1 });
+
+// FAQ Accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const a = q.nextElementSibling;
+    if (item.classList.contains('active')) {
+      item.classList.remove('active');
+      a.style.maxHeight = '0';
+    } else {
+      document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('active'); i.querySelector('.faq-a').style.maxHeight = '0'; });
+      item.classList.add('active');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+// Kinetic Stats
+gsap.utils.toArray('.counter').forEach(el => {
+  const target = parseInt(el.getAttribute('data-val'));
+  gsap.to(el, { innerHTML: target, duration: 2, ease: "power2.out", snap: { innerHTML: 1 }, scrollTrigger: { trigger: '.stats-section', start: "top 80%" } });
+});
+
+// Init hover cursor
+if(window.initHoverCursor) window.initHoverCursor();
+</script>
+{% endblock %}

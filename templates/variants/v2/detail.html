@@ -1,0 +1,50 @@
+{% extends 'variants/v2/base.html' %}
+{% block title %}{{ project.title }} — DMA.{% endblock %}
+{% block extra_css %}
+.detail-hero{display:grid;grid-template-columns:1fr 1fr;min-height:60vh}
+.dh-left{background:#0a0a0a;overflow:hidden}
+.dh-left img{width:100%;height:100%;object-fit:cover;filter:grayscale(10%);min-height:400px}
+.dh-left-ph{width:100%;height:100%;min-height:400px;background:linear-gradient(160deg,#1a1a1a,#2c2c2c)}
+.dh-right{padding:80px 52px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid rgba(0,0,0,.08)}
+.dh-client{font-size:.58rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(0,0,0,.3);margin-bottom:16px}
+.dh-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,72px);font-weight:900;letter-spacing:-.03em;line-height:.9}
+.dh-title em{font-style:italic;color:rgba(0,0,0,.25)}
+.dh-desc{font-size:.9rem;line-height:1.75;color:rgba(0,0,0,.45);margin-top:32px}
+.dh-cta a{display:inline-flex;align-items:center;gap:14px;font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;border-bottom:1px solid rgba(0,0,0,.15);padding-bottom:8px;transition:gap .4s}
+.dh-cta a:hover{gap:28px}
+.detail-body{padding:80px 52px 120px;display:grid;grid-template-columns:1fr 320px;gap:80px}
+.d-content{font-size:.95rem;line-height:1.9;color:rgba(0,0,0,.5)}
+.d-content p{margin-bottom:22px}
+.d-side{padding-top:8px}
+.d-side h4{font-size:.58rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(0,0,0,.28);border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:16px;margin-bottom:20px}
+.d-side p{font-size:.82rem;line-height:1.75;color:rgba(0,0,0,.4)}
+.related{padding:0 52px 100px;border-top:1px solid rgba(0,0,0,.08)}
+.rel-h{display:flex;justify-content:space-between;align-items:baseline;padding:40px 0;font-family:'Playfair Display',serif;font-size:clamp(28px,3vw,44px);font-weight:900;letter-spacing:-.02em}
+.rel-h a{font-family:'Inter',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.28);text-decoration:none}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ri{overflow:hidden;aspect-ratio:4/3;background:#111;display:block;text-decoration:none;position:relative}
+.ri img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:all .7s}
+.ri:hover img{filter:grayscale(0%);transform:scale(1.04)}
+.ri-ph{width:100%;height:100%;background:#ddd}
+.ri-cap{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);opacity:0;transition:opacity .4s}
+.ri:hover .ri-cap{opacity:1}
+.ri-cap span{font-size:.85rem;font-weight:700;color:#fff}
+{% endblock %}
+{% block content %}
+<div class="detail-hero">
+  <div class="dh-left">{% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}">{% else %}<div class="dh-left-ph"></div>{% endif %}</div>
+  <div class="dh-right">
+    <div><p class="dh-client">{{ project.client_name }}</p><h1 class="dh-title">{{ project.title|wordwrap:15|linebreaksbr }}</h1><p class="dh-desc">{{ project.short_description }}</p></div>
+    <div class="dh-cta"><a href="{% url 'v2_contact' %}">Start a project →</a></div>
+  </div>
+</div>
+<div class="detail-body">
+  <div class="d-content">{{ project.content|linebreaks }}</div>
+  <aside class="d-side reveal"><h4>Project Details</h4><p>{{ project.short_description }}</p>{% if project.video_url %}<p style="margin-top:20px"><a href="{{ project.video_url }}" target="_blank" style="color:inherit;font-size:.8rem;font-weight:700">Watch Video →</a></p>{% endif %}</aside>
+</div>
+{% if related %}
+<div class="related">
+  <div class="rel-h"><span>More Work</span><a href="{% url 'v2_work' %}">All projects →</a></div>
+  <div class="rel-grid">{% for p in related %}<a href="{% url 'v2_work_detail' p.slug %}" class="ri reveal">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="ri-ph"></div>{% endif %}<div class="ri-cap"><span>{{ p.title }}</span></div></a>{% endfor %}</div>
+</div>{% endif %}
+{% endblock %}

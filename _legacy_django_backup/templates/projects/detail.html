@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - DMA{% endblock %}
+
+{% block content %}
+<article class="min-h-screen">
+    <div class="w-full h-[60vh] relative bg-gray-900">
+        {% if project.cover_image %}
+            <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+        {% endif %}
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="absolute bottom-0 left-0 w-full p-6 md:p-16">
+            <div class="max-w-4xl mx-auto">
+                <p class="text-gray-300 font-semibold tracking-widest uppercase text-sm mb-4">{{ project.client_name }}</p>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white">{{ project.title }}</h1>
+            </div>
+        </div>
+    </div>
+    
+    <div class="max-w-4xl mx-auto px-6 py-24">
+        <div class="prose prose-invert prose-lg max-w-none reveal">
+            {{ project.content|linebreaks }}
+        </div>
+        
+        {% if project.video_url %}
+        <div class="mt-16 reveal aspect-video w-full bg-gray-900">
+            <!-- Simplified iframe for demo, normally would parse URL to embed format -->
+            <a href="{{ project.video_url }}" target="_blank" class="w-full h-full flex items-center justify-center text-white hover:text-gray-300">
+                Watch Video ↗
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}

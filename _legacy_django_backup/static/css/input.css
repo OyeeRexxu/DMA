@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-light: #fafafa;
+  --color-brand-dark: #0a0a0a;
+  --color-brand-accent: #333333;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+/* Shimmer keyframes — MUST be at top level, not inside @layer */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Base layer overrides */
+@layer base {
+  body {
+    @apply bg-[#0a0a0a] text-[#fafafa] antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Utilities for smooth animations */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Cinematic Hover Distortion */
+  .distortion-hover {
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: brightness(0.75) contrast(1.1) grayscale(15%);
+  }
+  
+  .distortion-hover:hover {
+    transform: scale(1.04) rotate(0.3deg);
+    filter: brightness(1) contrast(1) grayscale(0%);
+    box-shadow: 0 30px 60px -15px rgba(0,0,0,0.7);
+  }
+
+  /* Page Transitions */
+  .page-transition {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  .page-transition.loaded {
+    opacity: 1;
+  }
+
+  /* Shimmer text animation */
+  .animate-shimmer {
+    background: linear-gradient(90deg, #555 0%, #fff 40%, #aaa 60%, #555 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+
+  /* Hero text fade-up */
+  .hero-title {
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  .hero-subtitle {
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+  }
+}

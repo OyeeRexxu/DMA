@@ -1,0 +1,342 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}DMA. — Creative Production Agency{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,400;0,700;0,900;1,900&family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- Lenis CSS -->
+<style>
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  .lenis.lenis-smooth iframe { pointer-events: none; }
+</style>
+<style>
+/* ─── ELECTRIC LIME: V1 Theme System ─────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root { --lime:#CCFF00; --black:#080808; --white:#F5F5F0; --gray:rgba(245,245,240,0.15); }
+body { background:var(--black); color:var(--white); font-family:'Space Grotesk',sans-serif; cursor:none; overflow-x:hidden; }
+
+/* Film Grain */
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9990; opacity:.7; }
+
+/* ─── CURSOR STYLES ENGINE ───── */
+#cursor-main { position:fixed; pointer-events:none; z-index:9999; top:0; left:0; transform:translate(-50%,-50%); display:flex; align-items:center; justify-content:center; }
+#cursor-trail { position:fixed; pointer-events:none; z-index:9998; top:0; left:0; transform:translate(-50%,-50%); transition: border-radius 0.3s, border 0.3s, background 0.3s, width 0.3s, height 0.3s, box-shadow 0.3s; }
+#cursor-badge { position:fixed; pointer-events:none; z-index:9997; top:0; left:0; font-family:'Space Mono', monospace; font-size:9px; font-weight:700; color:var(--lime); text-transform:uppercase; opacity:0; transition:opacity 0.2s, margin 0.3s cubic-bezier(0.19, 1, 0.22, 1); letter-spacing:0.12em; text-shadow:0 2px 4px rgba(0,0,0,0.8); }
+
+/* Dynamic Style Margin Offsets to prevent collision with custom pointer shapes */
+body.c-style-rng #cursor-badge { margin-left:12px; margin-top:12px; }
+body.c-style-sqr #cursor-badge { margin-left:10px; margin-top:10px; }
+body.c-style-crs #cursor-badge { margin-left:14px; margin-top:14px; }
+body.c-style-blb #cursor-badge { margin-left:18px; margin-top:18px; }
+body.c-style-trg #cursor-badge { margin-left:12px; margin-top:12px; }
+
+/* Switcher Control Deck */
+#cursor-control-deck { position:fixed; bottom:24px; left:24px; z-index:9999; background:rgba(8,8,8,0.85); border:1px solid rgba(204,255,0,0.15); border-radius:32px; padding:6px 14px 6px 20px; display:flex; align-items:center; gap:16px; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); box-shadow:0 15px 35px rgba(0,0,0,0.8); }
+.cc-lbl { font-family:'Space Mono', monospace; font-size:0.55rem; font-weight:700; color:var(--lime); letter-spacing:0.18em; }
+.cc-btns { display:flex; gap:6px; }
+.cc-btns button { background:transparent; border:1px solid rgba(255,255,255,0.08); width:36px; height:24px; border-radius:12px; font-family:'Space Mono', monospace; font-size:0.55rem; font-weight:700; color:rgba(255,255,255,0.4); cursor:none; transition:all 0.3s; outline:none; }
+.cc-btns button:hover, .cc-btns button.active { background:var(--lime); color:var(--black); border-color:var(--lime); box-shadow:0 0 10px rgba(204,255,0,0.4); }
+
+/* --- Style 1: Minimal RNG (Dual Ring) --- */
+body.c-style-rng #cursor-main { width:4px; height:4px; background:var(--lime); border-radius:50%; box-shadow:0 0 8px var(--lime); }
+body.c-style-rng #cursor-trail { width:24px; height:24px; border:1.2px solid rgba(204,255,0,0.5); border-radius:50%; }
+
+/* --- Style 2: Tech SQR (Cyber Square) --- */
+body.c-style-sqr #cursor-main { width:3px; height:3px; background:var(--lime); }
+body.c-style-sqr #cursor-trail { width:16px; height:16px; border:1px solid rgba(204,255,0,0.6); border-radius:0; }
+
+/* --- Style 3: Vector CRS (Precision Crosshair) --- */
+#cursor-main .cursor-cross-h, #cursor-main .cursor-cross-v { display:none; position:absolute; background:var(--lime); box-shadow:0 0 6px var(--lime); }
+#cursor-main .cursor-cross-h { width:16px; height:1.2px; }
+#cursor-main .cursor-cross-v { width:1.2px; height:16px; }
+body.c-style-crs #cursor-main .cursor-cross-h, body.c-style-crs #cursor-main .cursor-cross-v { display:block; }
+body.c-style-crs #cursor-trail { display:none; }
+
+/* --- Style 4: Glass BLB (Backdrop Fluid Blob) --- */
+body.c-style-blb #cursor-main { display:none; }
+body.c-style-blb #cursor-trail { width:32px; height:32px; background:rgba(204,255,0,0.14); border-radius:50%; border:none; backdrop-filter:blur(3px) invert(0.08); -webkit-backdrop-filter:blur(3px) invert(0.08); box-shadow:0 0 15px rgba(204,255,0,0.1); }
+
+/* --- Style 5: Cyber TRG (Delta Vector Triangle) --- */
+#cursor-main .cursor-triangle { display:none; width:18px; height:18px; transform: rotate(-45deg); filter: drop-shadow(0 0 4px var(--lime)); }
+body.c-style-trg #cursor-main .cursor-triangle { display:block; }
+body.c-style-trg #cursor-trail { display:none; }
+
+/* Global Hover Effects for all styles */
+body.hovering #cursor-badge { opacity:1; }
+body.hovering #cursor-trail { transform:translate(-50%,-50%) scale(1.5); border-color:#ffffff; box-shadow:0 0 20px rgba(255,255,255,0.2); }
+body.c-style-blb.hovering #cursor-trail { background:rgba(204,255,0,0.35); box-shadow:0 0 25px rgba(204,255,0,0.5); transform:translate(-50%,-50%) scale(1.6); }
+body.c-style-rng.hovering #cursor-main, body.c-style-sqr.hovering #cursor-main { background:#ffffff; box-shadow:0 0 12px #ffffff; }
+body.c-style-crs.hovering #cursor-main .cursor-cross-h, body.c-style-crs.hovering #cursor-main .cursor-cross-v { background:#ffffff; box-shadow:0 0 10px #ffffff; }
+body.c-style-trg.hovering #cursor-main .cursor-triangle polygon { fill:#ffffff; }
+
+/* ─── PRELOADER ───── */
+#preloader { position:fixed; inset:0; background:var(--black); z-index:10000; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:52px; overflow:hidden; }
+#preloader-bar { position:absolute; top:0; left:0; height:3px; background:var(--lime); width:0%; transition:width 0.05s linear; }
+#preloader-counter { font-family:'Inter',sans-serif; font-size:clamp(80px,15vw,220px); font-weight:900; line-height:0.85; letter-spacing:-0.06em; color:var(--white); }
+#preloader-word { font-size:0.65rem; font-weight:700; letter-spacing:0.5em; text-transform:uppercase; color:var(--lime); margin-bottom:12px; }
+
+/* ─── NAVIGATION ───── */
+nav { position:fixed; top:0; left:0; right:0; z-index:500; display:flex; align-items:center; justify-content:space-between; padding:24px 52px; }
+.logo { font-family:'Inter',sans-serif; font-size:1rem; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:var(--white); text-decoration:none; }
+.logo span { color:var(--lime); }
+.nav-links { display:flex; gap:40px; list-style:none; }
+.nav-links a { font-size:.6rem; font-weight:700; letter-spacing:.25em; text-transform:uppercase; color:var(--white); text-decoration:none; opacity:.35; transition:opacity .3s, color 0.3s; }
+.nav-links a:hover, .nav-links a.active { opacity:1; color:var(--lime); }
+
+/* ─── MAIN ───── */
+main { min-height:100vh; background:var(--black); position:relative; z-index:2; }
+
+/* ─── FOOTER ───── */
+.footer-wrap { background:var(--lime); padding:80px 52px 40px; }
+.footer-top { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:60px; border-bottom:1px solid rgba(0,0,0,0.15); margin-bottom:32px; }
+.footer-headline { font-family:'Inter',sans-serif; font-size:clamp(48px,8vw,120px); font-weight:900; letter-spacing:-0.04em; text-transform:uppercase; color:var(--black); line-height:0.88; }
+.footer-cta-btn { display:inline-block; padding:20px 52px; background:var(--black); color:var(--lime); font-size:.65rem; font-weight:700; letter-spacing:.25em; text-transform:uppercase; text-decoration:none; transition:all 0.3s; }
+.footer-cta-btn:hover { background:var(--white); color:var(--black); }
+.footer-bar { display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(0,0,0,0.5); }
+.footer-bar a { color:inherit; text-decoration:none; }
+.footer-bar a:hover { color:var(--black); }
+
+/* ─── UTILITIES ───── */
+.magnetic-wrap { display:inline-block; }
+.sec-tag { font-size:0.58rem; font-weight:700; letter-spacing:0.4em; text-transform:uppercase; color:var(--lime); margin-bottom:16px; display:block; }
+.sec-num { font-size:0.58rem; font-weight:700; letter-spacing:0.3em; color:rgba(245,245,240,0.2); }
+
+/* ─── VARIANT SWITCHER ───── */
+.vsw { position:fixed; bottom:24px; right:24px; z-index:999; display:flex; gap:6px; }
+.vsw a { width:32px; height:32px; border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:700; color:rgba(255,255,255,.3); text-decoration:none; transition:all .3s; }
+.vsw a:hover, .vsw a.cur { background:var(--lime); color:var(--black); border-color:var(--lime); }
+
+{% block extra_css %}{% endblock %}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader">
+  <div id="preloader-bar"></div>
+  <div id="preloader-word">Loading</div>
+  <div id="preloader-counter">0</div>
+</div>
+
+<!-- Custom Cyber Telemetry Cursor -->
+<!-- Ultimate Switchable Cursor Core -->
+<div id="cursor-main">
+  <!-- Style 3: Crosshair lines -->
+  <div class="cursor-cross-h"></div>
+  <div class="cursor-cross-v"></div>
+  
+  <!-- Style 5: Delta Arrow triangle -->
+  <svg class="cursor-triangle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="50,12 18,85 50,68 82,85" fill="#CCFF00"/>
+  </svg>
+</div>
+<div id="cursor-trail"></div>
+<div id="cursor-badge">EXPLORE</div>
+
+<!-- Custom Cursor Switcher Deck UI -->
+<div id="cursor-control-deck">
+  <span class="cc-lbl">CURSOR_STYLE</span>
+  <div class="cc-btns">
+    <button onclick="setCursorStyle('rng')" class="active" title="Minimal Dual Ring">RNG</button>
+    <button onclick="setCursorStyle('sqr')" title="Vector Cyber Square">SQR</button>
+    <button onclick="setCursorStyle('crs')" title="Precision Crosshair">CRS</button>
+    <button onclick="setCursorStyle('blb')" title="Glass Blur Blob">BLB</button>
+    <button onclick="setCursorStyle('trg')" title="Futuristic Delta Triangle">TRG</button>
+  </div>
+</div>
+
+<nav>
+  <a href="{% url 'v1' %}" class="logo magnetic" data-cursor="HOME">DMA<span>.</span></a>
+  <ul class="nav-links">
+    <li class="magnetic-wrap"><a href="{% url 'v1' %}" class="magnetic scramble {% if request.resolver_match.url_name == 'v1' %}active{% endif %}" data-text="Home" data-cursor="HOME">Home</a></li>
+    <li class="magnetic-wrap"><a href="{% url 'v1_work' %}" class="magnetic scramble {% if 'v1_work' in request.resolver_match.url_name %}active{% endif %}" data-text="Work" data-cursor="WORK">Work</a></li>
+    <li class="magnetic-wrap"><a href="{% url 'v1_services' %}" class="magnetic scramble {% if request.resolver_match.url_name == 'v1_services' %}active{% endif %}" data-text="Services" data-cursor="SERVICES">Services</a></li>
+    <li class="magnetic-wrap"><a href="{% url 'v1_contact' %}" class="magnetic scramble {% if request.resolver_match.url_name == 'v1_contact' %}active{% endif %}" data-text="Contact" data-cursor="CONTACT">Contact</a></li>
+  </ul>
+</nav>
+
+<main>{% block content %}{% endblock %}</main>
+
+<!-- Footer Parallax Wrapper (Calculated dynamically via JS) -->
+<div class="footer-spacer"></div>
+<div class="footer-wrap">
+  <div class="footer-top">
+    <div class="footer-headline">Let's Build<br>The New.</div>
+    <a href="{% url 'v1_contact' %}" class="footer-cta-btn magnetic" data-cursor="START">Start a project &rarr;</a>
+  </div>
+  <div class="footer-bar">
+    <span>&copy; 2026 DMA. Studio</span>
+    <div style="display:flex;gap:32px"><a href="#" class="magnetic" data-cursor="VISIT">IG</a><a href="#" class="magnetic" data-cursor="VISIT">X</a><a href="#" class="magnetic" data-cursor="VISIT">LI</a></div>
+  </div>
+</div>
+
+<div class="vsw">
+  <a href="{% url 'v1' %}" class="cur" title="Cinematic" data-cursor="VARIANT 1">1</a>
+  <a href="{% url 'v2' %}" title="Editorial" data-cursor="VARIANT 2">2</a>
+  <a href="{% url 'v3' %}" title="Gradient" data-cursor="VARIANT 3">3</a>
+  <a href="{% url 'v4' %}" title="Type" data-cursor="VARIANT 4">4</a>
+  <a href="{% url 'v5' %}" title="Neon" data-cursor="VARIANT 5">5</a>
+  <a href="{% url 'v6' %}" title="Masterpiece" data-cursor="VARIANT 6">6</a>
+  <a href="{% url 'v7' %}" title="V7 Cybernetic System" data-cursor="VARIANT 7">7</a>
+  <a href="{% url 'v8' %}" title="AlgoPros" data-cursor="VARIANT 8">8</a>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// 1. Lenis Smooth Scroll
+const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1 });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+// Hook GSAP with Lenis
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+gsap.ticker.lagSmoothing(0);
+
+// 2. Preloader — Lime Progress Bar
+const preloader = document.getElementById('preloader');
+const counter = document.getElementById('preloader-counter');
+const bar = document.getElementById('preloader-bar');
+let count = 0;
+const updateCounter = setInterval(() => {
+  count += Math.floor(Math.random() * 8) + 2;
+  if (count >= 100) {
+    count = 100;
+    clearInterval(updateCounter);
+    counter.innerText = count;
+    bar.style.width = '100%';
+    setTimeout(() => {
+      gsap.to(preloader, { yPercent: -100, duration: 1.4, ease: "expo.inOut", onComplete: () => {
+        preloader.style.display = 'none';
+        document.dispatchEvent(new Event('preloaderDone'));
+      }});
+    }, 400);
+  } else {
+    counter.innerText = count;
+    bar.style.width = count + '%';
+  }
+}, 28);
+
+// 3. Cyber Pointer Styles Switcher Engine
+let activeCursorStyle = 'rng';
+const body = document.body;
+body.classList.add('c-style-rng'); // default
+
+function setCursorStyle(style) {
+  activeCursorStyle = style;
+  // Remove all style classes
+  body.classList.remove('c-style-rng', 'c-style-sqr', 'c-style-crs', 'c-style-blb', 'c-style-trg');
+  body.classList.add(`c-style-${style}`);
+
+  // Update button active classes
+  document.querySelectorAll('#cursor-control-deck button').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('onclick').includes(style)) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+// Nodes
+const cursorMain = document.getElementById('cursor-main');
+const cursorTrail = document.getElementById('cursor-trail');
+const cursorBadge = document.getElementById('cursor-badge');
+
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let mainX = mouseX, mainY = mouseY, trailX = mouseX, trailY = mouseY;
+let lastX = mouseX, lastY = mouseY; // to track cursor angle
+
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animateCursor() {
+  // Spring physics
+  mainX += (mouseX - mainX) * 0.28;
+  mainY += (mouseY - mainY) * 0.28;
+  trailX += (mouseX - trailX) * 0.08;
+  trailY += (mouseY - trailY) * 0.08;
+
+  // Apply positions
+  gsap.set(cursorMain,  { x: mainX,  y: mainY  });
+  gsap.set(cursorTrail, { x: trailX, y: trailY });
+  gsap.set(cursorBadge, { x: mainX,  y: mainY  });
+
+  // Style 5 (Triangle): Calculate heading angle based on mouse delta vectors!
+  if (activeCursorStyle === 'trg') {
+    const deltaX = mouseX - lastX;
+    const deltaY = mouseY - lastY;
+    if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
+      // Calculate angle in degrees
+      const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI) + 45; // adjust for triangle base orientation
+      gsap.to('.cursor-triangle', { rotation: angle, duration: 0.15, ease: "power1.out" });
+    }
+  }
+
+  // Update last coordinates
+  lastX = mainX;
+  lastY = mainY;
+
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+function initHoverCursor() {
+  document.querySelectorAll('[data-cursor]').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      body.classList.add('hovering');
+      if (cursorBadge) {
+        cursorBadge.innerText = el.getAttribute('data-cursor');
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      body.classList.remove('hovering');
+    });
+  });
+}
+initHoverCursor();
+
+// 4. Magnetic Buttons/Links
+function initMagnetic() {
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      gsap.to(el, { x: x * 0.35, y: y * 0.35, duration: 0.4, ease: "power2.out" });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+    });
+  });
+}
+initMagnetic();
+
+// 5. Text Scramble
+const chars = '!<>-_\\/[]{}—=+*^?#_';
+document.querySelectorAll('.scramble').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    let text = el.getAttribute('data-text') || el.innerText;
+    if (!el.getAttribute('data-text')) el.setAttribute('data-text', text);
+    let iterations = 0;
+    const interval = setInterval(() => {
+      el.innerText = text.split('').map((letter, index) => {
+        if (index < iterations) return text[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join('');
+      if (iterations >= text.length) clearInterval(interval);
+      iterations += 1 / 3;
+    }, 30);
+  });
+});
+</script>
+
+{% block extra_js %}{% endblock %}
+</body></html>

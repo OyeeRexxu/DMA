@@ -1,0 +1,38 @@
+{% extends 'variants/v4/base.html' %}
+{% block title %}Contact — DMA.{% endblock %}
+{% block extra_css %}
+.contact-wrap{min-height:calc(100vh - 70px);display:grid;grid-template-columns:1fr 1fr}
+.c-left{padding:80px 60px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(255,255,255,.05)}
+.c-left h1{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88;animation:fadeUp 1.2s ease both}
+.c-left .dim{color:rgba(255,255,255,.1)}
+.c-left p{font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.3);max-width:340px;margin-top:36px}
+.c-info strong{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:4px;margin-top:24px}
+.c-info p{font-size:.82rem;color:rgba(255,255,255,.28);line-height:1.8;margin-top:0}
+.c-right{padding:80px 60px}
+form{display:flex;flex-direction:column;gap:36px}
+.field label{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:10px}
+.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0;font-size:.92rem;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .3s}
+.field input:focus,.field textarea:focus{border-color:rgba(255,255,255,.45)}
+.field textarea{resize:none;height:130px}
+.msg-box{padding:16px 20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);font-size:.82rem;color:rgba(255,255,255,.6);margin-bottom:28px}
+button{align-self:flex-start;padding:18px 56px;border:1px solid rgba(255,255,255,.15);background:transparent;color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:background .3s,border-color .3s;font-family:'Inter',sans-serif}
+button:hover{background:#fff;color:#000;border-color:#fff}
+{% endblock %}
+{% block content %}
+<div class="contact-wrap">
+  <div class="c-left">
+    <div><h1>Let's<br><span class="dim">Talk.</span></h1><p>Ready to transform your brand? Tell us about your project and we'll respond within 24 hours.</p></div>
+    <div class="c-info"><strong>Email</strong><p>hello@dma.studio</p><strong>Location</strong><p>New York, NY</p><strong>Social</strong><div style="display:flex;gap:16px;margin-top:6px"><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;transition:color .3s">IG</a><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase">X</a><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase">LI</a></div></div>
+  </div>
+  <div class="c-right">
+    {% if messages %}{% for m in messages %}<div class="msg-box">{{ m }}</div>{% endfor %}{% endif %}
+    <form method="POST" action="{% url 'v4_contact' %}">{% csrf_token %}
+      <div class="field"><label>Name *</label><input type="text" name="name" required></div>
+      <div class="field"><label>Email *</label><input type="email" name="email" required></div>
+      <div class="field"><label>Company</label><input type="text" name="company"></div>
+      <div class="field"><label>Message *</label><textarea name="message" required></textarea></div>
+      <button type="submit">Send message</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

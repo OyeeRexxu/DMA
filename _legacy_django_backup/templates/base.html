@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DMA - Digital Marketing Agency{% endblock %}</title>
+    
+    <!-- Tailwind CSS Output -->
+    <link href="{% static 'css/output.css' %}?v=1.3" rel="stylesheet">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js for lightweight interactions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Lenis for Smooth Scrolling -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
+    {% block extra_head %}{% endblock %}
+
+    <!-- Guaranteed Animation Styles (bypasses Tailwind compilation) -->
+    <style>
+        /* Shimmer gradient text */
+        @keyframes shimmer {
+            0%   { background-position: -300% center; }
+            100% { background-position: 300% center; }
+        }
+        .animate-shimmer {
+            background: linear-gradient(90deg, #555 0%, #ffffff 35%, #aaa 55%, #555 100%);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: shimmer 5s linear infinite;
+            display: inline-block;
+        }
+
+        /* Hero title and subtitle entrance */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-title {
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+        }
+        .hero-subtitle {
+            animation: fadeUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+        }
+
+        /* Smooth reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Page transition */
+        .page-transition {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .page-transition.loaded {
+            opacity: 1;
+        }
+
+        /* Cursor glow */
+        #cursor-glow {
+            position: fixed;
+            pointer-events: none;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Project card hover */
+        .distortion-hover {
+            filter: brightness(0.75) contrast(1.1) grayscale(15%);
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.7s ease;
+        }
+        .distortion-hover:hover {
+            transform: scale(1.04) rotate(0.3deg);
+            filter: brightness(1) contrast(1) grayscale(0%);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-[#fafafa] selection:bg-white selection:text-black page-transition">
+    
+    <!-- Header / Navbar -->
+    <nav x-data="{ scrolled: false, open: false }" 
+         @scroll.window="scrolled = (window.pageYOffset > 50)"
+         :class="{'bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/10': scrolled, 'bg-transparent': !scrolled}"
+         class="fixed w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="/" class="text-xl font-bold tracking-tighter uppercase z-50">DMA.</a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide">
+                <a href="/" class="hover:text-gray-300 transition-colors">Home</a>
+                <a href="{% url 'services:list' %}" class="hover:text-gray-300 transition-colors">Services</a>
+                <a href="{% url 'projects:list' %}" class="hover:text-gray-300 transition-colors">Work</a>
+                <a href="{% url 'contact:form' %}" class="hover:text-gray-300 transition-colors">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button @click="open = !open" class="md:hidden z-50 focus:outline-none">
+                <svg x-show="!open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <svg x-show="open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div x-show="open" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="fixed inset-0 bg-[#0a0a0a] z-40 flex flex-col justify-center items-center space-y-8 text-2xl font-semibold tracking-wide" style="display: none;">
+            <a href="/" @click="open = false" class="hover:text-gray-400">Home</a>
+            <a href="{% url 'services:list' %}" @click="open = false" class="hover:text-gray-400">Services</a>
+            <a href="{% url 'projects:list' %}" @click="open = false" class="hover:text-gray-400">Work</a>
+            <a href="{% url 'contact:form' %}" @click="open = false" class="hover:text-gray-400">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Minimal Massive Footer CTA -->
+    <footer class="mt-32">
+        <!-- Massive CTA -->
+        <div class="px-6 py-32 flex flex-col items-center justify-center text-center border-t border-white/5">
+            <h2 class="text-6xl md:text-9xl font-bold tracking-tighter uppercase mb-8 reveal">
+                Let's <br><span class="text-gray-500">Talk.</span>
+            </h2>
+            <a href="{% url 'contact:form' %}" class="group relative inline-flex items-center justify-center px-12 py-6 text-xl font-semibold tracking-widest uppercase overflow-hidden rounded-full bg-white text-black hover:scale-105 transition duration-500 reveal">
+                <span class="relative z-10">Start a Project</span>
+            </a>
+        </div>
+        
+        <!-- Socials & Copyright -->
+        <div class="px-6 py-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-sm font-medium tracking-wide uppercase text-gray-500">
+            <p>&copy; {% now "Y" %} DMA. Studio.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">IG</a>
+                <a href="#" class="hover:text-white transition">X</a>
+                <a href="#" class="hover:text-white transition">IN</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Init Lenis & Intersection Observer -->
+    <script>
+        // Smooth Scrolling with Lenis
+        const lenis = new Lenis({
+            autoRaf: true,
+        });
+
+        // Intersection Observer for Reveal Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Page Transition Fade In
+            document.body.classList.add('loaded');
+
+            // Handle Link Clicks for Fade Out
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', e => {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('/') && !link.hasAttribute('target')) {
+                        e.preventDefault();
+                        document.body.classList.remove('loaded');
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 500); // Matches CSS transition duration
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

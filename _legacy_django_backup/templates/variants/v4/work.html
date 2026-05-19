@@ -1,0 +1,17 @@
+{% extends 'variants/v4/base.html' %}
+{% block title %}Work — DMA.{% endblock %}
+{% block extra_css %}
+.pg-hero{padding:100px 60px 60px;border-bottom:1px solid rgba(255,255,255,.05)}
+.pg-hero h1{font-size:clamp(52px,9vw,130px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1s ease both}
+.pg-hero p{margin-top:16px;font-size:.88rem;color:rgba(255,255,255,.28);animation:fadeUp 1s ease .2s both}
+.work-body{padding:72px 60px 120px}
+.wrows a{display:grid;grid-template-columns:56px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:inherit;transition:padding-left .4s}
+.wrows a:hover{padding-left:20px}
+.wn{font-size:.62rem;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.18)}
+.wt{font-size:clamp(20px,2.8vw,40px);font-weight:900;letter-spacing:-.03em}
+.wc{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+{% endblock %}
+{% block content %}
+<div class="pg-hero"><h1>Our Work.</h1><p>{{ projects|length }} Projects — Strategy · Creative · Production</p></div>
+<div class="work-body"><div class="wrows">{% for p in projects %}<a href="{% url 'v4_work_detail' p.slug %}" class="reveal"><span class="wn">0{{ forloop.counter }}</span><span class="wt">{{ p.title }}</span><span class="wc">{{ p.client_name }}</span></a>{% endfor %}</div></div>
+{% endblock %}

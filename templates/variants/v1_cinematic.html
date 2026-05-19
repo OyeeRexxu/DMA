@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V1 – Cinematic Dark | DMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#050505;color:#f5f5f5;font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none}
+
+/* Grain overlay */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:0.6}
+
+/* Custom cursor */
+#cursor{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,opacity 0.3s}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(255,255,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.12s ease}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:28px 48px;mix-blend-mode:difference}
+.logo{font-size:1.1rem;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#fff}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#fff;text-decoration:none;opacity:0.6;transition:opacity 0.3s}
+.nav-links a:hover{opacity:1}
+
+/* Hero */
+.hero{height:100vh;display:flex;align-items:center;justify-content:flex-start;padding:0 48px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#111 50%,#0a0a0a 100%)}
+.hero-number{position:absolute;right:48px;top:50%;transform:translateY(-50%);font-size:clamp(120px,20vw,280px);font-weight:900;color:rgba(255,255,255,0.03);line-height:1;user-select:none;letter-spacing:-0.05em}
+.hero-content{position:relative;z-index:2}
+.hero-label{font-size:0.65rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.hero-label::before{content:'';width:32px;height:1px;background:rgba(255,255,255,0.3)}
+.hero-title{font-size:clamp(60px,10vw,160px);font-weight:900;line-height:0.92;letter-spacing:-0.04em;text-transform:uppercase;color:#fff;overflow:hidden}
+.hero-title span{display:block;animation:slideUp 1.2s cubic-bezier(0.16,1,0.3,1) both}
+.hero-title span:nth-child(2){animation-delay:0.15s;color:rgba(255,255,255,0.25)}
+.hero-desc{margin-top:48px;font-size:1rem;color:rgba(255,255,255,0.4);max-width:380px;line-height:1.7;animation:fadeIn 1s ease 0.8s both}
+.hero-cta{margin-top:48px;display:inline-flex;align-items:center;gap:12px;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#fff;text-decoration:none;animation:fadeIn 1s ease 1s both}
+.hero-cta::after{content:'';width:48px;height:1px;background:#fff;transition:width 0.4s ease}
+.hero-cta:hover::after{width:80px}
+
+/* Scroll indicator */
+.scroll-line{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.4));animation:scrollPulse 2s ease-in-out infinite}
+
+/* Work section */
+.section{padding:140px 48px}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:80px}
+.section-num{font-size:0.65rem;letter-spacing:0.3em;color:rgba(255,255,255,0.3)}
+.section-title{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-0.03em;text-transform:uppercase}
+.section-link{font-size:0.65rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.3s}
+.section-link:hover{color:#fff}
+
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.work-item{position:relative;overflow:hidden;aspect-ratio:4/3;background:#111}
+.work-item:nth-child(2){margin-top:80px}
+.work-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%);transition:filter 0.7s ease,transform 0.9s cubic-bezier(0.16,1,0.3,1)}
+.work-item:hover img{filter:grayscale(0%);transform:scale(1.04)}
+.work-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 60%);opacity:0;transition:opacity 0.5s ease;display:flex;align-items:flex-end;padding:32px}
+.work-item:hover .work-overlay{opacity:1}
+.work-meta h3{font-size:1.3rem;font-weight:700;letter-spacing:-0.02em}
+.work-meta p{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:4px}
+.work-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a,#0d0d0d);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.1);font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase}
+
+/* Services */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,255,255,0.08)}
+.service-item{padding:48px 40px;border-right:1px solid rgba(255,255,255,0.08);transition:background 0.4s}
+.service-item:last-child{border-right:none}
+.service-item:hover{background:rgba(255,255,255,0.02)}
+.service-num{font-size:0.6rem;letter-spacing:0.3em;color:rgba(255,255,255,0.2);margin-bottom:24px}
+.service-title{font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px}
+.service-desc{font-size:0.85rem;color:rgba(255,255,255,0.4);line-height:1.7}
+
+/* Footer CTA */
+.footer-cta{padding:160px 48px;text-align:center;border-top:1px solid rgba(255,255,255,0.06)}
+.footer-cta h2{font-size:clamp(60px,10vw,140px);font-weight:900;letter-spacing:-0.05em;text-transform:uppercase;line-height:0.9;color:rgba(255,255,255,0.08);transition:color 0.6s}
+.footer-cta:hover h2{color:rgba(255,255,255,0.15)}
+.footer-cta a.cta-btn{display:inline-block;margin-top:48px;padding:18px 52px;border:1px solid rgba(255,255,255,0.2);font-size:0.7rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:#fff;text-decoration:none;transition:background 0.4s,border-color 0.4s}
+.footer-cta a.cta-btn:hover{background:#fff;color:#000;border-color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:28px 48px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
+
+/* Animations */
+@keyframes slideUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:0.2}50%{opacity:1}}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.9s ease,transform 0.9s cubic-bezier(0.16,1,0.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+/* Variant nav */
+.variant-nav{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;gap:8px}
+.variant-nav a{width:36px;height:36px;border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.5);text-decoration:none;transition:all 0.3s}
+.variant-nav a:hover,.variant-nav a.active{background:#fff;color:#000;border-color:#fff}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <div class="logo">DMA.</div>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'services:list' %}">Services</a></li>
+    <li><a href="{% url 'projects:list' %}">Work</a></li>
+    <li><a href="{% url 'contact:form' %}">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-number">01</div>
+  <div class="hero-content">
+    <p class="hero-label">Digital Marketing Agency</p>
+    <h1 class="hero-title">
+      <span>We Build</span>
+      <span>The New.</span>
+    </h1>
+    <p class="hero-desc">Strategy. Creative. Production. AI. One team, one system for brands that demand exponential growth.</p>
+    <a href="{% url 'contact:form' %}" class="hero-cta">Start a project</a>
+  </div>
+  <div class="scroll-line"></div>
+</section>
+
+<section class="section">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">02 / Work</div>
+      <h2 class="section-title">Selected Work</h2>
+    </div>
+    <a href="{% url 'projects:list' %}" class="section-link">View All →</a>
+  </div>
+  <div class="work-grid">
+    {% for project in projects %}
+    <a href="{% url 'projects:detail' project.slug %}" class="work-item reveal">
+      {% if project.cover_image %}
+        <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">
+      {% else %}
+        <div class="work-placeholder">{{ project.title }}</div>
+      {% endif %}
+      <div class="work-overlay">
+        <div class="work-meta">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.client_name }}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">03 / Services</div>
+      <h2 class="section-title">Capabilities</h2>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <h3 class="service-title">Brand Strategy</h3>
+      <p class="service-desc">We architect the core positioning, voice, and visual identity that allows your brand to dominate the market.</p>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <h3 class="service-title">Digital Production</h3>
+      <p class="service-desc">Cinematic video, high-end photography, and cutting-edge 3D motion graphics built to captivate.</p>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <h3 class="service-title">AI & Technology</h3>
+      <p class="service-desc">Leveraging generative AI and custom web applications to build scalable digital ecosystems.</p>
+    </div>
+  </div>
+</section>
+
+<div class="footer-cta">
+  <h2>Let's Build<br>The New.</h2>
+  <a href="{% url 'contact:form' %}" class="cta-btn">Start a project</a>
+</div>
+<div class="footer-bottom">
+  <span>© 2026 DMA. Studio</span>
+  <div style="display:flex;gap:24px"><a href="#" style="color:inherit;text-decoration:none">IG</a><a href="#" style="color:inherit;text-decoration:none">X</a><a href="#" style="color:inherit;text-decoration:none">LI</a></div>
+</div>
+
+<div class="variant-nav">
+  <a href="{% url 'v1' %}" class="active">1</a>
+  <a href="{% url 'v2' %}">2</a>
+  <a href="{% url 'v3' %}">3</a>
+  <a href="{% url 'v4' %}">4</a>
+  <a href="{% url 'v5' %}">5</a>
+</div>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  rx+=(e.clientX-rx)*0.12;ry+=(e.clientY-ry)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+});
+function animRing(){rx+=(parseFloat(cursor.style.left||0)-rx)*0.12;ry+=(parseFloat(cursor.style.top||0)-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+
+// Reveal on scroll
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');observer.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

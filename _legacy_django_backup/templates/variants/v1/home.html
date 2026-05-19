@@ -1,0 +1,630 @@
+{% extends 'variants/v1/base.html' %}
+{% block title %}DMA. — Production & Influencer Agency{% endblock %}
+
+{% block extra_css %}
+/* ── HERO ── */
+.hero { height:100vh; position:relative; display:flex; align-items:flex-end; padding:60px 52px; overflow:hidden; }
+.hero-content { position:relative; z-index:2; width:100%; display:flex; justify-content:space-between; align-items:flex-end; }
+.hero-title { font-family:'Inter',sans-serif; font-size:clamp(60px,10vw,160px); font-weight:900; line-height:0.85; letter-spacing:-0.05em; text-transform:uppercase; color:var(--white); }
+.hero-title em { font-style:italic; color:var(--lime); }
+.line-mask { overflow:hidden; display:block; }
+.hero-title .word { display:inline-block; transform:translateY(110%); }
+.hero-side { display:flex; flex-direction:column; align-items:flex-end; gap:24px; }
+.hero-tag { font-size:0.6rem; font-weight:700; letter-spacing:0.4em; text-transform:uppercase; color:var(--lime); }
+.hero-scroll { font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(245,245,240,0.4); }
+.hero-meta { text-align:right; font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:rgba(245,245,240,0.4); }
+
+/* ── ETHOS ── */
+.ethos-section { padding:160px 52px; }
+.ethos-text { font-family:'Inter',sans-serif; font-size:clamp(28px,4.5vw,68px); font-weight:700; line-height:1.15; letter-spacing:-0.02em; color:rgba(245,245,240,0.1); max-width:1100px; }
+.ethos-text .word { color:rgba(245,245,240,0.1); }
+
+/* ── BRAND MATRIX ── */
+.brand-matrix { padding:120px 52px; border-top:1px solid rgba(245,245,240,0.06); }
+.logo-grid { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid rgba(245,245,240,0.07); border-left:1px solid rgba(245,245,240,0.07); }
+.logo-item { height:140px; display:flex; align-items:center; justify-content:center; font-family:'Inter',sans-serif; font-size:1.2rem; font-weight:900; letter-spacing:0.12em; color:rgba(245,245,240,0.1); transition:all 0.4s; border-right:1px solid rgba(245,245,240,0.07); border-bottom:1px solid rgba(245,245,240,0.07); }
+.logo-item:hover { color:var(--lime); }
+
+/* ── PILLARS ── */
+.pillars-section { padding:140px 52px; border-top:1px solid rgba(245,245,240,0.06); }
+.svc-list { position:relative; z-index:2; }
+.svc-row { display:flex; justify-content:space-between; align-items:center; padding:52px 0; border-bottom:1px solid rgba(245,245,240,0.06); cursor:pointer; }
+.svc-row h3 { font-family:'Inter',sans-serif; font-size:clamp(28px,4.5vw,80px); font-weight:900; letter-spacing:-0.03em; color:rgba(245,245,240,0.15); transition:color 0.4s, transform 0.4s; }
+.svc-row:hover h3 { color:var(--white); transform:translateX(16px); }
+.svc-row p { font-size:0.85rem; color:rgba(245,245,240,0.35); max-width:260px; text-align:right; opacity:0; transition:opacity 0.4s, transform 0.4s; transform:translateX(-20px); }
+.svc-row:hover p { opacity:1; transform:translateX(0); }
+.svc-arrow { font-size:1.5rem; color:var(--lime); opacity:0; transition:opacity 0.3s, transform 0.3s; transform:translateX(-10px); }
+.svc-row:hover .svc-arrow { opacity:1; transform:translateX(0); }
+.hover-bg-wrap { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:0; opacity:0; transition:opacity 0.5s; }
+.hover-bg-wrap.active { opacity:0.2; }
+.hover-bg-wrap video { width:100%; height:100%; object-fit:cover; }
+
+/* ── TESTIMONIAL ── */
+.testimonial-sec { padding:180px 52px; background:#0b0b0b; border-top:1px solid rgba(245,245,240,0.06); text-align:center; }
+.test-card blockquote { font-family:'Inter',sans-serif; font-size:clamp(22px,3.5vw,52px); font-weight:700; line-height:1.1; letter-spacing:-0.02em; color:var(--white); max-width:1100px; margin:0 auto 40px; }
+.test-card blockquote em { color:var(--lime); font-style:normal; }
+.test-meta { font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(245,245,240,0.3); }
+
+/* ── TIERS ── */
+.tiers-section { padding:140px 52px; border-top:1px solid rgba(245,245,240,0.06); }
+.tier-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(245,245,240,0.06); }
+.tier-card { padding:52px; background:var(--black); transition:background 0.4s; }
+.tier-card:hover { background:#101010; }
+.t-num { font-size:0.6rem; font-weight:700; letter-spacing:0.3em; color:var(--lime); margin-bottom:32px; }
+.tier-card h4 { font-family:'Inter',sans-serif; font-size:1.6rem; font-weight:800; margin-bottom:16px; text-transform:uppercase; color:var(--white); }
+.tier-card p { font-size:0.88rem; color:rgba(245,245,240,0.35); line-height:1.7; }
+
+/* ── WORK GALLERY ── */
+.work-section { overflow:hidden; border-top:1px solid rgba(245,245,240,0.06); }
+.sec-lbl { font-size:0.58rem; font-weight:700; letter-spacing:0.4em; text-transform:uppercase; color:rgba(245,245,240,0.25); margin-bottom:8px; }
+.work-gallery-wrap { height:100vh; position:relative; }
+.work-gallery { display:flex; gap:4vw; padding:0 52px; width:max-content; height:100%; align-items:center; }
+.work-item { width:60vw; max-width:800px; aspect-ratio:16/9; position:relative; overflow:hidden; display:block; }
+.work-item img, .work-item video { width:100%; height:100%; object-fit:cover; filter:grayscale(100%) brightness(0.7); transition:filter 0.6s, transform 0.8s; transform:scale(1.05); }
+.work-item:hover img, .work-item:hover video { filter:grayscale(0%) brightness(1); transform:scale(1); }
+.work-info { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:40px; opacity:0; transition:opacity 0.4s; background:linear-gradient(to top,rgba(8,8,8,0.8),transparent 60%); }
+.work-item:hover .work-info { opacity:1; }
+.work-info h3 { font-family:'Inter',sans-serif; font-size:clamp(20px,3vw,44px); font-weight:800; color:var(--white); }
+.wi-tag { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--lime); margin-bottom:12px; display:block; }
+
+/* ── TEAM ── */
+.team-section { padding:140px 52px; border-top:1px solid rgba(245,245,240,0.06); }
+.team-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:3px; }
+.team-item { position:relative; overflow:hidden; aspect-ratio:4/5; }
+.team-item img { width:100%; height:100%; object-fit:cover; filter:grayscale(1) brightness(0.65); transition:all 0.7s; }
+.team-item:hover img { filter:grayscale(0) brightness(0.9); transform:scale(1.04); }
+.team-item .t-info { position:absolute; bottom:0; left:0; right:0; padding:32px; background:linear-gradient(to top,rgba(8,8,8,0.9),transparent); opacity:0; transition:all 0.4s; transform:translateY(8px); }
+.team-item:hover .t-info { opacity:1; transform:translateY(0); }
+.team-item h4 { font-family:'Inter',sans-serif; font-size:1.5rem; font-weight:800; text-transform:uppercase; color:var(--white); }
+.team-item span { font-size:0.6rem; letter-spacing:0.25em; color:var(--lime); text-transform:uppercase; }
+
+/* ── ROSTER ── */
+.roster-section { padding:140px 0; background:#090909; overflow:hidden; cursor:grab; border-top:1px solid rgba(245,245,240,0.06); }
+.roster-section:active { cursor:grabbing; }
+.roster-header { padding:0 52px; margin-bottom:60px; }
+.roster-track { display:flex; gap:3px; padding:0 52px; width:max-content; }
+.creator-card { width:280px; height:420px; position:relative; overflow:hidden; user-select:none; }
+.creator-card img { width:100%; height:100%; object-fit:cover; pointer-events:none; filter:grayscale(1) brightness(0.6); transition:all 0.6s; }
+.creator-card:hover img { filter:grayscale(0) brightness(0.9); transform:scale(1.04); }
+.c-info { position:absolute; bottom:0; left:0; right:0; padding:24px; background:linear-gradient(to top,rgba(8,8,8,0.9),transparent); }
+.c-info h4 { font-family:'Inter',sans-serif; font-size:1.1rem; font-weight:800; text-transform:uppercase; color:var(--white); margin-bottom:4px; }
+.c-info span { font-size:0.58rem; letter-spacing:0.2em; color:var(--lime); text-transform:uppercase; }
+
+/* ── BTS GRID ── */
+.bts-section { padding:140px 52px; overflow:hidden; border-top:1px solid rgba(245,245,240,0.06); }
+.bts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; height:1000px; }
+.bts-col { display:flex; flex-direction:column; gap:3px; }
+.bts-col img { width:100%; object-fit:cover; filter:grayscale(0.3); transition:filter 0.4s; }
+.bts-col img:hover { filter:grayscale(0); }
+.bts-col:nth-child(1) img { height:400px; } .bts-col:nth-child(2) img { height:600px; } .bts-col:nth-child(3) img { height:350px; }
+
+/* ── PROCESS ── */
+.process-section { padding:140px 52px; border-top:1px solid rgba(245,245,240,0.06); }
+.p-cards-wrap { position:relative; height:300vh; }
+.p-card { position:sticky; top:120px; height:60vh; background:#0d0d0d; border-top:2px solid var(--lime); padding:60px; display:flex; flex-direction:column; justify-content:center; margin-bottom:40px; }
+.p-card-num { font-size:0.6rem; font-weight:700; letter-spacing:0.4em; color:var(--lime); margin-bottom:32px; }
+.p-card h3 { font-family:'Inter',sans-serif; font-size:clamp(32px,5vw,90px); font-weight:900; color:var(--white); text-transform:uppercase; margin-bottom:20px; line-height:0.9; }
+.p-card p { font-size:1rem; color:rgba(245,245,240,0.4); max-width:560px; line-height:1.7; }
+
+/* ── MARQUEE ── */
+.marquee-sec { padding:18px 0; overflow:hidden; background:var(--lime); }
+.marquee-inner { display:flex; white-space:nowrap; }
+.marquee-part { font-family:'Inter',sans-serif; font-size:0.82rem; font-weight:800; letter-spacing:0.3em; text-transform:uppercase; color:var(--black); padding:0 3vw; display:flex; gap:5vw; align-items:center; }
+.dot { color:rgba(0,0,0,0.25); }
+
+/* ── MAP ── */
+.map-section { padding:140px 0; border-top:1px solid rgba(245,245,240,0.06); overflow:hidden; }
+.map-head { padding:0 52px; margin-bottom:60px; }
+.map-container { height:65vh; position:relative; }
+.hq-point { position:absolute; width:10px; height:10px; background:var(--lime); border-radius:50%; }
+.hq-point::after { content:''; position:absolute; inset:-8px; border:1px solid rgba(204,255,0,0.35); border-radius:50%; animation:pulse 2s infinite; }
+@keyframes pulse { 0%{transform:scale(1);opacity:1} 100%{transform:scale(3.5);opacity:0} }
+
+/* ── CTA ── */
+.cta-section { padding:200px 52px; border-top:1px solid rgba(245,245,240,0.06); text-align:center; }
+.huge-btn { display:inline-block; font-family:'Inter',sans-serif; font-size:clamp(36px,5vw,90px); font-weight:900; text-transform:uppercase; color:var(--black); background:var(--lime); text-decoration:none; padding:40px 80px; transition:all 0.4s; letter-spacing:-0.02em; }
+.huge-btn:hover { background:var(--white); }
+
+.hero-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: brightness(0.4) saturate(0); transition: filter 0.5s; }
+.hero:hover .hero-bg-video { filter: brightness(0.6) saturate(1); }
+.hero-content { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; }
+.hero-title { font-size: clamp(60px,10vw,150px); font-weight: 900; line-height: 0.88; letter-spacing: -0.04em; text-transform: uppercase; color: #fff; text-shadow: 0 0 20px rgba(255,50,50,0.1); }
+.line-mask { overflow: hidden; display: block; }
+.hero-title .word { display: inline-block; transform: translateY(110%); }
+.hero-meta { text-align: right; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+
+/* 2. Agency Ethos */
+.ethos-section { padding: 160px 52px; max-width: 1400px; margin: 0 auto; text-align: center; }
+.ethos-text { font-size: clamp(32px, 5vw, 72px); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: rgba(255,255,255,0.15); }
+.ethos-text .word { color: rgba(255,255,255,0.15); background: linear-gradient(to right, #fff, #fff) no-repeat; -webkit-background-clip: text; background-clip: text; background-size: 0%; }
+
+/* 3. The 4 Pillars (Capabilities) */
+.pillars-section { padding: 140px 52px; position: relative; border-top: 1px solid rgba(255,255,255,0.06); }
+.svc-list { position: relative; z-index: 2; }
+.svc-row { display: flex; justify-content: space-between; align-items: center; padding: 48px 0; border-bottom: 1px solid rgba(255,50,50,0.1); cursor: pointer; position: relative; }
+.svc-row h3 { font-size: clamp(32px, 5vw, 80px); font-weight: 900; letter-spacing: -0.03em; color: rgba(255,255,255,0.2); transition: color 0.4s, transform 0.4s; }
+.svc-row:hover h3 { color: #ff3232; transform: translateX(20px); text-shadow: 0 0 20px rgba(255,50,50,0.4); }
+.svc-row p { font-size: 0.85rem; color: rgba(255,255,255,0.4); max-width: 300px; text-align: right; opacity: 0; transition: opacity 0.4s, transform 0.4s; transform: translateX(-20px); }
+.svc-row:hover p { opacity: 1; transform: translateX(0); }
+
+.hover-bg-wrap { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0.5s; }
+.hover-bg-wrap.active { opacity: 0.3; }
+.hover-bg-wrap img, .hover-bg-wrap video { width: 100%; height: 100%; object-fit: cover; filter: url(#liquid); }
+
+/* 4. Horizontal Campaigns */
+.work-section { overflow: hidden; padding-bottom: 120px; }
+.sec-lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 8px; }
+.work-gallery-wrap { height: 100vh; position: relative; }
+.work-gallery { display: flex; gap: 6vw; padding: 0 52px; width: max-content; height: 100%; align-items: center; }
+.work-item { width: 60vw; max-width: 800px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border-radius: 2px; border: 1px solid rgba(255,50,50,0); transition: border-color 0.4s; }
+.work-item:hover { border-color: #ff3232; }
+.work-item img, .work-item video { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: filter 0.5s, transform 0.8s; transform: scale(1.1); }
+.work-item:hover img, .work-item:hover video { filter: grayscale(0%); transform: scale(1.02); }
+.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(255,50,50,0.2), transparent 70%); display: flex; align-items: flex-end; padding: 40px; opacity: 0; transition: opacity 0.4s; }
+.work-item:hover .work-info { opacity: 1; }
+.work-info h3 { font-size: clamp(24px, 3vw, 48px); font-weight: 800; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+
+/* 5. Creator Roster (Draggable) */
+.roster-section { padding: 140px 0; background: #080808; overflow: hidden; cursor: grab; border-top: 1px solid rgba(255,255,255,0.06); }
+.roster-section:active { cursor: grabbing; }
+.roster-header { padding: 0 52px; margin-bottom: 60px; }
+.roster-track { display: flex; gap: 40px; padding: 0 52px; width: max-content; }
+.creator-card { width: 300px; height: 450px; position: relative; border-radius: 2px; overflow: hidden; user-select: none; border: 1px solid rgba(255,50,50,0.1); }
+.creator-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; filter: grayscale(1) brightness(0.7); transition: all 0.5s; }
+.creator-card:hover img { filter: grayscale(0) brightness(1); transform: scale(1.05); }
+.c-info { position: absolute; bottom: 20px; left: 20px; color: #fff; }
+.c-info h4 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+.c-info span { font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); }
+
+/* 6. BTS Parallax Grid */
+.bts-section { padding: 140px 52px; max-width: 1400px; margin: 0 auto; overflow: hidden; }
+.bts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 1000px; }
+.bts-col { display: flex; flex-direction: column; gap: 20px; }
+.bts-col img { width: 100%; border-radius: 4px; object-fit: cover; }
+.bts-col:nth-child(1) img { height: 400px; }
+.bts-col:nth-child(2) img { height: 600px; }
+.bts-col:nth-child(3) img { height: 350px; }
+
+/* 7. The Process (Sticky Cards) */
+.process-section { padding: 140px 52px; background: #000; }
+.p-cards-wrap { position: relative; height: 300vh; }
+.p-card { position: sticky; top: 120px; height: 60vh; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 60px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 -20px 40px rgba(0,0,0,0.5); transform-origin: top center; margin-bottom: 40px; }
+.p-card h3 { font-size: clamp(40px, 6vw, 100px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 20px; }
+.p-card p { font-size: 1.2rem; color: rgba(255,255,255,0.5); max-width: 600px; line-height: 1.6; }
+
+/* 8. Marquee */
+.marquee-sec { border-top: 1px solid rgba(255,255,255,0.06); padding: 24px 0; overflow: hidden; background: #050505; }
+.marquee-inner { display: flex; white-space: nowrap; }
+.marquee-part { font-size: 1rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.3); padding: 0 4vw; display:flex; gap:8vw; align-items:center; }
+.dot { color: #fff; }
+
+/* 9. Magnetic CTA */
+.cta-section { padding: 200px 52px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); }
+.huge-btn { display: inline-block; font-size: clamp(40px, 6vw, 100px); font-weight: 900; text-transform: uppercase; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 200px; padding: 40px 80px; transition: background 0.3s; }
+.huge-btn:hover { background: #fff; color: #000; }
+
+/* 2b. Brand Matrix */
+.brand-matrix { padding: 140px 52px; background: #080808; border-top: 1px solid rgba(255,255,255,0.05); }
+.logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
+.logo-item { background: #080808; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: rgba(255,255,255,0.1); transition: all 0.4s; }
+.logo-item:hover { color: #fff; background: #111; }
+
+/* 2c. Kinetic Testimonials */
+.testimonial-sec { padding: 180px 52px; background: #000; text-align: center; }
+.test-card p { font-size: clamp(24px, 4vw, 56px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: #fff; max-width: 1200px; margin: 0 auto 40px; }
+.test-meta { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+/* 3b. Production Tiers */
+.tiers-section { padding: 140px 52px; background: #050505; }
+.tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.tier-card { padding: 60px; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; transition: all 0.4s; }
+.tier-card:hover { border-color: #fff; background: #111; transform: translateY(-10px); }
+.t-num { font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-bottom: 20px; }
+.tier-card h4 { font-size: 1.8rem; font-weight: 800; margin-bottom: 16px; text-transform: uppercase; }
+.tier-card p { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* 4b. The Collective */
+.team-section { padding: 140px 52px; background: #080808; border-top: 1px solid rgba(255,255,255,0.05); }
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; }
+.team-item { position: relative; overflow: hidden; aspect-ratio: 4/5; }
+.team-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: all 0.6s; }
+.team-item:hover img { filter: grayscale(0) scale(1.05); }
+.team-item .t-info { position: absolute; bottom: 40px; left: 40px; z-index: 2; }
+.team-item h4 { font-size: 2rem; font-weight: 800; text-transform: uppercase; }
+.team-item span { font-size: 0.7rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+
+/* 8b. Global Map */
+.map-section { padding: 140px 0; background: #000; overflow: hidden; border-top: 1px solid rgba(255,50,50,0.1); }
+.map-container { height: 70vh; position: relative; }
+.hq-point { position: absolute; width: 12px; height: 12px; background: #ff3232; border-radius: 50%; box-shadow: 0 0 20px #ff3232; }
+.hq-point::after { content: ''; position: absolute; inset: -10px; border: 1px solid rgba(255,50,50,0.4); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+
+.huge-btn { display: inline-block; font-size: clamp(40px, 6vw, 100px); font-weight: 900; text-transform: uppercase; color: #fff; text-decoration: none; border: 1px solid rgba(255,50,50,0.3); border-radius: 200px; padding: 40px 80px; transition: all 0.4s; }
+.huge-btn:hover { background: #ff3232; color: #fff; border-color: #ff3232; box-shadow: 0 0 50px rgba(255,50,50,0.4); }
+{% endblock %}
+
+{% block content %}
+<svg style="position:absolute; width:0; height:0;" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <filter id="liquid"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" /><feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="displacementMap" /></filter>
+  </defs>
+</svg>
+
+<div class="hover-bg-wrap" id="svc-hover-bg">
+  <!-- Dynamic media injected via JS -->
+</div>
+
+<!-- 1. Cinematic Hero -->
+<section class="hero" id="hero-vanta" data-cursor="EXPLORE">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="line-mask"><span class="word">Creative</span></span><br>
+      <span class="line-mask"><span class="word">Production.</span></span>
+    </h1>
+    <div class="hero-meta anim-up">
+      <span>Scroll Down <br>↓</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Agency Ethos -->
+<section class="ethos-section">
+  <h2 class="ethos-text" id="split-text">
+    We bridge traditional production with AI innovation and creator culture to build brands that completely dominate the timeline.
+  </h2>
+</section>
+
+<!-- NEW: 2b. Brand Matrix -->
+<section class="brand-matrix">
+  <div class="sec-lbl" style="text-align: center; margin-bottom: 60px;">Trusted By Global Leaders</div>
+  <div class="logo-grid">
+    <div class="logo-item" data-cursor="PARTNER"><span>NIKE</span></div>
+    <div class="logo-item" data-cursor="PARTNER"><span>GUCCI</span></div>
+    <div class="logo-item" data-cursor="PARTNER"><span>APPLE</span></div>
+    <div class="logo-item" data-cursor="PARTNER"><span>SAMSUNG</span></div>
+    <div class="logo-item" data-cursor="PARTNER"><span>LVMH</span></div>
+    <div class="logo-item" data-cursor="PARTNER"><span>ADIDAS</span></div>
+  </div>
+</section>
+
+<!-- NEW: 2c. Kinetic Testimonials -->
+<section class="testimonial-sec">
+  <div class="test-track">
+    <div class="test-card">
+      <p>"DMA isn't just an agency; they're a production powerhouse that understands the future of attention."</p>
+      <div class="test-meta">— CMO, Global Fashion Brand</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. The 4 Pillars -->
+<section class="pillars-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">01 / Our Ecosystem</div>
+  <div class="svc-list">
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/3121459/3121459-uhd_2560_1440_24fps.mp4" data-cursor="EXPLORE">
+      <h3>Social & AI Content</h3>
+      <p>High-volume, hyper-optimized traditional and generative AI content crafted for maximum algorithmic reach.</p>
+    </div>
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/4204486/4204486-uhd_2560_1440_25fps.mp4" data-cursor="EXPLORE">
+      <h3>Influencer Management</h3>
+      <p>Representing top-tier talent and orchestrating massive creator-led brand campaigns.</p>
+    </div>
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/8834924/8834924-uhd_2560_1440_25fps.mp4" data-cursor="EXPLORE">
+      <h3>Shoots & Production</h3>
+      <p>Cinema-grade commercial production, studio photography, and global location shoots.</p>
+    </div>
+    <div class="svc-row" data-video="https://videos.pexels.com/video-files/5200382/5200382-uhd_2560_1440_25fps.mp4" data-cursor="EXPLORE">
+      <h3>Campaign Execution</h3>
+      <p>End-to-end strategic rollout, paid media distribution, and brand activation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEW: 3b. Production Tiers -->
+<section class="tiers-section">
+  <div class="sec-lbl" style="margin-bottom: 80px; text-align: center;">Production Protocols</div>
+  <div class="tier-grid">
+    <div class="tier-card" data-cursor="SELECT">
+      <div class="t-num">01</div>
+      <h4>Lite Content</h4>
+      <p>Fast-turnaround creator-led content for organic growth and daily engagement.</p>
+    </div>
+    <div class="tier-card" data-cursor="SELECT">
+      <div class="t-num">02</div>
+      <h4>Full Pro</h4>
+      <p>Cinema-grade commercial production for TV, web, and large-scale digital campaigns.</p>
+    </div>
+    <div class="tier-card" data-cursor="SELECT">
+      <div class="t-num">03</div>
+      <h4>Global Alpha</h4>
+      <p>Full-scale brand transformation including talent management and global rollout.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Featured Campaigns -->
+<section class="work-section">
+  <div class="sec-lbl" style="padding: 0 52px; margin-bottom: 40px;">02 / Featured Work</div>
+  <div class="work-gallery-wrap">
+    <div class="work-gallery">
+      <!-- Item 1 -->
+      <a href="#" class="work-item" data-cursor="VIEW">
+        <video autoplay loop muted playsinline class="parallax-img"><source src="https://videos.pexels.com/video-files/5343288/5343288-uhd_2560_1440_25fps.mp4" type="video/mp4"></video>
+        <div class="work-info"><h3>Global Fashion Week</h3></div>
+      </a>
+      <!-- Item 2 -->
+      <a href="#" class="work-item" data-cursor="VIEW">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" class="parallax-img">
+        <div class="work-info"><h3>AI Product Launch</h3></div>
+      </a>
+      <!-- Item 3 -->
+      <a href="#" class="work-item" data-cursor="VIEW">
+        <video autoplay loop muted playsinline class="parallax-img"><source src="https://videos.pexels.com/video-files/2882126/2882126-uhd_2560_1440_24fps.mp4" type="video/mp4"></video>
+        <div class="work-info"><h3>Creator House 2026</h3></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NEW: 4b. The Collective (Team) -->
+<section class="team-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">03 / The Collective</div>
+  <div class="team-grid">
+    <div class="team-item" data-cursor="MEET">
+      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop">
+      <div class="t-info"><h4>Leo Cassel</h4><span>Creative Director</span></div>
+    </div>
+    <div class="team-item" data-cursor="MEET">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop">
+      <div class="t-info"><h4>Ava Sterling</h4><span>Head of Production</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Creator Roster -->
+<section class="roster-section" data-cursor="← DRAG →">
+  <div class="roster-header"><div class="sec-lbl">03 / Talent Roster</div></div>
+  <div class="roster-track" id="drag-track">
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Emma J.</h4><span>Fashion / Lifestyle</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Marcus T.</h4><span>Tech / AI</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Sarah K.</h4><span>Beauty / Skincare</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>David O.</h4><span>Fitness / Health</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Chloe S.</h4><span>Travel / Vlog</span></div></div>
+    <div class="creator-card"><img src="https://images.unsplash.com/photo-1528892952291-009c663ce843?q=80&w=600&auto=format&fit=crop"><div class="c-info"><h4>Liam V.</h4><span>Gaming / E-Sports</span></div></div>
+  </div>
+</section>
+
+<!-- 6. BTS Grid -->
+<section class="bts-section">
+  <div class="sec-lbl" style="margin-bottom: 60px; text-align: center;">04 / Behind The Scenes</div>
+  <div class="bts-grid">
+    <div class="bts-col bts-up">
+      <img src="https://images.unsplash.com/photo-1594681313093-9c882103f6f1?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop">
+    </div>
+    <div class="bts-col bts-down" style="transform:translateY(-200px);">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop">
+    </div>
+    <div class="bts-col bts-up">
+      <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=800&auto=format&fit=crop">
+    </div>
+  </div>
+</section>
+
+<!-- 7. Process Timeline -->
+<section class="process-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">05 / How We Build The New</div>
+  <div class="p-cards-wrap">
+    <div class="p-card" style="top:120px; z-index:1;">
+      <h3>1. Strategy & AI Pre-Vis</h3>
+      <p>Before cameras roll, we map the entire campaign using data-driven insights and AI storyboarding to guarantee algorithmic success.</p>
+    </div>
+    <div class="p-card" style="top:140px; z-index:2; background:#151515;">
+      <h3>2. The Production</h3>
+      <p>Our global teams execute high-end commercial shoots combined with organic, creator-led iPhone content to flood the timeline.</p>
+    </div>
+    <div class="p-card" style="top:160px; z-index:3; background:#1a1a1a;">
+      <h3>3. The Rollout</h3>
+      <p>We deploy the assets across paid and organic networks, leveraging our influencer roster to ignite cultural moments and viral trends.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Marquee -->
+<div class="marquee-sec">
+  <div class="marquee-inner">
+    <div class="marquee-part"><span>Nike</span><span class="dot">✦</span><span>Gucci</span><span class="dot">✦</span><span>Apple</span><span class="dot">✦</span><span>Samsung</span><span class="dot">✦</span><span>LVMH</span><span class="dot">✦</span></div>
+    <div class="marquee-part"><span>Nike</span><span class="dot">✦</span><span>Gucci</span><span class="dot">✦</span><span>Apple</span><span class="dot">✦</span><span>Samsung</span><span class="dot">✦</span><span>LVMH</span><span class="dot">✦</span></div>
+  </div>
+</div>
+
+<!-- NEW: 8b. Global HQ Map -->
+<section class="map-section">
+  <div class="sec-lbl" style="margin-bottom: 40px; text-align: center;">Global Production Hubs</div>
+  <div class="map-container" data-cursor="DRAG">
+    <div class="hq-point" style="top:30%; left:20%;" data-cursor="NYC"></div>
+    <div class="hq-point" style="top:25%; left:48%;" data-cursor="LONDON"></div>
+    <div class="hq-point" style="top:40%; left:85%;" data-cursor="TOKYO"></div>
+    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1600&auto=format&fit=crop" style="width:100%; height:100%; object-fit:cover; filter:grayscale(1) brightness(0.3);">
+  </div>
+</section>
+
+<!-- 9. Massive CTA -->
+<section class="cta-section">
+  <div class="sec-lbl" style="margin-bottom: 40px;">Ready to dominate?</div>
+  <a href="{% url 'v1_contact' %}" class="huge-btn magnetic-wrap"><span class="magnetic" data-cursor="START">LET'S SHOOT</span></a>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+<script>
+// Highly Interactive Particle Background for V1 Hero
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+const hero = document.getElementById('hero-vanta');
+hero.appendChild(canvas);
+
+canvas.style.position = 'absolute';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.width = '100%';
+canvas.style.height = '100%';
+canvas.style.zIndex = '1';
+canvas.style.pointerEvents = 'none';
+
+let particles = [];
+let mouse = { x: null, y: null, radius: 150 };
+let isHovering = false;
+
+function init() {
+  canvas.width = hero.clientWidth;
+  canvas.height = hero.clientHeight;
+  particles = [];
+  let numberOfParticles = (canvas.width * canvas.height) / 8000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    let size = (Math.random() * 2) + 1;
+    let x = (Math.random() * (canvas.width - size * 2) + size * 2);
+    let y = (Math.random() * (canvas.height - size * 2) + size * 2);
+    let directionX = (Math.random() * 2) - 1;
+    let directionY = (Math.random() * 2) - 1;
+    particles.push({x, y, directionX, directionY, size, originalSize: size});
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const speedMult = isHovering ? 5 : 1;
+
+  for (let i = 0; i < particles.length; i++) {
+    let p = particles[i];
+    p.x += p.directionX * speedMult;
+    p.y += p.directionY * speedMult;
+    
+    // Mouse Interaction
+    let dx = mouse.x - p.x;
+    let dy = mouse.y - p.y;
+    let distance = Math.sqrt(dx*dx + dy*dy);
+    
+    if (distance < mouse.radius) {
+      const force = isHovering ? 6 : 3;
+      if (mouse.x < p.x && p.x < canvas.width - p.size * 10) p.x += force;
+      if (mouse.x > p.x && p.x > p.size * 10) p.x -= force;
+      if (mouse.y < p.y && p.y < canvas.height - p.size * 10) p.y += force;
+      if (mouse.y > p.y && p.y > p.size * 10) p.y -= force;
+    }
+
+    if (p.x > canvas.width || p.x < 0) p.directionX = -p.directionX;
+    if (p.y > canvas.height || p.y < 0) p.directionY = -p.directionY;
+    
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2, false);
+    ctx.fillStyle = isHovering ? 'rgba(255,50,50,0.8)' : 'rgba(255,255,255,0.8)';
+    ctx.fill();
+    
+    for (let j = i; j < particles.length; j++) {
+      let p2 = particles[j];
+      let d = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+      if (d < 100) {
+        ctx.strokeStyle = isHovering ? `rgba(255,50,50,${(1 - d/100) * 0.5})` : `rgba(255,255,255,${1 - d/100})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+hero.addEventListener('mousemove', (e) => {
+  const rect = hero.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+hero.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+document.querySelectorAll('[data-cursor]').forEach(el => {
+  el.addEventListener('mouseenter', () => { isHovering = true; });
+  el.addEventListener('mouseleave', () => { isHovering = false; });
+});
+window.addEventListener('resize', init);
+
+init();
+animate();
+
+gsap.registerPlugin(ScrollTrigger, Draggable);
+
+document.addEventListener('preloaderDone', () => {
+  const tl = gsap.timeline();
+  tl.to('.hero-title .word', { y: '0%', duration: 1.4, ease: "power4.out", stagger: 0.15 })
+    .to('.anim-up', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=1");
+});
+
+// Ethos Text Reveal
+const textEl = document.getElementById('split-text');
+const words = textEl.innerText.split(' ');
+textEl.innerHTML = '';
+words.forEach(word => { textEl.innerHTML += `<span class="word" style="display:inline-block; margin-right:12px;">${word}</span>`; });
+gsap.fromTo('.ethos-text .word', 
+  { color: 'rgba(255,255,255,0.15)' },
+  { color: '#fff', stagger: 0.1, scrollTrigger: { trigger: '.ethos-section', start: 'top 70%', end: 'bottom 50%', scrub: 1 } }
+);
+
+// Pillars Hover Video Effect
+const svcRows = document.querySelectorAll('.svc-row');
+const hoverWrap = document.getElementById('svc-hover-bg');
+let currentVideoSrc = '';
+
+svcRows.forEach(row => {
+  row.addEventListener('mouseenter', () => {
+    const videoSrc = row.getAttribute('data-video');
+    if (videoSrc !== currentVideoSrc) {
+      hoverWrap.innerHTML = `<video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;filter:url(#liquid);"><source src="${videoSrc}" type="video/mp4"></video>`;
+      currentVideoSrc = videoSrc;
+    }
+    hoverWrap.classList.add('active');
+    gsap.to('#displacementMap', { attr: { scale: 40 }, duration: 0.4, yoyo: true, repeat: 1 });
+  });
+  row.addEventListener('mouseleave', () => { hoverWrap.classList.remove('active'); });
+});
+
+// Horizontal Scroll Campaigns
+const workGallery = document.querySelector('.work-gallery');
+const workWrap = document.querySelector('.work-gallery-wrap');
+let scrollTween = gsap.to(workGallery, {
+  x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
+  ease: "none",
+  scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
+});
+gsap.utils.toArray('.parallax-img').forEach(img => {
+  gsap.to(img, { x: 100, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
+});
+
+// Draggable Creator Roster
+const track = document.getElementById('drag-track');
+Draggable.create(track, {
+  type: "x",
+  bounds: { minX: -(track.scrollWidth - window.innerWidth + 104), maxX: 0 },
+  inertia: true
+});
+
+// BTS Parallax
+gsap.to('.bts-up', { y: -150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+gsap.to('.bts-down', { y: 150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+
+// Process Sticky Cards
+gsap.utils.toArray('.p-card').forEach((card, i) => {
+  ScrollTrigger.create({ trigger: card, start: "top 120px", pinSpacing: false });
+});
+
+// Infinite Marquee
+gsap.to('.marquee-inner', { xPercent: -50, ease: "none", duration: 15, repeat: -1 });
+
+</script>
+{% endblock %}

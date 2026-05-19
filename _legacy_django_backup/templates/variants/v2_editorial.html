@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V2 – Editorial | DMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f0ede8;color:#0a0a0a;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+#cur{position:fixed;width:10px;height:10px;background:#0a0a0a;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.3s}
+body:has(a:hover) #cur{transform:translate(-50%,-50%) scale(4);background:rgba(10,10,10,0.15)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 48px;border-bottom:1px solid rgba(0,0,0,0.08);background:rgba(240,237,232,0.92);backdrop-filter:blur(12px)}
+.logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;opacity:0.45;transition:opacity 0.3s}
+.nav-links a:hover{opacity:1}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:70px}
+.hero-left{padding:72px 48px;display:flex;flex-direction:column;gap:48px;border-right:1px solid rgba(0,0,0,0.1)}
+.hero-tag{font-size:0.6rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;color:rgba(0,0,0,0.3)}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(52px,7vw,96px);font-weight:900;line-height:0.9;letter-spacing:-0.03em}
+.hero-title em{font-style:italic;color:rgba(0,0,0,0.2)}
+.hero-desc{font-size:0.88rem;line-height:1.75;color:rgba(0,0,0,0.45);max-width:320px;border-top:1px solid rgba(0,0,0,0.1);padding-top:28px}
+.hero-cta{display:inline-flex;align-items:center;gap:16px;font-size:0.65rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#0a0a0a;text-decoration:none;transition:gap 0.4s}
+.hero-cta:hover{gap:32px}
+.hero-right{background:#111;overflow:hidden;position:relative}
+.hero-right img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%)}
+.hero-right-placeholder{width:100%;height:100%;min-height:600px;background:linear-gradient(160deg,#1a1a1a,#2c2c2c)}
+.hero-tag-img{position:absolute;bottom:28px;right:28px;background:#f0ede8;padding:7px 14px;font-size:0.58rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase}
+.marquee-strip{overflow:hidden;border-top:1px solid rgba(0,0,0,0.08);border-bottom:1px solid rgba(0,0,0,0.08);padding:16px 0;background:#0a0a0a}
+.marquee{display:flex;white-space:nowrap;animation:ticker 22s linear infinite}
+.marquee span{font-size:0.62rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.35);padding:0 40px}
+.marquee .sep{color:rgba(255,255,255,0.7)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.section{padding:96px 48px}
+.slabel{font-size:0.58rem;font-weight:700;letter-spacing:0.35em;text-transform:uppercase;color:rgba(0,0,0,0.3);margin-bottom:48px;display:flex;align-items:center;gap:16px}
+.slabel::after{content:'';flex:1;height:1px;background:rgba(0,0,0,0.1)}
+.work-list a{display:grid;grid-template-columns:48px 1fr auto 80px;align-items:center;gap:24px;padding:24px 0;border-bottom:1px solid rgba(0,0,0,0.08);text-decoration:none;color:inherit;transition:padding-left 0.3s}
+.work-list a:hover{padding-left:16px}
+.wnum{font-family:'Playfair Display',serif;font-size:0.9rem;color:rgba(0,0,0,0.2)}
+.wtitle{font-size:clamp(18px,2.5vw,32px);font-weight:800;letter-spacing:-0.02em}
+.wclient{font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(0,0,0,0.3)}
+.wthumb{width:80px;height:52px;overflow:hidden;opacity:0;transform:scale(0.85);transition:all 0.4s}
+.work-list a:hover .wthumb{opacity:1;transform:scale(1)}
+.wthumb img{width:100%;height:100%;object-fit:cover}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(0,0,0,0.08)}
+.svc{padding:44px 36px;border-right:1px solid rgba(0,0,0,0.08)}
+.svc:last-child{border-right:none}
+.svc-n{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(0,0,0,0.06);margin-bottom:16px}
+.svc h3{font-size:1rem;font-weight:800;margin-bottom:10px}
+.svc p{font-size:0.8rem;line-height:1.7;color:rgba(0,0,0,0.4)}
+.cta-block{background:#0a0a0a;color:#f0ede8;padding:120px 48px;display:flex;align-items:center;justify-content:space-between;gap:48px}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(44px,6vw,84px);font-weight:900;line-height:0.9;letter-spacing:-0.03em}
+.cta-h em{font-style:italic;color:rgba(240,237,232,0.2)}
+.cta-a{flex-shrink:0;padding:18px 44px;background:#f0ede8;color:#0a0a0a;font-size:0.65rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;transition:background 0.3s,transform 0.3s}
+.cta-a:hover{background:#fff;transform:translateX(6px)}
+.fbar{display:flex;justify-content:space-between;padding:22px 48px;background:#0a0a0a;border-top:1px solid rgba(255,255,255,0.05);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2)}
+.fbar a{color:inherit;text-decoration:none}.fbar a:hover{color:#f0ede8}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s ease,transform 0.9s cubic-bezier(0.16,1,0.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+.vnav{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;gap:6px}
+.vnav a{width:34px;height:34px;border:1px solid rgba(0,0,0,0.15);background:#f0ede8;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:rgba(0,0,0,0.35);text-decoration:none;transition:all 0.3s}
+.vnav a:hover,.vnav a.active{background:#0a0a0a;color:#f0ede8;border-color:#0a0a0a}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<nav><div class="logo">DMA.</div><ul class="nav-links"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'services:list' %}">Services</a></li><li><a href="{% url 'projects:list' %}">Work</a></li><li><a href="{% url 'contact:form' %}">Contact</a></li></ul></nav>
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Vol. 01 — Digital Marketing Agency</p>
+    <h1 class="hero-title">We Build<br><em>The New.</em></h1>
+    <p class="hero-desc">Strategy. Creative. Production. AI. One team, one system. We build brands that compound growth and dominate culture.</p>
+    <a href="{% url 'contact:form' %}" class="hero-cta">Start a project <span>→</span></a>
+  </div>
+  <div class="hero-right">{% with projects.0 as p %}{% if p and p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}">{% else %}<div class="hero-right-placeholder"></div>{% endif %}{% endwith %}<div class="hero-tag-img">Est. 2024</div></div>
+</section>
+<div class="marquee-strip"><div class="marquee"><span>Brand Strategy</span><span class="sep">✦</span><span>Content Creation</span><span class="sep">✦</span><span>Influencer Management</span><span class="sep">✦</span><span>AI Production</span><span class="sep">✦</span><span>Campaign Execution</span><span class="sep">✦</span><span>Brand Strategy</span><span class="sep">✦</span><span>Content Creation</span><span class="sep">✦</span><span>Influencer Management</span><span class="sep">✦</span><span>AI Production</span><span class="sep">✦</span><span>Campaign Execution</span><span class="sep">✦</span></div></div>
+<section class="section">
+  <div class="slabel reveal">Selected Work</div>
+  <div class="work-list">{% for project in projects %}<a href="{% url 'projects:detail' project.slug %}" class="reveal"><span class="wnum">0{{ forloop.counter }}</span><span class="wtitle">{{ project.title }}</span><span class="wclient">{{ project.client_name }}</span><div class="wthumb">{% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="">{% endif %}</div></a>{% endfor %}</div>
+</section>
+<section class="section" style="padding-top:0">
+  <div class="slabel reveal">Capabilities</div>
+  <div class="svc-grid reveal"><div class="svc"><div class="svc-n">01</div><h3>Brand Strategy</h3><p>We architect the core positioning, voice, and visual identity that allows your brand to dominate.</p></div><div class="svc"><div class="svc-n">02</div><h3>Digital Production</h3><p>Cinematic video, high-end photography, and cutting-edge 3D motion graphics built to captivate.</p></div><div class="svc"><div class="svc-n">03</div><h3>AI & Technology</h3><p>Leveraging generative AI and custom applications to build scalable digital ecosystems.</p></div></div>
+</section>
+<div class="cta-block"><h2 class="cta-h">Let's Build<br><em>Together.</em></h2><a href="{% url 'contact:form' %}" class="cta-a">Start a project →</a></div>
+<div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
+<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v2' %}" class="active">2</a><a href="{% url 'v3' %}">3</a><a href="{% url 'v4' %}">4</a><a href="{% url 'v5' %}">5</a></div>
+<script>
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body></html>

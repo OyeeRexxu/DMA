@@ -1,0 +1,48 @@
+{% extends 'variants/v5/base.html' %}
+{% block title %}{{ project.title }} — DMA.{% endblock %}
+{% block extra_css %}
+.d-hero{height:65vh;position:relative;overflow:hidden;background:#111}
+.d-hero img{width:100%;height:100%;object-fit:cover;opacity:.55;filter:grayscale(20%)}
+.d-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#0c0c0c,transparent 55%)}
+.d-hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a0a0a,#111)}
+.d-meta{padding:60px 52px 40px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05)}
+.d-client{font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--r);margin-bottom:14px}
+.d-title{font-size:clamp(40px,6vw,88px);font-weight:900;letter-spacing:-.04em;line-height:.9;text-transform:uppercase}
+.d-cta{flex-shrink:0;padding-bottom:8px}
+.d-body{display:grid;grid-template-columns:1fr 300px;gap:80px;padding:60px 52px 100px;align-items:start}
+.d-content{font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.38)}
+.d-content p{margin-bottom:22px}
+.d-side{border:1px solid rgba(255,59,59,.15);padding:32px;position:sticky;top:100px}
+.d-side h4{font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:16px}
+.d-side p{font-size:.82rem;line-height:1.75;color:rgba(255,255,255,.35);margin-bottom:28px}
+.related{padding:0 52px 80px;border-top:1px solid rgba(255,255,255,.05)}
+.rel-hd{padding:40px 0;display:flex;justify-content:space-between;align-items:baseline}
+.rel-hd span{font-size:clamp(26px,3vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.rel-hd span b{color:var(--r)}
+.rel-hd a{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);text-decoration:none;transition:color .3s}
+.rel-hd a:hover{color:var(--r)}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.rc{position:relative;overflow:hidden;aspect-ratio:16/9;background:#111;display:block;text-decoration:none}
+.rc img{width:100%;height:100%;object-fit:cover;filter:grayscale(45%);transition:all .7s}
+.rc:hover img{filter:grayscale(0%);transform:scale(1.05)}
+.rc-ph{width:100%;height:100%;background:linear-gradient(160deg,#1a0a0a,#141414)}
+.rc-info{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(12,12,12,.9),transparent);opacity:0;transition:opacity .4s}
+.rc:hover .rc-info{opacity:1}
+.rc-info span{font-size:.9rem;font-weight:700;color:#fff}
+{% endblock %}
+{% block content %}
+<div class="d-hero">{% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}">{% else %}<div class="d-hero-ph"></div>{% endif %}</div>
+<div class="d-meta">
+  <div><p class="d-client">{{ project.client_name }}</p><h1 class="d-title">{{ project.title }}</h1></div>
+  <div class="d-cta"><a href="{% url 'v5_contact' %}" class="btn-r">Start a project →</a></div>
+</div>
+<div class="d-body">
+  <div class="d-content">{{ project.content|linebreaks }}</div>
+  <aside class="d-side reveal"><h4>About this project</h4><p>{{ project.short_description }}</p>{% if project.video_url %}<p><a href="{{ project.video_url }}" target="_blank" style="color:var(--r);font-size:.8rem;font-weight:700;text-decoration:none">Watch Video →</a></p>{% endif %}</aside>
+</div>
+{% if related %}
+<div class="related">
+  <div class="rel-hd"><span>More <b>Work</b></span><a href="{% url 'v5_work' %}">All projects →</a></div>
+  <div class="rel-grid">{% for p in related %}<a href="{% url 'v5_work_detail' p.slug %}" class="rc reveal">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="rc-ph"></div>{% endif %}<div class="rc-info"><span>{{ p.title }}</span></div></a>{% endfor %}</div>
+</div>{% endif %}
+{% endblock %}

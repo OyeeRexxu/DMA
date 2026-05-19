@@ -1,0 +1,21 @@
+{% extends 'variants/v5/base.html' %}
+{% block title %}Work — DMA.{% endblock %}
+{% block extra_css %}
+.pg-hero{padding:80px 52px 60px;border-bottom:1px solid rgba(255,255,255,.05)}
+.pg-hero h1{font-size:clamp(52px,9vw,120px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1s ease both}
+.pg-hero h1 b{color:var(--r)}
+.pg-hero p{margin-top:16px;font-size:.88rem;color:rgba(255,255,255,.28);animation:fadeUp 1s ease .2s both}
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:60px 52px 120px}
+.wcard{position:relative;overflow:hidden;aspect-ratio:16/9;background:#111;display:block;text-decoration:none}
+.wcard img{width:100%;height:100%;object-fit:cover;filter:grayscale(50%);transition:filter .7s,transform .9s}
+.wcard:hover img{filter:grayscale(0%);transform:scale(1.04)}
+.wcard-ph{width:100%;height:100%;background:linear-gradient(160deg,#1a0a0a,#141414)}
+.wcard-info{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.9),transparent 55%);display:flex;align-items:flex-end;padding:28px;opacity:0;transition:opacity .4s}
+.wcard:hover .wcard-info{opacity:1}
+.wcard-info h3{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:6px}
+.wcard-info p{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--r)}
+{% endblock %}
+{% block content %}
+<div class="pg-hero"><h1>Our <b>Work</b></h1><p>{{ projects|length }} Projects — Strategy · Creative · Production</p></div>
+<div class="work-grid">{% for p in projects %}<a href="{% url 'v5_work_detail' p.slug %}" class="wcard reveal">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="wcard-ph"></div>{% endif %}<div class="wcard-info"><div><h3>{{ p.title }}</h3><p>{{ p.client_name }}</p></div></div></a>{% endfor %}</div>
+{% endblock %}

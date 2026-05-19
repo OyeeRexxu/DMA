@@ -1,0 +1,36 @@
+{% extends 'variants/v5/base.html' %}
+{% block title %}Contact — DMA.{% endblock %}
+{% block extra_css %}
+.contact-wrap{min-height:calc(100vh - 70px);display:grid;grid-template-columns:1fr 1fr}
+.c-left{padding:80px 52px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(255,255,255,.05)}
+.c-left h1{font-size:clamp(48px,7vw,96px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88;animation:fadeUp 1.2s ease both}
+.c-left h1 b{color:var(--r)}
+.c-left p{font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.3);max-width:340px;margin-top:32px}
+.c-info strong{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:4px;margin-top:24px}
+.c-info p{font-size:.82rem;color:rgba(255,255,255,.28);line-height:1.8;margin-top:0}
+.c-right{padding:80px 52px;background:rgba(255,59,59,.02)}
+form{display:flex;flex-direction:column;gap:36px}
+.field label{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:10px}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.03);border:none;border-bottom:1px solid rgba(255,255,255,.1);padding:12px 0;font-size:.92rem;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .3s}
+.field input:focus,.field textarea:focus{border-color:var(--r)}
+.field textarea{resize:none;height:130px}
+.msg-box{padding:16px 20px;border:1px solid rgba(255,59,59,.3);background:rgba(255,59,59,.06);font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:28px}
+{% endblock %}
+{% block content %}
+<div class="contact-wrap">
+  <div class="c-left">
+    <div><h1>Let's<br><b>Talk.</b></h1><p>Ready to transform your brand? Tell us about your project and we'll respond within 24 hours.</p></div>
+    <div class="c-info"><strong>Email</strong><p>hello@dma.studio</p><strong>Location</strong><p>New York, NY</p><strong>Social</strong><div style="display:flex;gap:16px;margin-top:6px"><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;transition:color .3s" onmouseover="this.style.color='var(--r)'" onmouseout="this.style.color='rgba(255,255,255,.25)'">IG</a><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase">X</a><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase">LI</a></div></div>
+  </div>
+  <div class="c-right">
+    {% if messages %}{% for m in messages %}<div class="msg-box">{{ m }}</div>{% endfor %}{% endif %}
+    <form method="POST" action="{% url 'v5_contact' %}">{% csrf_token %}
+      <div class="field"><label>Name *</label><input type="text" name="name" required></div>
+      <div class="field"><label>Email *</label><input type="email" name="email" required></div>
+      <div class="field"><label>Company</label><input type="text" name="company"></div>
+      <div class="field"><label>Message *</label><textarea name="message" required></textarea></div>
+      <button type="submit" class="btn-r">Send message →</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

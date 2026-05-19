@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Services - DMA{% endblock %}
+
+{% block content %}
+<section class="py-24 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tighter uppercase mb-20 reveal">What We Do</h1>
+        
+        <div class="space-y-16">
+            {% for service in services %}
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 reveal border-t border-white/10 pt-12">
+                <div class="md:col-span-4">
+                    <h2 class="text-3xl font-bold tracking-tight">{{ service.title }}</h2>
+                </div>
+                <div class="md:col-span-8">
+                    <p class="text-xl text-gray-300 mb-6 leading-relaxed">{{ service.short_description }}</p>
+                    <div class="text-gray-500 leading-relaxed">
+                        {{ service.detailed_description|linebreaks }}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-gray-500">No services to display.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

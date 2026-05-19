@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V5 – Neon Noir | DMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0c0c0c;color:#e0e0e0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+:root{--accent:#ff3b3b}
+#cur{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:normal;transition:transform 0.3s}
+body:has(a:hover) #cur{transform:translate(-50%,-50%) scale(2.5)}
+.trail{position:fixed;border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:26px 52px;background:rgba(12,12,12,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.04)}
+.logo{font-size:0.95rem;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#fff}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:#fff}
+.nav-cta{padding:10px 24px;border:1px solid var(--accent);color:var(--accent);font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;transition:background 0.3s,color 0.3s}
+.nav-cta:hover{background:var(--accent);color:#fff}
+
+/* Hero */
+.hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:flex-start;padding:0 52px;overflow:hidden}
+.hero-video-wrap{position:absolute;inset:0;z-index:0}
+.hero-video-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(12,12,12,0.92) 40%,rgba(12,12,12,0.5) 80%,rgba(12,12,12,0.2) 100%)}
+.hero-video-wrap video{width:100%;height:100%;object-fit:cover;opacity:0.5}
+.hero-video-wrap .vid-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#1a0a0a,#1a1a1a)}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.hero-line{width:40px;height:2px;background:var(--accent);margin-bottom:32px;animation:lineGrow 0.8s ease both}
+@keyframes lineGrow{from{width:0}to{width:40px}}
+.hero-title{font-size:clamp(52px,9vw,130px);font-weight:900;line-height:0.88;letter-spacing:-0.04em;text-transform:uppercase;color:#fff;animation:fadeUp 1.2s ease 0.2s both}
+.hero-title .accent{color:var(--accent)}
+.hero-sub{margin-top:32px;font-size:0.95rem;line-height:1.75;color:rgba(255,255,255,0.35);max-width:400px;animation:fadeUp 1s ease 0.5s both}
+.hero-actions{margin-top:48px;display:flex;align-items:center;gap:20px;animation:fadeUp 1s ease 0.7s both}
+.btn-accent{padding:16px 40px;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;transition:opacity 0.3s,transform 0.3s}
+.btn-accent:hover{opacity:0.85;transform:translateX(4px)}
+.btn-outline{padding:16px 40px;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;transition:border-color 0.3s,color 0.3s}
+.btn-outline:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+.hero-scroll{position:absolute;bottom:36px;left:52px;display:flex;align-items:center;gap:12px;font-size:0.58rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.2);z-index:2}
+.hero-scroll-line{width:48px;height:1px;background:rgba(255,255,255,0.15)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);padding:0 52px}
+.stat{padding:40px 0;border-right:1px solid rgba(255,255,255,0.05);padding-right:48px;padding-left:0}
+.stat:nth-child(2){padding-left:48px}
+.stat:nth-child(3){padding-left:48px;border-right:none}
+.stat-num{font-size:clamp(36px,4vw,56px);font-weight:900;letter-spacing:-0.04em;color:#fff;margin-bottom:6px}
+.stat-num span{color:var(--accent)}
+.stat-label{font-size:0.62rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.25)}
+
+/* Work thumbnails */
+.work-section{padding:100px 52px}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:56px}
+.sh h2{font-size:clamp(28px,3.5vw,44px);font-weight:900;letter-spacing:-0.03em;text-transform:uppercase}
+.sh h2 span{color:var(--accent)}
+.sh a{font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.3s}
+.sh a:hover{color:var(--accent)}
+.work-strip{display:flex;gap:2px}
+.work-card{flex:1;position:relative;overflow:hidden;aspect-ratio:3/4;background:#111;text-decoration:none;color:inherit}
+.work-card img{width:100%;height:100%;object-fit:cover;filter:grayscale(60%);transition:filter 0.7s,transform 0.9s}
+.work-card:hover img{filter:grayscale(0%);transform:scale(1.05)}
+.work-card-placeholder{width:100%;height:100%;background:linear-gradient(160deg,#1a1a1a,#111)}
+.work-card-info{position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(to top,rgba(12,12,12,0.95),transparent);transform:translateY(20px);opacity:0;transition:all 0.4s}
+.work-card:hover .work-card-info{opacity:1;transform:translateY(0)}
+.work-card-info h3{font-size:1rem;font-weight:800;margin-bottom:4px}
+.work-card-info p{font-size:0.58rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent)}
+
+/* Services */
+.svc-section{padding:0 52px 100px}
+.svc-rows{border-top:1px solid rgba(255,255,255,0.05)}
+.svc-row{display:grid;grid-template-columns:56px 1fr auto;gap:24px;align-items:center;padding:36px 0;border-bottom:1px solid rgba(255,255,255,0.05);transition:padding-left 0.4s}
+.svc-row:hover{padding-left:16px}
+.svc-row-n{font-size:0.58rem;font-weight:700;letter-spacing:0.25em;color:var(--accent)}
+.svc-row-title{font-size:clamp(18px,2vw,26px);font-weight:800;letter-spacing:-0.02em}
+.svc-row-desc{font-size:0.75rem;line-height:1.6;color:rgba(255,255,255,0.25);max-width:300px;text-align:right}
+
+/* CTA */
+.cta{padding:120px 52px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.05)}
+.cta h2{font-size:clamp(48px,7vw,96px);font-weight:900;letter-spacing:-0.04em;line-height:0.9;text-transform:uppercase}
+.cta h2 span{color:var(--accent)}
+.fbar{display:flex;justify-content:space-between;padding:22px 52px;border-top:1px solid rgba(255,255,255,0.04);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2)}
+.fbar a{color:inherit;text-decoration:none}.fbar a:hover{color:var(--accent)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s ease,transform 0.9s cubic-bezier(0.16,1,0.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+.vnav{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;gap:6px}
+.vnav a{width:34px;height:34px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:rgba(255,255,255,0.3);text-decoration:none;transition:all 0.3s}
+.vnav a:hover,.vnav a.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<nav>
+  <div class="logo">DMA<span>.</span></div>
+  <ul class="nav-links"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'services:list' %}">Services</a></li><li><a href="{% url 'projects:list' %}">Work</a></li></ul>
+  <a href="{% url 'contact:form' %}" class="nav-cta">Contact us</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-video-wrap">
+    <video autoplay loop muted playsinline>
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-ink-swirling-in-water-268-large.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-content">
+    <div class="hero-line"></div>
+    <h1 class="hero-title">We Build<br><span class="accent">The New.</span></h1>
+    <p class="hero-sub">Strategy. Creative. Production. AI. One team, one system for brands that demand exponential growth.</p>
+    <div class="hero-actions">
+      <a href="{% url 'contact:form' %}" class="btn-accent">Start a project</a>
+      <a href="{% url 'projects:list' %}" class="btn-outline">View work</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span class="hero-scroll-line"></span>Scroll to explore</div>
+</section>
+
+<div class="stats">
+  <div class="stat reveal"><div class="stat-num">50<span>+</span></div><div class="stat-label">Campaigns launched</div></div>
+  <div class="stat reveal"><div class="stat-num">3<span>x</span></div><div class="stat-label">Average ROAS</div></div>
+  <div class="stat reveal"><div class="stat-num">100<span>%</span></div><div class="stat-label">Client retention</div></div>
+</div>
+
+<section class="work-section">
+  <div class="sh reveal"><h2>Selected <span>Work</span></h2><a href="{% url 'projects:list' %}">View all →</a></div>
+  <div class="work-strip">
+    {% for project in projects %}
+    <a href="{% url 'projects:detail' project.slug %}" class="work-card reveal">
+      {% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">{% else %}<div class="work-card-placeholder"></div>{% endif %}
+      <div class="work-card-info"><h3>{{ project.title }}</h3><p>{{ project.client_name }}</p></div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="svc-section">
+  <div class="svc-rows reveal">
+    <div class="svc-row"><span class="svc-row-n">01</span><span class="svc-row-title">Brand Strategy</span><p class="svc-row-desc">We architect the core positioning, voice, and visual identity that allows your brand to dominate.</p></div>
+    <div class="svc-row"><span class="svc-row-n">02</span><span class="svc-row-title">Digital Production</span><p class="svc-row-desc">Cinematic video, high-end photography, and 3D motion graphics built to captivate.</p></div>
+    <div class="svc-row"><span class="svc-row-n">03</span><span class="svc-row-title">AI & Technology</span><p class="svc-row-desc">Leveraging generative AI and custom applications to build scalable ecosystems.</p></div>
+  </div>
+</section>
+
+<section class="cta"><h2>Let's<br><span>Talk.</span></h2><a href="{% url 'contact:form' %}" class="btn-accent">Start a project →</a></section>
+<div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
+<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v2' %}">2</a><a href="{% url 'v3' %}">3</a><a href="{% url 'v4' %}">4</a><a href="{% url 'v5' %}" class="active">5</a></div>
+
+<script>
+const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body></html>

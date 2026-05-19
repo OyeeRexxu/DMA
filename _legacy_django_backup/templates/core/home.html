@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section with Video Background -->
+<section id="hero-section" class="h-screen w-full relative flex items-center justify-center overflow-hidden cursor-none">
+
+    <!-- Custom Cursor Glow -->
+    <div id="cursor-glow" class="pointer-events-none fixed z-50 w-64 h-64 rounded-full opacity-0 transition-opacity duration-300"
+         style="background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%); transform: translate(-50%, -50%);"></div>
+
+    <!-- Video Background (Parallax target) -->
+    <video id="hero-video" autoplay loop muted playsinline
+           class="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none"
+           style="transform: scale(1.08); transition: transform 0.1s linear;">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-ink-swirling-in-water-268-large.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none z-10"></div>
+    
+    <!-- Hero Text -->
+    <div class="relative z-20 text-center px-6 w-full pointer-events-none select-none">
+        <h1 class="hero-title text-[clamp(4rem,14vw,12rem)] font-black tracking-tighter uppercase leading-none text-white">
+            THE <br> NEW
+        </h1>
+        <p class="hero-subtitle mt-6 text-lg md:text-2xl font-medium tracking-[0.3em] uppercase animate-shimmer">
+            Brand Transformation Studio
+        </p>
+    </div>
+</section>
+
+<!-- One-Line Positioning Statement -->
+<section class="min-h-screen flex items-center justify-center px-6 py-32 bg-[#0a0a0a]">
+    <div class="max-w-6xl mx-auto text-center">
+        <h2 class="text-4xl md:text-7xl font-bold tracking-tighter leading-tight reveal">
+            We exist to make the new possible. <br>
+            <span class="text-gray-600">New clarity. New systems. New futures.</span>
+        </h2>
+    </div>
+</section>
+
+<!-- Cinematic Horizontal Scroll: Selected Work -->
+<section id="work-horizontal-container" class="relative bg-[#111]" style="height: 300vh;">
+    <!-- Sticky Tracker -->
+    <div class="sticky top-0 h-screen flex items-center overflow-hidden">
+        
+        <div class="absolute top-12 left-6 z-20">
+            <h2 class="text-xl tracking-widest font-bold uppercase text-white">Selected Work</h2>
+        </div>
+
+        <!-- Horizontal Track -->
+        <div id="work-track" class="flex gap-12 px-[10vw] min-w-max will-change-transform">
+            
+            {% for project in featured_projects %}
+            <a href="{% url 'projects:detail' project.slug %}" class="group block w-[80vw] md:w-[60vw] lg:w-[40vw] flex-shrink-0">
+                <div class="relative overflow-hidden aspect-video bg-gray-900 mb-6 distortion-hover">
+                    {% if project.cover_image %}
+                        <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover" loading="lazy">
+                    {% else %}
+                        <!-- Fallback visual if no image -->
+                        <div class="w-full h-full bg-gradient-to-br from-gray-800 to-black"></div>
+                    {% endif %}
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold tracking-tighter mb-2 group-hover:text-gray-300 transition">{{ project.title }}</h3>
+                    <p class="text-gray-500 uppercase tracking-widest text-sm font-semibold">{{ project.client_name }}</p>
+                </div>
+            </a>
+            {% empty %}
+            <div class="w-screen flex items-center justify-center text-gray-500 text-2xl font-semibold">
+                No featured projects yet. Go to Admin to add them.
+            </div>
+            {% endfor %}
+            
+            <!-- 'View All' slide at the end -->
+            <div class="w-[40vw] flex items-center justify-center flex-shrink-0 pl-12">
+                <a href="{% url 'projects:list' %}" class="text-4xl md:text-6xl font-bold tracking-tighter hover:text-gray-400 transition uppercase reveal">
+                    View All Work &rarr;
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="py-48 px-6 bg-[#0a0a0a]">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-24 reveal">
+            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase">Expertise</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {% for service in services %}
+            <div class="reveal border-t border-white/20 pt-8" style="transition-delay: {{ forloop.counter0|add:1 }}00ms;">
+                <h3 class="text-2xl font-bold tracking-tight mb-4">{{ service.title }}</h3>
+                <p class="text-gray-400 mb-8 text-lg leading-relaxed">{{ service.short_description }}</p>
+                <a href="{% url 'services:list' %}" class="text-sm uppercase tracking-widest font-bold text-white hover:text-gray-500 transition">Learn More &rarr;</a>
+            </div>
+            {% empty %}
+            <p class="text-gray-500">No services added yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Horizontal Scroll Logic for Cinematic Feel with Easing
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('work-horizontal-container');
+        const track = document.getElementById('work-track');
+        
+        if (container && track) {
+            let targetScroll = 0;
+            let currentScroll = 0;
+            const ease = 0.08; // Lerp factor for smooth easing
+
+            // Update target scroll on actual scroll event
+            window.addEventListener('scroll', () => {
+                const containerTop = container.offsetTop;
+                const containerHeight = container.offsetHeight;
+                const windowHeight = window.innerHeight;
+                
+                let scrollProgress = (window.scrollY - containerTop) / (containerHeight - windowHeight);
+                scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+                
+                const maxTranslate = track.scrollWidth - window.innerWidth + (window.innerWidth * 0.1);
+                
+                if(window.scrollY >= containerTop - windowHeight && window.scrollY <= (containerTop + containerHeight)) {
+                    targetScroll = scrollProgress * maxTranslate;
+                }
+            });
+
+            // Render loop for smooth interpolation
+            function render() {
+                // Linear interpolation
+                currentScroll += (targetScroll - currentScroll) * ease;
+                
+                // Only apply transform if we are relatively close or far to avoid micro-stutters
+                if (Math.abs(targetScroll - currentScroll) > 0.1) {
+                    track.style.transform = `translate3d(-${currentScroll}px, 0, 0)`;
+                }
+                
+                requestAnimationFrame(render);
+            }
+            render();
+        }
+    });
+    // =============================================
+    // HERO: Mouse Parallax + Custom Cursor Glow
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+        const heroSection = document.getElementById('hero-section');
+        const heroVideo   = document.getElementById('hero-video');
+        const cursorGlow  = document.getElementById('cursor-glow');
+
+        let mouseX = 0, mouseY = 0;
+        let curX = 0, curY = 0;
+        let vidX = 0, vidY = 0;
+        let targetVidX = 0, targetVidY = 0;
+
+        // Track mouse globally
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        heroSection.addEventListener('mouseenter', () => {
+            if (cursorGlow) cursorGlow.style.opacity = '1';
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            if (cursorGlow) cursorGlow.style.opacity = '0';
+            targetVidX = 0;
+            targetVidY = 0;
+        });
+
+        heroSection.addEventListener('mousemove', (e) => {
+            // Parallax target: move video opposite to cursor
+            targetVidX = (e.clientX / window.innerWidth - 0.5) * -25;
+            targetVidY = (e.clientY / window.innerHeight - 0.5) * -25;
+        });
+
+        // Animation loop for smooth lerp
+        function heroLoop() {
+            const lerp = 0.07;
+
+            // Cursor glow follows mouse with lerp
+            curX += (mouseX - curX) * 0.15;
+            curY += (mouseY - curY) * 0.15;
+            if (cursorGlow) {
+                cursorGlow.style.left = curX + 'px';
+                cursorGlow.style.top  = curY + 'px';
+            }
+
+            // Video parallax with lerp
+            vidX += (targetVidX - vidX) * lerp;
+            vidY += (targetVidY - vidY) * lerp;
+            if (heroVideo) {
+                heroVideo.style.transform = `scale(1.08) translate(${vidX}px, ${vidY}px)`;
+            }
+
+            requestAnimationFrame(heroLoop);
+        }
+        heroLoop();
+    });
+
+</script>
+{% endblock %}

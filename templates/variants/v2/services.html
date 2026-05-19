@@ -1,0 +1,19 @@
+{% extends 'variants/v2/base.html' %}
+{% block title %}Services — DMA.{% endblock %}
+{% block extra_css %}
+.pg-hero{padding:100px 52px 60px;border-bottom:1px solid rgba(0,0,0,.08)}
+.pg-hero h1{font-family:'Playfair Display',serif;font-size:clamp(52px,9vw,120px);font-weight:900;letter-spacing:-.03em;line-height:.9;animation:fadeUp 1s ease both}
+.pg-hero h1 em{font-style:italic;color:rgba(0,0,0,.2)}
+.pg-hero p{margin-top:20px;font-size:.9rem;color:rgba(0,0,0,.4);max-width:480px;line-height:1.7}
+.svc-body{padding:80px 52px 120px}
+.svc-item{display:grid;grid-template-columns:80px 1fr 360px;gap:48px;align-items:start;padding:52px 0;border-bottom:1px solid rgba(0,0,0,.08);transition:padding-left .35s}
+.svc-item:hover{padding-left:20px}
+.svc-n{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:rgba(0,0,0,.2);padding-top:4px}
+.svc-title{font-size:clamp(24px,2.8vw,38px);font-weight:900;letter-spacing:-.03em;margin-bottom:14px}
+.svc-short{font-size:.88rem;color:rgba(0,0,0,.45);line-height:1.75}
+.svc-detail{font-size:.8rem;color:rgba(0,0,0,.3);line-height:1.8;padding-top:4px}
+{% endblock %}
+{% block content %}
+<div class="pg-hero"><h1>What<br><em>We Do.</em></h1><p>End-to-end digital marketing from strategy through execution.</p></div>
+<div class="svc-body">{% for s in services %}<div class="svc-item reveal"><span class="svc-n">0{{ forloop.counter }}</span><div><div class="svc-title">{{ s.title }}</div><p class="svc-short">{{ s.short_description }}</p></div><p class="svc-detail">{{ s.detailed_description }}</p></div>{% endfor %}</div>
+{% endblock %}

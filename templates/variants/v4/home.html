@@ -1,0 +1,53 @@
+{% extends 'variants/v4/base.html' %}
+{% block title %}DMA. — Digital Marketing Agency{% endblock %}
+{% block extra_css %}
+.hero{min-height:calc(100vh - 70px);position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 60px;overflow:hidden}
+.ghost{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(100px,18vw,260px);font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.025);user-select:none;pointer-events:none;white-space:nowrap;animation:ghostIn 1.5s ease both}
+.h-eye{font-size:.6rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:36px;display:flex;align-items:center;gap:14px;animation:fadeUp 1s ease .3s both}
+.h-eye span{width:40px;height:1px;background:rgba(255,255,255,.2)}
+.h-title{font-size:clamp(52px,9vw,130px);font-weight:900;line-height:.87;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1.2s ease .1s both}
+.h-title .dim{color:rgba(255,255,255,.1)}
+.h-row{display:flex;align-items:center;justify-content:space-between;margin-top:72px;padding-top:36px;border-top:1px solid rgba(255,255,255,.05);animation:fadeUp 1s ease .6s both}
+.h-desc{font-size:.88rem;line-height:1.8;color:rgba(255,255,255,.3);max-width:360px}
+.h-cta{display:inline-flex;align-items:center;gap:16px;font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#fff;text-decoration:none;flex-shrink:0}
+.h-cta .ln{display:inline-block;width:52px;height:1px;background:#fff;position:relative;transition:width .4s}
+.h-cta .ln::after{content:'›';position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:1rem}
+.h-cta:hover .ln{width:84px}
+.work-sec{padding:100px 60px}
+.sec-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:56px}
+.sec-lbl{font-size:.58rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:8px}
+.sec-t{font-size:clamp(28px,3.5vw,44px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.sec-a{font-size:.6rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.25);text-decoration:none;transition:color .3s}
+.sec-a:hover{color:#fff}
+.wrows a{display:grid;grid-template-columns:56px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:inherit;transition:padding-left .4s}
+.wrows a:hover{padding-left:20px}
+.wn{font-size:.62rem;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.18)}
+.wt{font-size:clamp(20px,2.8vw,38px);font-weight:900;letter-spacing:-.03em}
+.wc{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.svc-sec{padding:0 60px 100px}
+.svc-cols{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.05)}
+.svc-col{padding:48px 36px;border-right:1px solid rgba(255,255,255,.05)}
+.svc-col:last-child{border-right:none}
+.svc-n{font-size:.58rem;font-weight:700;letter-spacing:.3em;color:rgba(255,255,255,.15);margin-bottom:20px}
+.svc-col h3{font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+.svc-col p{font-size:.8rem;line-height:1.8;color:rgba(255,255,255,.28)}
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="ghost">STRATEGY</div>
+  <p class="h-eye"><span></span>Digital Marketing Agency</p>
+  <h1 class="h-title">We Build<br><span class="dim">The</span> New.</h1>
+  <div class="h-row">
+    <p class="h-desc">Strategy. Creative. Production. AI. One team, one system for brands that demand exponential growth.</p>
+    <a href="{% url 'v4_contact' %}" class="h-cta">Start a project <span class="ln"></span></a>
+  </div>
+</section>
+<section class="work-sec">
+  <div class="sec-hd reveal"><div><div class="sec-lbl">02 / Work</div><div class="sec-t">Selected Work</div></div><a href="{% url 'v4_work' %}" class="sec-a">View all →</a></div>
+  <div class="wrows">{% for p in projects %}<a href="{% url 'v4_work_detail' p.slug %}" class="reveal"><span class="wn">0{{ forloop.counter }}</span><span class="wt">{{ p.title }}</span><span class="wc">{{ p.client_name }}</span></a>{% endfor %}</div>
+</section>
+<section class="svc-sec">
+  <div class="sec-hd reveal"><div><div class="sec-lbl">03 / Capabilities</div><div class="sec-t">Services</div></div><a href="{% url 'v4_services' %}" class="sec-a">All services →</a></div>
+  <div class="svc-cols reveal">{% for s in services %}<div class="svc-col"><div class="svc-n">0{{ forloop.counter }}</div><h3>{{ s.title }}</h3><p>{{ s.short_description }}</p></div>{% endfor %}</div>
+</section>
+{% endblock %}

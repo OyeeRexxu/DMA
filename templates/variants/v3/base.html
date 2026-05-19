@@ -1,0 +1,66 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}DMA.{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+:root{--acc:#7c6fff;--acc2:#50c8ff}
+body{background:#06070f;color:#e8eaf0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;animation:obf 9s ease-in-out infinite}
+.o1{width:700px;height:700px;background:radial-gradient(circle,rgba(124,111,255,.12),transparent 70%);top:-150px;left:-150px;animation-delay:0s}
+.o2{width:600px;height:600px;background:radial-gradient(circle,rgba(80,200,255,.08),transparent 70%);bottom:-100px;right:-100px;animation-delay:-5s}
+@keyframes obf{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-50px) scale(1.06)}}
+#cur{position:fixed;width:8px;height:8px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-r{position:fixed;width:30px;height:30px;border:1px solid rgba(124,111,255,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 52px;background:rgba(6,7,15,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.logo{font-size:.95rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,#fff,var(--acc));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+main{position:relative;z-index:1;min-height:100vh;padding-top:70px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s cubic-bezier(.16,1,.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+.g{background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.btn-p{padding:15px 38px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border-radius:100px;display:inline-block;transition:transform .3s,box-shadow .3s;border:none;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(124,111,255,.4)}
+.btn-g{padding:15px 38px;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border-radius:100px;display:inline-block;transition:border-color .3s,color .3s}
+.btn-g:hover{border-color:rgba(255,255,255,.35);color:#fff}
+footer{padding:120px 52px 0;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.04)}
+.footer-cta{text-align:center;padding-bottom:80px}
+.footer-cta h2{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-.04em;line-height:.9;margin-bottom:40px}
+.fbar{display:flex;justify-content:space-between;padding:24px 0;border-top:1px solid rgba(255,255,255,.04);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.fbar a{color:inherit;text-decoration:none;transition:color .3s}.fbar a:hover{color:#fff}
+.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;gap:5px}
+.vsw a{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);background:rgba(6,7,15,.8);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-decoration:none;border-radius:6px;transition:all .3s}
+.vsw a:hover,.vsw a.cur{background:var(--acc);color:#fff;border-color:var(--acc)}
+{% block extra_css %}{% endblock %}
+</style></head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<div id="cur"></div><div id="cur-r"></div>
+<nav>
+  <a href="{% url 'v3' %}" class="logo">DMA.</a>
+  <ul class="nav-links">
+    <li><a href="{% url 'v3' %}" {% if request.resolver_match.url_name == 'v3' %}class="active"{% endif %}>Home</a></li>
+    <li><a href="{% url 'v3_work' %}" {% if 'v3_work' in request.resolver_match.url_name %}class="active"{% endif %}>Work</a></li>
+    <li><a href="{% url 'v3_services' %}" {% if request.resolver_match.url_name == 'v3_services' %}class="active"{% endif %}>Services</a></li>
+    <li><a href="{% url 'v3_contact' %}" {% if request.resolver_match.url_name == 'v3_contact' %}class="active"{% endif %}>Contact</a></li>
+  </ul>
+</nav>
+<main>{% block content %}{% endblock %}</main>
+<footer>
+  <div class="footer-cta"><h2>Let's<br><span class="g">Talk.</span></h2><a href="{% url 'v3_contact' %}" class="btn-p">Start a project</a></div>
+  <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
+</footer>
+<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v2' %}" title="Editorial">2</a><a href="{% url 'v3' %}" class="cur" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v7' %}" title="V7 Cybernetic System">7</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
+<script>
+let rx=0,ry=0;const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';rx+=(e.clientX-rx)*.1;ry+=(e.clientY-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px'});
+(function loop(){rx+=(parseFloat(cur.style.left||0)-rx)*.1;ry+=(parseFloat(cur.style.top||0)-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+{% block extra_js %}{% endblock %}
+</body></html>

@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django database
+db.sqlite3
+db_empty_backup.sqlite3
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Node modules
+node_modules/
+
+# Static/media user uploads
+media/

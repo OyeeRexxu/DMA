@@ -1,0 +1,447 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PYTIA // Reinventing Investment{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for standard icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-indigo: #070417;
+            --c-primary: #3b82f6; /* Electric Blue */
+            --c-secondary: #a855f7; /* Violet */
+            --c-glow: rgba(59, 130, 246, 0.45);
+            --font-sans: 'Outfit', sans-serif;
+            --font-alt: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        body {
+            background-color: var(--bg-indigo);
+            color: #ffffff;
+            font-family: var(--font-sans);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            cursor: none;
+        }
+
+        /* Ambient glowing background */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background: radial-gradient(circle at 20% 50%, #170d3d 0%, #05030f 100%);
+            pointer-events: none;
+        }
+
+        .ambient-aurora {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            filter: blur(120px);
+            mix-blend-mode: screen;
+            opacity: 0.6;
+            pointer-events: none;
+            transition: transform 2s ease;
+        }
+
+        .aurora-1 {
+            top: 10%;
+            left: 5%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            animation: moveAurora 15s infinite alternate;
+        }
+
+        .aurora-2 {
+            bottom: 10%;
+            right: 5%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+            animation: moveAurora 18s infinite alternate-reverse;
+        }
+
+        @keyframes moveAurora {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(8%, -5%) scale(1.15); }
+        }
+
+        /* Cursor Customization */
+        #pytia-cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            z-index: 10000;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        #pytia-cursor-glow {
+            position: fixed;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s;
+        }
+
+        .cursor-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        body.hovering #pytia-cursor-dot {
+            background: var(--c-primary);
+            transform: translate(-50%, -50%) scale(1.6);
+        }
+
+        body.hovering #pytia-cursor-glow {
+            width: 68px;
+            height: 68px;
+            border-color: var(--c-secondary);
+        }
+
+        body.hovering .cursor-inner {
+            opacity: 1;
+        }
+
+        /* Modern Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #05030f;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .pre-ring {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pre-ring::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--c-primary);
+            animation: preRotate 1.2s linear infinite;
+        }
+
+        @keyframes preRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #pre-num {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: var(--font-alt);
+        }
+
+        /* Header Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 36px 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        /* Pulse concentric circles SVG logo */
+        .logo-svg {
+            width: 42px;
+            height: 42px;
+        }
+
+        .logo-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--font-alt);
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .search-trigger {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            margin-left: 20px;
+        }
+
+        .search-trigger:hover {
+            color: #ffffff;
+        }
+
+        /* Right side social links dock */
+        .social-dock {
+            position: fixed;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            z-index: 500;
+        }
+
+        .social-dock a {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.15rem;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-dock a:hover {
+            color: var(--c-primary);
+            transform: scale(1.15);
+        }
+
+        /* Variant Switcher */
+        .vsw {
+            position: fixed;
+            bottom: 36px;
+            left: 80px;
+            z-index: 999;
+            display: flex;
+            gap: 6px;
+        }
+
+        .vsw a {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-alt);
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .vsw a:hover, .vsw a.cur {
+            background: var(--c-primary);
+            color: #fff;
+            border-color: var(--c-primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+
+    <!-- Ambient glows -->
+    <div class="ambient-bg">
+        <div class="ambient-aurora aurora-1"></div>
+        <div class="ambient-aurora aurora-2"></div>
+    </div>
+
+    <!-- Pytia Cursor System -->
+    <div id="pytia-cursor-dot"></div>
+    <div id="pytia-cursor-glow">
+        <div class="cursor-inner"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="pre-ring">
+            <div id="pre-num">00</div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header>
+        <a href="{% url 'v7' %}" class="logo-wrap" data-cursor="PYTIA">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" fill="none" />
+                <circle cx="50" cy="50" r="32" stroke="rgba(59, 130, 246, 0.4)" stroke-width="2.5" fill="none" stroke-dasharray="140 60" />
+                <circle cx="50" cy="50" r="24" stroke="rgba(168, 85, 247, 0.5)" stroke-width="2" fill="none" stroke-dasharray="80 70" />
+            </svg>
+            <span class="logo-text">PYTIA</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" class="active" data-slide="0" data-cursor="NAV">Home</a></li>
+            <li><a href="#" data-slide="1" data-cursor="NAV">Explore</a></li>
+            <li><a href="#" data-slide="2" data-cursor="NAV">About Us</a></li>
+            <li><a href="#" data-slide="3" data-cursor="NAV">Contact Us</a></li>
+            <li><button class="search-trigger" data-cursor="NAV"><i class="fa-solid fa-magnifying-glass"></i></button></li>
+        </ul>
+    </header>
+
+    <!-- Social Sidebar Dock -->
+    <div class="social-dock">
+        <a href="#" data-cursor="SOCIAL"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" data-cursor="SOCIAL"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" data-cursor="SOCIAL"><i class="fa-brands fa-twitter"></i></a>
+    </div>
+
+    <!-- Main View Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Variant Switcher -->
+    <div class="vsw">
+        <a href="{% url 'v1' %}" title="Cinematic">1</a>
+        <a href="{% url 'v2' %}" title="Editorial">2</a>
+        <a href="{% url 'v3' %}" title="Gradient">3</a>
+        <a href="{% url 'v4' %}" title="Type">4</a>
+        <a href="{% url 'v5' %}" title="Neon">5</a>
+        <a href="{% url 'v6' %}" title="Masterpiece">6</a>
+        <a href="{% url 'v7' %}" class="cur" title="V7 Cybernetic System">7</a>
+        <a href="{% url 'v8' %}" title="AlgoPros">8</a>
+    </div>
+
+    <!-- Core CDNs -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        // 1. Dual Cursor tracking
+        const cursorDot = document.getElementById('pytia-cursor-dot');
+        const cursorGlow = document.getElementById('pytia-cursor-glow');
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let dotX = mouseX, dotY = mouseY, glowX = mouseX, glowY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            dotX += (mouseX - dotX) * 0.25;
+            dotY += (mouseY - dotY) * 0.25;
+            glowX += (mouseX - glowX) * 0.08;
+            glowY += (mouseY - glowY) * 0.08;
+
+            gsap.set(cursorDot, { x: dotX, y: dotY });
+            gsap.set(cursorGlow, { x: glowX, y: glowY });
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor interactors bindings
+        function setupCursorBinds() {
+            document.querySelectorAll('[data-cursor]').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('hovering');
+                });
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('hovering');
+                });
+            });
+        }
+        setupCursorBinds();
+
+        // 2. Preloader progress
+        const preloader = document.getElementById('preloader');
+        const preNum = document.getElementById('pre-num');
+        let prog = 0;
+        const loaderInt = setInterval(() => {
+            prog += Math.floor(Math.random() * 8) + 2;
+            if (prog >= 100) {
+                prog = 100;
+                clearInterval(loaderInt);
+                preNum.innerText = "100";
+                
+                setTimeout(() => {
+                    gsap.to(preloader, {
+                        yPercent: -100,
+                        duration: 1.4,
+                        ease: "power4.inOut",
+                        onComplete: () => {
+                            preloader.style.display = 'none';
+                            document.dispatchEvent(new Event('preloaderDone'));
+                        }
+                    });
+                }, 300);
+            } else {
+                preNum.innerText = prog.toString().padStart(2, '0');
+            }
+        }, 25);
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V3 – Gradient Luxe | DMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#06070f;color:#e8eaf0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+#cur{position:fixed;width:8px;height:8px;background:#7c6fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cur-r{position:fixed;width:32px;height:32px;border:1px solid rgba(124,111,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left 0.08s,top 0.08s}
+
+/* Orb background */
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;animation:orbFloat 8s ease-in-out infinite}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(124,111,255,0.15),transparent 70%);top:-100px;left:-100px;animation-delay:0s}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(80,200,255,0.1),transparent 70%);bottom:-80px;right:-80px;animation-delay:-4s}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-40px) scale(1.05)}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 48px;background:rgba(6,7,15,0.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04)}
+.logo{font-size:1rem;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;background:linear-gradient(135deg,#fff,#7c6fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:0.65rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:#fff}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 48px 80px;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid rgba(124,111,255,0.3);border-radius:100px;font-size:0.62rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:40px;animation:fadeUp 1s ease both}
+.hero-badge span{width:6px;height:6px;background:#7c6fff;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.6)}}
+.hero-title{font-size:clamp(56px,9vw,130px);font-weight:900;line-height:0.88;letter-spacing:-0.04em;margin-bottom:32px;animation:fadeUp 1.2s ease 0.2s both}
+.hero-title .grad{background:linear-gradient(135deg,#fff 0%,#7c6fff 50%,#50c8ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,0.4);max-width:480px;line-height:1.7;margin-bottom:56px;animation:fadeUp 1s ease 0.4s both}
+.hero-actions{display:flex;align-items:center;gap:20px;animation:fadeUp 1s ease 0.6s both}
+.btn-primary{padding:16px 40px;background:linear-gradient(135deg,#7c6fff,#50c8ff);color:#fff;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;border-radius:100px;transition:transform 0.3s,box-shadow 0.3s}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(124,111,255,0.4)}
+.btn-ghost{padding:16px 40px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);font-size:0.7rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;border-radius:100px;transition:border-color 0.3s,color 0.3s}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.4);color:#fff}
+
+/* Glass cards */
+.work-section{padding:120px 48px;position:relative;z-index:1}
+.s-title{font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-0.03em;margin-bottom:64px;text-align:center}
+.s-title span{background:linear-gradient(135deg,#7c6fff,#50c8ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;transition:transform 0.5s,box-shadow 0.5s,border-color 0.5s;display:block}
+.card:hover{transform:translateY(-12px);box-shadow:0 40px 80px rgba(124,111,255,0.2);border-color:rgba(124,111,255,0.3)}
+.card-img{aspect-ratio:16/9;overflow:hidden;position:relative}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s}
+.card:hover .card-img img{transform:scale(1.06)}
+.card-img-placeholder{width:100%;height:100%;background:linear-gradient(135deg,rgba(124,111,255,0.15),rgba(80,200,255,0.08))}
+.card-body{padding:24px}
+.card-tag{font-size:0.58rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:#7c6fff;margin-bottom:10px}
+.card-title{font-size:1.1rem;font-weight:700;letter-spacing:-0.02em}
+
+/* Services */
+.svc-section{padding:80px 48px 120px;position:relative;z-index:1}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.05);border-radius:16px;overflow:hidden}
+.svc{padding:48px 36px;background:#06070f;transition:background 0.4s}
+.svc:hover{background:rgba(124,111,255,0.06)}
+.svc-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(124,111,255,0.2),rgba(80,200,255,0.1));border:1px solid rgba(124,111,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:24px}
+.svc h3{font-size:1rem;font-weight:700;margin-bottom:12px}
+.svc p{font-size:0.8rem;line-height:1.7;color:rgba(255,255,255,0.35)}
+
+.cta-section{padding:120px 48px;text-align:center;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.04)}
+.cta-section h2{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-0.04em;line-height:0.9;margin-bottom:48px}
+.cta-section h2 span{background:linear-gradient(135deg,#7c6fff,#50c8ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.fbar{display:flex;justify-content:space-between;padding:24px 48px;border-top:1px solid rgba(255,255,255,0.04);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);position:relative;z-index:1}
+.fbar a{color:inherit;text-decoration:none}.fbar a:hover{color:#fff}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.9s ease,transform 0.9s cubic-bezier(0.16,1,0.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+.vnav{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;gap:6px}
+.vnav a{width:34px;height:34px;border:1px solid rgba(255,255,255,0.1);background:rgba(6,7,15,0.8);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:rgba(255,255,255,0.35);text-decoration:none;border-radius:6px;transition:all 0.3s}
+.vnav a:hover,.vnav a.active{background:#7c6fff;color:#fff;border-color:#7c6fff}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur-r"></div>
+<div class="orb orb1"></div><div class="orb orb2"></div>
+<nav><div class="logo">DMA.</div><ul class="nav-links"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'services:list' %}">Services</a></li><li><a href="{% url 'projects:list' %}">Work</a></li><li><a href="{% url 'contact:form' %}">Contact</a></li></ul></nav>
+
+<section class="hero">
+  <div class="hero-badge"><span></span>Digital Marketing Agency</div>
+  <h1 class="hero-title">We Build<br><span class="grad">The New.</span></h1>
+  <p class="hero-sub">Strategy. Creative. Production. AI. One team, one system for brands that demand exponential growth.</p>
+  <div class="hero-actions">
+    <a href="{% url 'contact:form' %}" class="btn-primary">Start a project</a>
+    <a href="{% url 'projects:list' %}" class="btn-ghost">View our work</a>
+  </div>
+</section>
+
+<section class="work-section">
+  <h2 class="s-title reveal">Selected <span>Work</span></h2>
+  <div class="cards-grid">
+    {% for project in projects %}
+    <a href="{% url 'projects:detail' project.slug %}" class="card reveal">
+      <div class="card-img">{% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}" loading="lazy">{% else %}<div class="card-img-placeholder"></div>{% endif %}</div>
+      <div class="card-body"><div class="card-tag">{{ project.client_name }}</div><div class="card-title">{{ project.title }}</div></div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="svc-section">
+  <h2 class="s-title reveal">Our <span>Capabilities</span></h2>
+  <div class="svc-grid reveal">
+    <div class="svc"><div class="svc-icon">🎯</div><h3>Brand Strategy</h3><p>We architect the core positioning, voice, and visual identity that allows your brand to dominate the market.</p></div>
+    <div class="svc"><div class="svc-icon">🎬</div><h3>Digital Production</h3><p>Cinematic video, high-end photography, and cutting-edge 3D motion graphics built to captivate.</p></div>
+    <div class="svc"><div class="svc-icon">🤖</div><h3>AI & Technology</h3><p>Leveraging generative AI and custom web applications to build scalable digital ecosystems.</p></div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Let's<br><span>Talk.</span></h2>
+  <a href="{% url 'contact:form' %}" class="btn-primary">Start a project</a>
+</section>
+<div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
+<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v2' %}">2</a><a href="{% url 'v3' %}" class="active">3</a><a href="{% url 'v4' %}">4</a><a href="{% url 'v5' %}">5</a></div>
+<script>
+let rx=0,ry=0;const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';rx+=(e.clientX-rx)*0.1;ry+=(e.clientY-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px'});
+function loop(){rx+=(parseFloat(cur.style.left||0)-rx)*0.1;ry+=(parseFloat(cur.style.top||0)-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)}loop();
+const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body></html>

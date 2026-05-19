@@ -1,0 +1,21 @@
+{% extends 'variants/v3/base.html' %}
+{% block title %}Work — DMA.{% endblock %}
+{% block extra_css %}
+.pg-hero{padding:80px 52px 60px;text-align:center}
+.pg-hero h1{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-.04em;animation:fadeUp 1s ease both}
+.pg-hero p{margin-top:16px;color:rgba(255,255,255,.3);animation:fadeUp 1s ease .2s both}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:40px 52px 120px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:transform .5s,box-shadow .5s,border-color .5s}
+.card:hover{transform:translateY(-10px);box-shadow:0 32px 64px rgba(124,111,255,.2);border-color:rgba(124,111,255,.3)}
+.card-img{aspect-ratio:4/3;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.card:hover .card-img img{transform:scale(1.06)}
+.card-img-ph{width:100%;height:100%;background:linear-gradient(135deg,rgba(124,111,255,.12),rgba(80,200,255,.06))}
+.card-body{padding:22px}
+.card-tag{font-size:.58rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.card-title{font-size:1.05rem;font-weight:700;letter-spacing:-.02em}
+{% endblock %}
+{% block content %}
+<div class="pg-hero"><h1>Our <span class="g">Work</span></h1><p>{{ projects|length }} Projects across all disciplines</p></div>
+<div class="work-grid">{% for p in projects %}<a href="{% url 'v3_work_detail' p.slug %}" class="card reveal"><div class="card-img">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="card-img-ph"></div>{% endif %}</div><div class="card-body"><div class="card-tag">{{ p.client_name }}</div><div class="card-title">{{ p.title }}</div></div></a>{% endfor %}</div>
+{% endblock %}
