@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Navigate to the project directory
+cd /home/Rexxuop/DMA || { echo "❌ Could not navigate to /home/Rexxuop/DMA"; exit 1; }
+
 echo "🔄 Pulling latest changes from Git..."
 git pull origin main
 
