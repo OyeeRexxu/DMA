@@ -1666,12 +1666,19 @@ svcRows.forEach(row => {
 });
 
 // Horizontal Scroll Campaigns
+const workSection = document.getElementById('work-section');
 const workGallery = document.querySelector('.work-gallery');
-const workWrap = document.querySelector('.work-gallery-wrap');
 let scrollTween = gsap.to(workGallery, {
   x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
   ease: "none",
-  scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
+  scrollTrigger: {
+    trigger: workSection,
+    pin: true,
+    scrub: 1,
+    start: "top top",
+    end: () => "+=" + (workGallery.scrollWidth - window.innerWidth + 104),
+    invalidateOnRefresh: true
+  }
 });
 gsap.utils.toArray('.parallax-img').forEach(img => {
   gsap.to(img, { x: 100, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
