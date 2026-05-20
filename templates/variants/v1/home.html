@@ -153,17 +153,27 @@
 .hover-bg-wrap.active { opacity: 0.3; }
 .hover-bg-wrap img, .hover-bg-wrap video { width: 100%; height: 100%; object-fit: cover; filter: url(#liquid); }
 
-/* 4. Horizontal Campaigns */
-.work-section { overflow: hidden; padding-bottom: 120px; }
-.sec-lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 8px; }
-.work-gallery-wrap { height: auto; position: relative; padding: 60px 0 120px 0; }
-.work-gallery { display: flex; flex-direction: column; gap: 80px; padding: 0 52px; width: 100%; align-items: center; }
-.work-item { width: 80vw; max-width: 900px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border-radius: 4px; border: 1px solid rgba(204,255,0,0); transition: border-color 0.4s; }
-.work-item:hover { border-color: var(--lime); }
-.work-item img, .work-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; transform: scale(1.1); }
-.work-item:hover img, .work-item:hover video { transform: scale(1.05); }
-.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 40px; }
-.work-info h3 { font-size: clamp(24px, 3vw, 48px); font-weight: 800; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+/* 4. Featured Work — Stacked Card Reveal */
+.work-section { position: relative; }
+.work-stack-header { padding: 100px 52px 60px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(245,245,240,0.06); }
+.work-stack-header h2 { font-family: 'Inter', sans-serif; font-size: clamp(52px, 7vw, 100px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.9; color: var(--white); text-transform: uppercase; }
+.work-stack-header h2 span { color: var(--lime); display: block; }
+.work-stack-header .view-all { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--lime); text-decoration: none; border: 1px solid var(--lime); padding: 14px 28px; transition: all 0.3s; }
+.work-stack-header .view-all:hover { background: var(--lime); color: var(--black); }
+
+.work-cards-scene { position: relative; }
+.work-card-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.work-card-inner { position: relative; width: 85vw; max-width: 1200px; height: 75vh; border-radius: 8px; overflow: hidden; will-change: transform; }
+.work-card-inner img { width: 100%; height: 100%; object-fit: cover; }
+.work-card-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,8,8,0.7) 0%, transparent 50%, rgba(8,8,8,0.5) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 60px; }
+.work-card-num { font-family: 'Inter', sans-serif; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--lime); margin-bottom: 20px; opacity: 0.8; }
+.work-card-title { font-family: 'Inter', sans-serif; font-size: clamp(32px, 5vw, 72px); font-weight: 900; letter-spacing: -0.03em; color: #fff; line-height: 1; text-transform: uppercase; overflow: hidden; }
+.work-card-title span { display: block; }
+.work-card-meta { margin-top: 24px; display: flex; gap: 24px; }
+.work-card-tag { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 40px; }
+.work-card-progress { position: absolute; top: 40px; right: 52px; display: flex; gap: 8px; align-items: center; }
+.work-card-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s, transform 0.3s; }
+.work-card-dot.active { background: var(--lime); transform: scale(1.5); }
 
 /* 5. Creator Roster (Draggable) */
 .roster-section { padding: 140px 0; background: #080808; overflow: hidden; cursor: grab; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -405,32 +415,71 @@
   </div>
 </section>
 
-<!-- 4. Featured Campaigns -->
-<section class="work-section" id="work-section" style="position: relative; overflow: hidden; background: #020202;">
-  <!-- Abyssal Spotlight Canvas -->
-  <canvas id="work-bg-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></canvas>
+<!-- 4. Featured Work — Stacked Card Reveal -->
+<section class="work-section" id="work-section" style="background: #020202;">
 
-  <div style="position: relative; z-index: 2;">
-    <div class="sec-lbl" style="padding: 0 52px; margin-bottom: 40px;">02 / Featured Work</div>
-    <div class="work-gallery-wrap">
-      <div class="work-gallery">
-        <!-- Item 1 -->
-        <a href="#" class="work-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop" class="parallax-img">
-          <div class="work-info"><h3>Global Fashion Week</h3></div>
-        </a>
-        <!-- Item 2 -->
-        <a href="#" class="work-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" class="parallax-img">
-          <div class="work-info"><h3>AI Product Launch</h3></div>
-        </a>
-        <!-- Item 3 -->
-        <a href="#" class="work-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" class="parallax-img">
-          <div class="work-info"><h3>Creator House 2026</h3></div>
-        </a>
+  <div class="work-stack-header">
+    <h2>Featured<span><em style="font-style:normal;color:var(--lime)">Work.</em></span></h2>
+    <a href="#" class="view-all magnetic" data-cursor="VIEW ALL">All Projects &rarr;</a>
+  </div>
+
+  <!-- Progress dots -->
+  <div class="work-card-progress" id="work-dots" style="position:sticky;top:40px;z-index:100;float:right;margin-right:52px;">
+    <div class="work-card-dot active" data-dot="0"></div>
+    <div class="work-card-dot" data-dot="1"></div>
+    <div class="work-card-dot" data-dot="2"></div>
+  </div>
+
+  <div class="work-cards-scene" id="work-cards-scene">
+
+    <!-- Card 1 -->
+    <div class="work-card-sticky" id="wc-1" style="z-index:1;">
+      <div class="work-card-inner" data-cursor="VIEW">
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop" alt="Global Fashion Week">
+        <div class="work-card-overlay">
+          <div class="work-card-num">01 &mdash; Campaign</div>
+          <div class="work-card-title"><span>Global</span><span>Fashion Week</span></div>
+          <div class="work-card-meta">
+            <span class="work-card-tag">Fashion</span>
+            <span class="work-card-tag">NYC 2026</span>
+            <span class="work-card-tag">60M Reach</span>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Card 2 -->
+    <div class="work-card-sticky" id="wc-2" style="z-index:2;">
+      <div class="work-card-inner" data-cursor="VIEW">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1600&auto=format&fit=crop" alt="AI Product Launch">
+        <div class="work-card-overlay">
+          <div class="work-card-num">02 &mdash; Launch</div>
+          <div class="work-card-title"><span>AI Product</span><span>Launch</span></div>
+          <div class="work-card-meta">
+            <span class="work-card-tag">Tech</span>
+            <span class="work-card-tag">Product</span>
+            <span class="work-card-tag">120M Views</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="work-card-sticky" id="wc-3" style="z-index:3;">
+      <div class="work-card-inner" data-cursor="VIEW">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop" alt="Creator House 2026">
+        <div class="work-card-overlay">
+          <div class="work-card-num">03 &mdash; Event</div>
+          <div class="work-card-title"><span>Creator</span><span>House 2026</span></div>
+          <div class="work-card-meta">
+            <span class="work-card-tag">Creator Economy</span>
+            <span class="work-card-tag">Live Event</span>
+            <span class="work-card-tag">50K Attendees</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1664,86 +1713,60 @@ svcRows.forEach(row => {
   row.addEventListener('mouseleave', () => { hoverWrap.classList.remove('active'); });
 });
 
-// Horizontal Scroll Campaigns
-// Featured Work Parallax and Scroll Velocity Skew (Vertical Layout)
-const workItems = gsap.utils.toArray('.work-item');
+// ── Featured Work: Stacked Card Reveal ──────────────────────────
+(function() {
+  const cards = gsap.utils.toArray('.work-card-sticky');
+  const dots  = gsap.utils.toArray('.work-card-dot');
+  const scene = document.getElementById('work-cards-scene');
+  if (!cards.length || !scene) return;
 
-// 1. Entrance Fade & Slide Up
-workItems.forEach((item, i) => {
-  gsap.fromTo(item, 
-    { y: 80, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      ease: "power3.out",
+  // Each card slides up from below and lands on top of the prev
+  cards.forEach((card, i) => {
+    const inner = card.querySelector('.work-card-inner');
+    const titleSpans = card.querySelectorAll('.work-card-title span');
+    const num  = card.querySelector('.work-card-num');
+    const tags = card.querySelectorAll('.work-card-tag');
+    const img  = card.querySelector('img');
+
+    // Initial state — card starts scaled down and shifted up slightly (behind)
+    gsap.set(inner, { yPercent: i === 0 ? 0 : 100, scale: i === 0 ? 1 : 0.92, borderRadius: '8px' });
+    if (i > 0) {
+      gsap.set(titleSpans, { yPercent: 110 });
+      gsap.set([num, tags], { opacity: 0, y: 20 });
+    }
+
+    if (i === 0) return; // first card is already visible
+
+    // Timeline: triggered when the scene scrolls past each card threshold
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: item,
-        start: "top bottom-=12%",
-        toggleActions: "play none none reverse"
-      }
-    }
-  );
-
-  // 2. Vertical Image Parallax
-  const img = item.querySelector('.parallax-img');
-  if (img) {
-    gsap.set(img, { transformOrigin: "center center" });
-    gsap.fromTo(img,
-      { yPercent: -15 },
-      {
-        yPercent: 15,
-        ease: "none",
-        scrollTrigger: {
-          trigger: item,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
+        trigger: scene,
+        start: () => `top+=${(i) * (window.innerHeight * 0.85)} top`,
+        end:   () => `top+=${(i) * (window.innerHeight * 0.85) + window.innerHeight * 0.6} top`,
+        scrub: 0.8,
+        onEnter: () => {
+          dots.forEach((d, di) => d.classList.toggle('active', di === i));
+        },
+        onLeaveBack: () => {
+          dots.forEach((d, di) => d.classList.toggle('active', di === i - 1));
         }
       }
-    );
-  }
-  
-  // 3. Project Title Entrance Slide-Up inside card
-  const title = item.querySelector('h3');
-  if (title) {
-    gsap.fromTo(title,
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: item,
-          start: "top bottom-=20%",
-          toggleActions: "play none none reverse"
-        }
-      }
-    );
-  }
-});
+    });
 
-// 4. Dynamic Velocity Skew on Scroll (makes cards tilt slightly as you scroll fast)
-let skewProxy = { skew: 0 },
-    skewSetter = gsap.quickSetter(workItems, "skewY", "deg"), // skew on vertical Y axis
-    skewClamp = gsap.utils.clamp(-6, 6); // subtle premium limit
+    tl
+      // Slide card up from below + un-scale
+      .to(inner, { yPercent: 0, scale: 1, ease: 'power3.out', duration: 1 }, 0)
+      // Subtle image zoom-out as card arrives
+      .fromTo(img, { scale: 1.12 }, { scale: 1, ease: 'power2.out', duration: 1 }, 0)
+      // Title lines stagger-reveal
+      .to(titleSpans, { yPercent: 0, stagger: 0.08, ease: 'power3.out', duration: 0.7 }, 0.2)
+      // Meta info fades in
+      .to([num, tags], { opacity: 1, y: 0, stagger: 0.06, ease: 'power2.out', duration: 0.5 }, 0.35);
+  });
 
-ScrollTrigger.create({
-  onUpdate: (self) => {
-    let skew = skewClamp(self.getVelocity() / -500);
-    if (Math.abs(skew) > Math.abs(skewProxy.skew)) {
-      skewProxy.skew = skew;
-      gsap.to(skewProxy, {
-        skew: 0,
-        duration: 0.6,
-        ease: "power3",
-        overwrite: "auto",
-        onUpdate: () => skewSetter(skewProxy.skew)
-      });
-    }
-  }
-});
+  // Give the scene enough scroll height for all cards
+  scene.style.height = (cards.length * 85) + 'vh';
+})();
 
 // Draggable Creator Roster
 const track = document.getElementById('drag-track');
