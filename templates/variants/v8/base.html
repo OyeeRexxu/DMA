@@ -152,6 +152,12 @@
             align-items: center;
             justify-content: center;
             gap: 20px;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        #preloader.hide {
+            opacity: 0;
+            transform: translateY(-30px);
+            pointer-events: none;
         }
 
         .pre-ring {
@@ -472,7 +478,7 @@
             });
         });
 
-        // Preloader countdown
+        // Preloader countdown — bulletproof CSS transition approach
         const preloader = document.getElementById('preloader');
         const prePercent = document.getElementById('pre-percent');
         let prog = 0;
@@ -481,18 +487,14 @@
             if (prog >= 100) {
                 prog = 100;
                 clearInterval(interval);
-                prePercent.innerText = "100";
-                
+                prePercent.innerText = '100';
                 setTimeout(() => {
-                    gsap.to(preloader, {
-                        yPercent: -100,
-                        duration: 1.2,
-                        ease: "power4.inOut",
-                        onComplete: () => {
-                            preloader.style.display = 'none';
-                            document.dispatchEvent(new Event('preloaderDone'));
-                        }
-                    });
+                    preloader.classList.add('hide');
+                    // Remove from DOM after transition
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        document.dispatchEvent(new Event('preloaderDone'));
+                    }, 850);
                 }, 300);
             } else {
                 prePercent.innerText = prog.toString().padStart(2, '0');
