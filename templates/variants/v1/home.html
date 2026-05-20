@@ -1690,72 +1690,56 @@ gsap.utils.toArray('.parallax-img').forEach(img => {
   gsap.to(img, { x: 80, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
 });
 
-// Dynamic focus, scale, colorize and text slide-up animations on horizontal scroll
-gsap.utils.toArray('.work-item').forEach(item => {
-  // Focus scale and colorization (entering from right to center)
-  gsap.fromTo(item, 
-    { scale: 0.9, filter: "grayscale(100%) brightness(0.55)" },
-    {
-      scale: 1,
-      filter: "grayscale(0%) brightness(1)",
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: item,
-        containerAnimation: scrollTween,
-        start: "left right-=15%",
-        end: "center center",
-        scrub: true
-      }
-    }
-  );
-  
-  // Transition back to de-focused (exiting from center to left)
+// Scroll-driven focus: scale + brightness only (no conflicting CSS filter with gsap.from)
+gsap.utils.toArray('.work-item').forEach((item, i) => {
+  // Dim & shrink before coming into view
+  gsap.set(item, { scale: 0.88, opacity: 0.5 });
+
+  // Come into focus as it reaches center
   gsap.to(item, {
-    scale: 0.9,
-    filter: "grayscale(100%) brightness(0.55)",
+    scale: 1,
+    opacity: 1,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: item,
+      containerAnimation: scrollTween,
+      start: "left right-=10%",
+      end: "center center+=5%",
+      scrub: 1
+    }
+  });
+
+  // Exit: shrink as it leaves left
+  gsap.to(item, {
+    scale: 0.88,
+    opacity: 0.5,
     ease: "power2.in",
     scrollTrigger: {
       trigger: item,
       containerAnimation: scrollTween,
-      start: "center center",
-      end: "right left+=15%",
-      scrub: true
+      start: "center center-=5%",
+      end: "right left+=10%",
+      scrub: 1
     }
   });
 
-  // Project title entrance (slide up + fade)
+  // Title slide up as card enters center
   const title = item.querySelector('h3');
   if (title) {
     gsap.fromTo(title,
-      { y: 60, opacity: 0, scale: 0.95 },
+      { y: 50, opacity: 0 },
       {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        ease: "power2.out",
+        y: 0, opacity: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: item,
           containerAnimation: scrollTween,
-          start: "left right-=20%",
+          start: "left right-=15%",
           end: "center center",
-          scrub: true
+          scrub: 1
         }
       }
     );
-    
-    // Slide out title when card exits left
-    gsap.to(title, {
-      y: -40,
-      opacity: 0,
-      ease: "power2.in",
-      scrollTrigger: {
-        trigger: item,
-        containerAnimation: scrollTween,
-        start: "center center",
-        end: "right left+=20%",
-        scrub: true
-      }
-    });
   }
 });
 
@@ -1909,18 +1893,7 @@ gsap.from('#work-section .sec-lbl', {
     toggleActions: "play none none reverse"
   }
 });
-gsap.from('.work-item', {
-  scale: 0.9,
-  opacity: 0,
-  duration: 0.8,
-  stagger: 0.15,
-  ease: "power2.out",
-  scrollTrigger: {
-    trigger: '#work-section',
-    start: "top 70%",
-    toggleActions: "play none none reverse"
-  }
-});
+// work-item entrance handled by containerAnimation above — skip separate trigger
 
 // 7. Talent Roster
 gsap.from('#roster-section .sec-lbl', {
