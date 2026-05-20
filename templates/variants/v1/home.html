@@ -1622,13 +1622,15 @@ gsap.timeline({ delay: 0.2 })
 
 // Ethos Text Reveal
 const textEl = document.getElementById('split-text');
-const words = textEl.innerText.split(' ');
-textEl.innerHTML = '';
-words.forEach(word => { textEl.innerHTML += `<span class="word" style="display:inline-block; margin-right:12px;">${word}</span>`; });
-gsap.fromTo('.ethos-text .word', 
-  { color: 'rgba(255,255,255,0.15)' },
-  { color: '#fff', stagger: 0.1, scrollTrigger: { trigger: '.ethos-section', start: 'top 70%', end: 'bottom 50%', scrub: 1 } }
-);
+if (textEl) {
+  const words = textEl.innerText.split(' ');
+  textEl.innerHTML = '';
+  words.forEach(word => { textEl.innerHTML += `<span class="word" style="display:inline-block; margin-right:12px;">${word}</span>`; });
+  gsap.fromTo('.ethos-text .word', 
+    { color: 'rgba(255,255,255,0.15)' },
+    { color: '#fff', stagger: 0.1, scrollTrigger: { trigger: '.ethos-section', start: 'top 70%', end: 'bottom 50%', scrub: 1 } }
+  );
+}
 
 // Pillars Hover Video Effect
 const svcRows = document.querySelectorAll('.svc-row');
