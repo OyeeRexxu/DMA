@@ -56,18 +56,18 @@
 .tier-card h4 { font-family:'Inter',sans-serif; font-size:1.6rem; font-weight:800; margin-bottom:16px; text-transform:uppercase; color:var(--white); }
 .tier-card p { font-size:0.88rem; color:rgba(245,245,240,0.35); line-height:1.7; }
 
-/* ── WORK GALLERY ── */
-.work-section { overflow:hidden; border-top:1px solid rgba(245,245,240,0.06); }
-.sec-lbl { font-size:0.58rem; font-weight:700; letter-spacing:0.4em; text-transform:uppercase; color:rgba(245,245,240,0.25); margin-bottom:8px; }
-.work-gallery-wrap { height:100vh; position:relative; }
-.work-gallery { display:flex; gap:4vw; padding:0 52px; width:max-content; height:100%; align-items:center; }
-.work-item { width:60vw; max-width:800px; aspect-ratio:16/9; position:relative; overflow:hidden; display:block; }
-.work-item img, .work-item video { width:100%; height:100%; object-fit:cover; filter:grayscale(100%) brightness(0.7); transition:filter 0.6s, transform 0.8s; transform:scale(1.05); }
-.work-item:hover img, .work-item:hover video { filter:grayscale(0%) brightness(1); transform:scale(1); }
-.work-info { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:40px; opacity:0; transition:opacity 0.4s; background:linear-gradient(to top,rgba(8,8,8,0.8),transparent 60%); }
-.work-item:hover .work-info { opacity:1; }
-.work-info h3 { font-family:'Inter',sans-serif; font-size:clamp(20px,3vw,44px); font-weight:800; color:var(--white); }
-.wi-tag { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--lime); margin-bottom:12px; display:block; }
+/* ── WORK GALLERY (Encrypted Archives) ── */
+.work-section { overflow: hidden; padding-bottom: 140px; background: #050505; border-top: 1px solid rgba(204,255,0,0.15); padding-top: 140px; }
+.work-gallery-wrap { height: 100vh; position: relative; }
+.work-gallery { display: flex; gap: 6vw; padding: 0 52px; width: max-content; height: 100%; align-items: center; }
+.work-item { width: 60vw; max-width: 800px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border: 1px solid rgba(204,255,0,0.2); box-shadow: 0 0 40px rgba(204,255,0,0); transition: box-shadow 0.4s, border-color 0.4s; }
+.work-item:hover { box-shadow: 0 0 40px rgba(204,255,0,0.3); border-color: var(--lime); }
+.work-item video, .work-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.2); transition: filter 0.5s, transform 0.5s; transform: scale(1.1); }
+.work-item:hover video, .work-item:hover img { filter: grayscale(0%) contrast(1.1); transform: scale(1.03); }
+.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; opacity: 0; transition: opacity 0.4s; }
+.work-item:hover .work-info { opacity: 1; }
+.work-info h3 { font-size: clamp(24px, 3vw, 48px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 8px; }
+.work-info p { color: var(--lime); font-weight: 700; letter-spacing: 0.2em; font-size: 0.7rem; text-transform: uppercase; }
 
 /* ── TEAM ── */
 .team-section { padding:140px 52px; border-top:1px solid rgba(245,245,240,0.06); }
@@ -92,21 +92,21 @@
 .c-info h4 { font-family:'Inter',sans-serif; font-size:1.1rem; font-weight:800; text-transform:uppercase; color:var(--white); margin-bottom:4px; }
 .c-info span { font-size:0.58rem; letter-spacing:0.2em; color:var(--lime); text-transform:uppercase; }
 
-/* ── BTS GRID ── */
-.bts-section { padding:140px 52px; overflow:hidden; border-top:1px solid rgba(245,245,240,0.06); }
-.bts-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; height:1000px; }
-.bts-col { display:flex; flex-direction:column; gap:3px; }
-.bts-col img { width:100%; object-fit:cover; filter:grayscale(0.3); transition:filter 0.4s; }
-.bts-col img:hover { filter:grayscale(0); }
-.bts-col:nth-child(1) img { height:400px; } .bts-col:nth-child(2) img { height:600px; } .bts-col:nth-child(3) img { height:350px; }
+/* ── BTS GRID (Server Logs) ── */
+.bts-section { padding: 140px 52px; max-width: 1400px; margin: 0 auto; overflow: hidden; border-top: 1px solid rgba(204,255,0,0.15); }
+.bts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 1000px; }
+.bts-col { display: flex; flex-direction: column; gap: 20px; }
+.bts-col img { width: 100%; border: 1px solid rgba(255,255,255,0.1); object-fit: cover; filter: grayscale(100%); transition: filter 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.bts-col img:hover { filter: grayscale(0%); border-color: var(--lime); box-shadow: 0 0 20px rgba(204,255,0,0.2); }
+.bts-col:nth-child(1) img { height: 400px; } .bts-col:nth-child(2) img { height: 600px; } .bts-col:nth-child(3) img { height: 350px; }
 
-/* ── PROCESS ── */
-.process-section { padding:140px 52px; border-top:1px solid rgba(245,245,240,0.06); }
-.p-cards-wrap { position:relative; height:180vh; }
-.p-card { position:sticky; top:120px; height:60vh; background:#0d0d0d; border-top:2px solid var(--lime); padding:60px; display:flex; flex-direction:column; justify-content:center; margin-bottom:40px; }
-.p-card-num { font-size:0.6rem; font-weight:700; letter-spacing:0.4em; color:var(--lime); margin-bottom:32px; }
-.p-card h3 { font-family:'Inter',sans-serif; font-size:clamp(32px,5vw,90px); font-weight:900; color:var(--white); text-transform:uppercase; margin-bottom:20px; line-height:0.9; }
-.p-card p { font-size:1rem; color:rgba(245,245,240,0.4); max-width:560px; line-height:1.7; }
+/* ── PROCESS (Execution Protocols) ── */
+.process-section { padding: 140px 52px; background: #050505; border-top: 1px solid rgba(204,255,0,0.15); }
+.p-cards-wrap { position: relative; height: 300vh; }
+.p-card { position: sticky; top: 120px; height: 60vh; background: #0c0c0c; border: 1px solid rgba(204,255,0,0.2); padding: 60px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 -20px 40px rgba(0,0,0,0.8); transform-origin: top center; margin-bottom: 40px; }
+.p-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, transparent, var(--lime), transparent); }
+.p-card h3 { font-size: clamp(40px, 6vw, 100px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 0 20px rgba(204,255,0,0.3); }
+.p-card p { font-size: 1.2rem; color: rgba(255,255,255,0.5); max-width: 600px; line-height: 1.6; }
 
 /* ── MARQUEE ── */
 .marquee-sec { padding:18px 0; overflow:hidden; background:var(--lime); }
@@ -153,17 +153,7 @@
 .hover-bg-wrap.active { opacity: 0.3; }
 .hover-bg-wrap img, .hover-bg-wrap video { width: 100%; height: 100%; object-fit: cover; filter: url(#liquid); }
 
-/* 4. Horizontal Campaigns */
-.work-section { position: relative; background: #020202; }
-.work-gallery-outer { overflow: hidden; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; }
-.work-label-row { padding: 0 52px 28px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-.work-gallery { display: flex; gap: 5vw; padding: 0 52px 60px; width: max-content; align-items: flex-end; will-change: transform; }
-.work-item { width: 64vw; max-width: 860px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border-radius: 6px; flex-shrink: 0; border: 1px solid rgba(204,255,0,0); transition: border-color 0.5s, box-shadow 0.5s; }
-.work-item:hover { border-color: var(--lime); box-shadow: 0 0 50px rgba(204,255,0,0.1); }
-.work-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s; transform: scale(1.08); display: block; }
-.work-item:hover img { transform: scale(1.02); }
-.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.1) 50%, transparent 100%); display: flex; align-items: flex-end; padding: 44px; }
-.work-info h3 { font-size: clamp(22px, 3vw, 50px); font-weight: 800; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+
 
 /* 5. Creator Roster (Draggable) */
 .roster-section { padding: 140px 0; background: #080808; overflow: hidden; cursor: grab; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -177,21 +167,15 @@
 .c-info h4 { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
 .c-info span { font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); }
 
-/* 6. BTS Parallax Grid */
-.bts-section { padding: 140px 52px; max-width: 1400px; margin: 0 auto; overflow: hidden; }
-.bts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 1000px; }
-.bts-col { display: flex; flex-direction: column; gap: 20px; }
-.bts-col img { width: 100%; border-radius: 4px; object-fit: cover; }
-.bts-col:nth-child(1) img { height: 400px; }
-.bts-col:nth-child(2) img { height: 600px; }
-.bts-col:nth-child(3) img { height: 350px; }
-
-/* 7. The Process (Sticky Cards) */
-.process-section { padding: 140px 52px; background: #000; }
-.p-cards-wrap { position: relative; height: 300vh; }
-.p-card { position: sticky; top: 120px; height: 60vh; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 60px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 -20px 40px rgba(0,0,0,0.5); transform-origin: top center; margin-bottom: 40px; }
-.p-card h3 { font-size: clamp(40px, 6vw, 100px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 20px; }
-.p-card p { font-size: 1.2rem; color: rgba(255,255,255,0.5); max-width: 600px; line-height: 1.6; }
+/* Cyber FAQ Accordion (Core Queries) */
+.faq-section { padding: 140px 52px; border-top: 1px solid rgba(204,255,0,0.15); background: #0a0a0a; max-width: 1000px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+.faq-q { padding: 32px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: clamp(20px, 2.5vw, 32px); font-weight: 800; color: rgba(255,255,255,0.8); transition: color 0.3s; }
+.faq-q:hover { color: #fff; }
+.faq-icon { color: var(--lime); font-weight: 300; transition: transform 0.4s; }
+.faq-item.active .faq-icon { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+.faq-a-inner { padding-bottom: 32px; font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
 
 /* 8. Marquee */
 .marquee-sec { border-top: 1px solid rgba(255,255,255,0.06); padding: 24px 0; overflow: hidden; background: #050505; }
@@ -406,27 +390,22 @@
 </section>
 
 <!-- 4. Featured Campaigns -->
+<!-- 4. Encrypted Archives -->
 <section class="work-section" id="work-section">
-  <canvas id="work-bg-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"></canvas>
-  <div class="work-gallery-outer" id="work-gallery-outer">
-    <!-- Label row always visible at bottom of the viewport while pinned -->
-    <div class="work-label-row">
-      <span class="sec-lbl" style="margin-bottom:0;">02 / Featured Work</span>
-      <span style="font-size:0.6rem; letter-spacing:0.3em; color:rgba(255,255,255,0.2); text-transform:uppercase;">Scroll →</span>
-    </div>
-    <!-- Horizontally scrolling gallery -->
+  <div class="sec-lbl" style="margin-left: 52px; margin-bottom: 60px;">02 / Encrypted Archives</div>
+  <div class="work-gallery-wrap">
     <div class="work-gallery" id="work-gallery">
-      <a href="#" class="work-item" data-cursor="VIEW">
-        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop">
-        <div class="work-info"><h3>Global Fashion Week</h3></div>
+      <a href="#" class="work-item" data-cursor="DECRYPT">
+        <video autoplay loop muted playsinline><source src="https://videos.pexels.com/video-files/5343288/5343288-uhd_2560_1440_25fps.mp4" type="video/mp4"></video>
+        <div class="work-info"><h3>Global Fashion Week</h3><p>Production / Campaign</p></div>
       </a>
-      <a href="#" class="work-item" data-cursor="VIEW">
+      <a href="#" class="work-item" data-cursor="DECRYPT">
         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop">
-        <div class="work-info"><h3>AI Product Launch</h3></div>
+        <div class="work-info"><h3>AI Product Launch</h3><p>Generative AI / Strategy</p></div>
       </a>
-      <a href="#" class="work-item" data-cursor="VIEW">
-        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop">
-        <div class="work-info"><h3>Creator House 2026</h3></div>
+      <a href="#" class="work-item" data-cursor="DECRYPT">
+        <video autoplay loop muted playsinline><source src="https://videos.pexels.com/video-files/2882126/2882126-uhd_2560_1440_24fps.mp4" type="video/mp4"></video>
+        <div class="work-info"><h3>Creator House 2026</h3><p>Influencer Activation</p></div>
       </a>
     </div>
   </div>
@@ -452,50 +431,58 @@
 </section>
 
 <!-- 6. BTS Grid -->
-<section class="bts-section" id="bts-section" style="position: relative; overflow: hidden; background: #010101;">
-  <!-- Glitch Geometry Canvas -->
-  <canvas id="bts-bg-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.6;"></canvas>
-
-  <div style="position: relative; z-index: 2;">
-    <div class="sec-lbl" style="margin-bottom: 60px; text-align: center;">04 / Behind The Scenes</div>
-    <div class="bts-grid">
-      <div class="bts-col bts-up">
-        <img src="https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=800&auto=format&fit=crop">
-        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop">
-      </div>
-      <div class="bts-col bts-down" style="transform:translateY(-200px);">
-        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop">
-        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop">
-      </div>
-      <div class="bts-col bts-up">
-        <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?q=80&w=800&auto=format&fit=crop">
-        <img src="https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=800&auto=format&fit=crop">
-      </div>
+<!-- 6. Server Logs BTS -->
+<section class="bts-section" id="bts-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">04 / Server Logs (BTS)</div>
+  <div class="bts-grid">
+    <div class="bts-col bts-up">
+      <img src="https://images.unsplash.com/photo-1594681313093-9c882103f6f1?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop">
+    </div>
+    <div class="bts-col bts-down" style="transform:translateY(-200px);">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=800&auto=format&fit=crop">
+    </div>
+    <div class="bts-col bts-up">
+      <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?q=80&w=800&auto=format&fit=crop">
+      <img src="https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=800&auto=format&fit=crop">
     </div>
   </div>
 </section>
 
-<!-- 7. Process Timeline -->
-<section class="process-section" id="process-section" style="position: relative;">
-  <!-- Flashlight Dot Grid Canvas -->
-  <canvas id="process-bg-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.75;"></canvas>
-
-  <div style="position: relative; z-index: 2;">
-    <div class="sec-lbl" style="margin-bottom: 60px;">05 / How We Build The New</div>
-    <div class="p-cards-wrap">
-      <div class="p-card" style="top:120px; z-index:1;">
-        <h3>1. Strategy & AI Pre-Vis</h3>
-        <p>Before cameras roll, we map the entire campaign using data-driven insights and AI storyboarding to guarantee algorithmic success.</p>
-      </div>
-      <div class="p-card" style="top:140px; z-index:2; background:#151515;">
-        <h3>2. The Production</h3>
-        <p>Our global teams execute high-end commercial shoots combined with organic, creator-led iPhone content to flood the timeline.</p>
-      </div>
-      <div class="p-card" style="top:160px; z-index:3; background:#1a1a1a;">
-        <h3>3. The Rollout</h3>
-        <p>We deploy the assets across paid and organic networks, leveraging our influencer roster to ignite cultural moments and viral trends.</p>
-      </div>
+<!-- 7. Execution Protocols -->
+<section class="process-section" id="process-section">
+  <div class="sec-lbl" style="margin-bottom: 60px;">05 / Execution Protocols</div>
+  <div class="p-cards-wrap">
+    <div class="p-card" style="top:120px; z-index:1;">
+      <h3>1. Protocol: Pre-Vis</h3>
+      <p>Data-driven insights and AI storyboarding mapped to guarantee algorithmic success.</p>
     </div>
+    <div class="p-card" style="top:150px; z-index:2; background:#0f0f0f;">
+      <h3>2. Protocol: Production</h3>
+      <p>High-end commercial shoots combined with organic, creator-led content.</p>
+    </div>
+    <div class="p-card" style="top:180px; z-index:3; background:#141414;">
+      <h3>3. Protocol: Rollout</h3>
+      <p>Paid and organic network deployment, leveraging influencer rosters to ignite viral sequences.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Core Queries FAQ -->
+<section class="faq-section" id="faq-section">
+  <div class="sec-lbl" style="margin-bottom: 20px;">06 / Core Queries</div>
+  <div class="faq-item">
+    <div class="faq-q" data-cursor="EXPAND">Do you handle end-to-end production? <span class="faq-icon">+</span></div>
+    <div class="faq-a"><div class="faq-a-inner">Yes. From strategy and AI storyboarding to casting, commercial shooting, and post-production. We provide the complete infrastructure.</div></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" data-cursor="EXPAND">How does AI integrate into your workflow? <span class="faq-icon">+</span></div>
+    <div class="faq-a"><div class="faq-a-inner">We use Generative AI for rapid prototyping, pre-visualization, and high-volume asset variations, allowing us to execute faster and scale campaigns dynamically.</div></div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" data-cursor="EXPAND">What is your typical turnaround time? <span class="faq-icon">+</span></div>
+    <div class="faq-a"><div class="faq-a-inner">Speed is our advantage. While traditional agencies take months, we move from brief to live assets in weeks, and sometimes days for reactive cultural moments.</div></div>
   </div>
 </section>
 
@@ -1721,10 +1708,27 @@ gsap.utils.toArray('.p-card').forEach((card, i) => {
   ScrollTrigger.create({ trigger: card, start: "top 120px", pinSpacing: false });
 });
 
+// FAQ Accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const a = q.nextElementSibling;
+    if (item.classList.contains('active')) {
+      item.classList.remove('active');
+      a.style.maxHeight = '0';
+    } else {
+      document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('active'); i.querySelector('.faq-a').style.maxHeight = '0'; });
+      item.classList.add('active');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
 // Infinite Marquee
 gsap.to('.marquee-inner', { xPercent: -50, ease: "none", duration: 15, repeat: -1 });
 
 // --- Premium ScrollTrigger Entrance Animations ---
+
 
 // 1. Catalyst Matrix
 gsap.from('#catalyst-matrix .sec-lbl, #catalyst-matrix .section-title', {
@@ -1926,6 +1930,31 @@ gsap.from('.p-card', {
   ease: "power2.out",
   scrollTrigger: {
     trigger: '#process-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// FAQ Section entrance
+gsap.from('#faq-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#faq-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.faq-item', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#faq-section',
     start: "top 70%",
     toggleActions: "play none none reverse"
   }
