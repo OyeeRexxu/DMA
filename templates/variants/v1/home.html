@@ -1629,16 +1629,12 @@ if (ctaSection && ctaCanvas) {
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
-document.addEventListener('preloaderDone', () => {
-  const tl = gsap.timeline({
-    onComplete: () => {
-      // Remove overflow hidden after animation so hover scaling doesn't get cut off!
-      document.querySelectorAll('.line-mask').forEach(el => el.style.overflow = 'visible');
-    }
-  });
-  tl.to('.hero-title .word', { y: '0%', duration: 1.4, ease: "power4.out", stagger: 0.15 })
-    .to('.anim-up', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=1");
-});
+// Run hero entrance animation directly (no preloader)
+gsap.timeline({ delay: 0.2 })
+  .to('.hero-title .word', { y: '0%', duration: 1.4, ease: "power4.out", stagger: 0.15, onComplete: () => {
+    document.querySelectorAll('.line-mask').forEach(el => el.style.overflow = 'visible');
+  }})
+  .to('.anim-up', { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=1");
 
 // Ethos Text Reveal
 const textEl = document.getElementById('split-text');
