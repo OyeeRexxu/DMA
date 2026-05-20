@@ -395,16 +395,19 @@
   <div class="sec-lbl" style="margin-left: 52px; margin-bottom: 60px;">02 / Encrypted Archives</div>
   <div class="work-gallery-wrap">
     <div class="work-gallery" id="work-gallery">
+      <!-- Item 1 -->
       <a href="#" class="work-item" data-cursor="DECRYPT">
-        <video autoplay loop muted playsinline><source src="https://videos.pexels.com/video-files/5343288/5343288-uhd_2560_1440_25fps.mp4" type="video/mp4"></video>
+        <video autoplay loop muted playsinline class="parallax-img"><source src="https://videos.pexels.com/video-files/5343288/5343288-uhd_2560_1440_25fps.mp4" type="video/mp4"></video>
         <div class="work-info"><h3>Global Fashion Week</h3><p>Production / Campaign</p></div>
       </a>
+      <!-- Item 2 -->
       <a href="#" class="work-item" data-cursor="DECRYPT">
-        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop">
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" class="parallax-img">
         <div class="work-info"><h3>AI Product Launch</h3><p>Generative AI / Strategy</p></div>
       </a>
+      <!-- Item 3 -->
       <a href="#" class="work-item" data-cursor="DECRYPT">
-        <video autoplay loop muted playsinline><source src="https://videos.pexels.com/video-files/2882126/2882126-uhd_2560_1440_24fps.mp4" type="video/mp4"></video>
+        <video autoplay loop muted playsinline class="parallax-img"><source src="https://videos.pexels.com/video-files/2882126/2882126-uhd_2560_1440_24fps.mp4" type="video/mp4"></video>
         <div class="work-info"><h3>Creator House 2026</h3><p>Influencer Activation</p></div>
       </a>
     </div>
@@ -987,7 +990,7 @@ if (rSection && rCanvas) {
 
 // Process section snap grid flashlight canvas
 const pCanvas = document.getElementById('process-bg-canvas');
-const pCtx = pCanvas.getContext('2d');
+const pCtx = pCanvas ? pCanvas.getContext('2d') : null;
 const pSection = document.getElementById('process-section');
 
 let pMouse = { x: null, y: null, active: false };
@@ -1231,7 +1234,7 @@ if (tSection && tCanvas) {
 
 // Featured Work Abyssal Spotlight Canvas
 const wCanvas = document.getElementById('work-bg-canvas');
-const wCtx = wCanvas.getContext('2d');
+const wCtx = wCanvas ? wCanvas.getContext('2d') : null;
 const wSection = document.getElementById('work-section');
 
 let wMouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000, active: false };
@@ -1367,7 +1370,7 @@ if (tmSection && tmCanvas) {
 
 // BTS Glitch Geometry Canvas
 const btsCanvas = document.getElementById('bts-bg-canvas');
-const btsCtx = btsCanvas.getContext('2d');
+const btsCtx = btsCanvas ? btsCanvas.getContext('2d') : null;
 const btsSection = document.getElementById('bts-section');
 
 let btsShards = [];
@@ -1645,50 +1648,19 @@ svcRows.forEach(row => {
   row.addEventListener('mouseleave', () => { hoverWrap.classList.remove('active'); });
 });
 
-// ── Featured Work: Horizontal Scroll ─────────────────────────────
-(function() {
-  const section   = document.getElementById('work-section');
-  const gallery   = document.getElementById('work-gallery');
-
-  if (!section || !gallery) return;
-
-  // How far does the gallery need to travel?
-  function getScrollDist() {
-    return gallery.scrollWidth - window.innerWidth;
-  }
-
-  let scrollTween = gsap.to(gallery, {
-    x: () => -getScrollDist(),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      pin: true,
-      scrub: 1,
-      start: 'top top',
-      end: () => '+=' + getScrollDist(),
-      invalidateOnRefresh: true,
-      anticipatePin: 1
-    }
+// Horizontal Cyber-Gallery (02 / Encrypted Archives)
+const workGallery = document.querySelector('.work-gallery');
+const workWrap = document.querySelector('.work-gallery-wrap');
+if (workGallery && workWrap) {
+  let scrollTween = gsap.to(workGallery, {
+    x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
+    ease: "none",
+    scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
   });
-
-  // Subtle scale-up on each card as it enters center
-  document.querySelectorAll('.work-item').forEach(item => {
-    gsap.fromTo(item,
-      { scale: 0.92, opacity: 0.6 },
-      {
-        scale: 1, opacity: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: item,
-          containerAnimation: scrollTween,
-          start: 'left right-=5%',
-          end: 'center center+=10%',
-          scrub: 1
-        }
-      }
-    );
+  gsap.utils.toArray('.parallax-img').forEach(img => {
+    gsap.to(img, { x: 150, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
   });
-}());
+}
 
 
 // Draggable Creator Roster
