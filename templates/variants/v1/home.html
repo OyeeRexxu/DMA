@@ -1697,5 +1697,283 @@ gsap.utils.toArray('.p-card').forEach((card, i) => {
 // Infinite Marquee
 gsap.to('.marquee-inner', { xPercent: -50, ease: "none", duration: 15, repeat: -1 });
 
+// --- Premium ScrollTrigger Entrance Animations ---
+
+// 1. Catalyst Matrix
+gsap.from('#catalyst-matrix .sec-lbl, #catalyst-matrix .section-title', {
+  y: 50,
+  opacity: 0,
+  duration: 1,
+  stagger: 0.15,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: '#catalyst-matrix',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.catalyst-card', {
+  y: 80,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#catalyst-matrix',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 2. Brand Matrix
+gsap.from('#brand-matrix-section .sec-lbl', {
+  y: 30,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#brand-matrix-section',
+    start: "top 85%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.logo-item', {
+  scale: 0.8,
+  opacity: 0,
+  duration: 0.6,
+  stagger: 0.08,
+  ease: "back.out(1.5)",
+  scrollTrigger: {
+    trigger: '#brand-matrix-section',
+    start: "top 75%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 3. Testimonials
+gsap.from('#testimonial-section .test-card', {
+  y: 50,
+  scale: 0.95,
+  opacity: 0,
+  duration: 1,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: '#testimonial-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 4. Ecosystem/Pillars
+gsap.from('#pillars-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#pillars-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.svc-row', {
+  y: 50,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#pillars-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 5. Production Protocols (Tiers)
+gsap.from('#tiers-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#tiers-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.tier-card', {
+  y: 80,
+  rotation: 1.5,
+  opacity: 0,
+  duration: 1,
+  stagger: 0.18,
+  ease: "power3.out",
+  scrollTrigger: {
+    trigger: '#tiers-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 6. Featured Work
+gsap.from('#work-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#work-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.work-item', {
+  scale: 0.9,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#work-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 7. Talent Roster
+gsap.from('#roster-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#roster-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.creator-card', {
+  x: 60,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#roster-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 8. Behind The Scenes
+gsap.from('#bts-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#bts-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.bts-col img', {
+  scale: 0.9,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#bts-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 9. Process Stacking Cards
+gsap.from('#process-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#process-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.p-card', {
+  y: 60,
+  opacity: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#process-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 10. Global Map
+gsap.from('#map-section .sec-lbl', {
+  y: 40,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#map-section',
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.map-container', {
+  scale: 1.05,
+  opacity: 0,
+  duration: 1,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#map-section',
+    start: "top 70%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.hq-point', {
+  scale: 0,
+  opacity: 0,
+  duration: 0.6,
+  stagger: 0.15,
+  ease: "back.out(2)",
+  scrollTrigger: {
+    trigger: '#map-section',
+    start: "top 60%",
+    toggleActions: "play none none reverse"
+  }
+});
+
+// 11. CTA Section
+gsap.from('#cta-section .sec-lbl', {
+  y: 35,
+  opacity: 0,
+  duration: 0.8,
+  ease: "power2.out",
+  scrollTrigger: {
+    trigger: '#cta-section',
+    start: "top 85%",
+    toggleActions: "play none none reverse"
+  }
+});
+gsap.from('.huge-btn', {
+  scale: 0.8,
+  opacity: 0,
+  duration: 0.8,
+  ease: "back.out(1.8)",
+  scrollTrigger: {
+    trigger: '#cta-section',
+    start: "top 75%",
+    toggleActions: "play none none reverse"
+  }
+});
+
 </script>
 {% endblock %}
