@@ -153,32 +153,17 @@
 .hover-bg-wrap.active { opacity: 0.3; }
 .hover-bg-wrap img, .hover-bg-wrap video { width: 100%; height: 100%; object-fit: cover; filter: url(#liquid); }
 
-/* 4. Vertical Stacking Campaigns */
-.work-section { overflow: visible; padding: 140px 0; position: relative; background: #020202; }
+/* 4. Horizontal Campaigns */
+.work-section { overflow: hidden; padding-bottom: 120px; }
 .sec-lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 8px; }
-.work-gallery-wrap { position: relative; width: 100%; margin-top: 60px; }
-.work-gallery { display: flex; flex-direction: column; width: 100%; gap: 0; }
-.work-item { 
-  width: 75vw; 
-  max-width: 960px; 
-  aspect-ratio: 16/9; 
-  position: sticky; 
-  top: 14vh; 
-  margin: 0 auto 12vh; 
-  overflow: hidden; 
-  display: block; 
-  border-radius: 8px; 
-  border: 1px solid rgba(204,255,0,0.1); 
-  box-shadow: 0 30px 80px rgba(0,0,0,0.85); 
-  transform-origin: top center; 
-  background: #080808;
-  transition: border-color 0.4s, box-shadow 0.4s; 
-}
-.work-item:hover { border-color: var(--lime); box-shadow: 0 30px 100px rgba(204,255,0,0.15); }
-.work-item img, .work-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; transform: scale(1.05); }
-.work-item:hover img, .work-item:hover video { transform: scale(1.0); }
-.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.1) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 50px; }
-.work-info h3 { font-size: clamp(24px, 3.5vw, 54px); font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.6); font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: -0.02em; }
+.work-gallery-wrap { height: auto; position: relative; padding: 60px 0 120px 0; }
+.work-gallery { display: flex; flex-direction: column; gap: 80px; padding: 0 52px; width: 100%; align-items: center; }
+.work-item { width: 80vw; max-width: 900px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border-radius: 4px; border: 1px solid rgba(204,255,0,0); transition: border-color 0.4s; }
+.work-item:hover { border-color: var(--lime); }
+.work-item img, .work-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; transform: scale(1.1); }
+.work-item:hover img, .work-item:hover video { transform: scale(1.05); }
+.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 40px; }
+.work-info h3 { font-size: clamp(24px, 3vw, 48px); font-weight: 800; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
 /* 5. Creator Roster (Draggable) */
 .roster-section { padding: 140px 0; background: #080808; overflow: hidden; cursor: grab; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -1679,43 +1664,84 @@ svcRows.forEach(row => {
   row.addEventListener('mouseleave', () => { hoverWrap.classList.remove('active'); });
 });
 
-// Vertical Stacking Cards & Image Parallax Animations
-const cards = gsap.utils.toArray('.work-item');
-cards.forEach((card, index) => {
-  // If this is not the last card, animate it when the next card overlaps it
-  if (index < cards.length - 1) {
-    const nextCard = cards[index + 1];
-    
-    gsap.to(card, {
-      scale: 0.88,
-      filter: "brightness(0.3) grayscale(60%)",
-      yPercent: -6,
+// Horizontal Scroll Campaigns
+// Featured Work Parallax and Scroll Velocity Skew (Vertical Layout)
+const workItems = gsap.utils.toArray('.work-item');
+
+// 1. Entrance Fade & Slide Up
+workItems.forEach((item, i) => {
+  gsap.fromTo(item, 
+    { y: 80, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      ease: "power3.out",
       scrollTrigger: {
-        trigger: nextCard,
-        start: "top 85%", // starts shrinking as next card approaches
-        end: "top 22%",  // finishes shrinking as next card locks sticky
-        scrub: true,
-        invalidateOnRefresh: true
+        trigger: item,
+        start: "top bottom-=12%",
+        toggleActions: "play none none reverse"
       }
-    });
-  }
-  
-  // Parallax zooming effect on the card image
-  const img = card.querySelector('img, video');
+    }
+  );
+
+  // 2. Vertical Image Parallax
+  const img = item.querySelector('.parallax-img');
   if (img) {
-    gsap.fromTo(img, 
-      { yPercent: -8 },
+    gsap.set(img, { transformOrigin: "center center" });
+    gsap.fromTo(img,
+      { yPercent: -15 },
       {
-        yPercent: 8,
+        yPercent: 15,
         ease: "none",
         scrollTrigger: {
-          trigger: card,
+          trigger: item,
           start: "top bottom",
           end: "bottom top",
           scrub: true
         }
       }
     );
+  }
+  
+  // 3. Project Title Entrance Slide-Up inside card
+  const title = item.querySelector('h3');
+  if (title) {
+    gsap.fromTo(title,
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: item,
+          start: "top bottom-=20%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  }
+});
+
+// 4. Dynamic Velocity Skew on Scroll (makes cards tilt slightly as you scroll fast)
+let skewProxy = { skew: 0 },
+    skewSetter = gsap.quickSetter(workItems, "skewY", "deg"), // skew on vertical Y axis
+    skewClamp = gsap.utils.clamp(-6, 6); // subtle premium limit
+
+ScrollTrigger.create({
+  onUpdate: (self) => {
+    let skew = skewClamp(self.getVelocity() / -500);
+    if (Math.abs(skew) > Math.abs(skewProxy.skew)) {
+      skewProxy.skew = skew;
+      gsap.to(skewProxy, {
+        skew: 0,
+        duration: 0.6,
+        ease: "power3",
+        overwrite: "auto",
+        onUpdate: () => skewSetter(skewProxy.skew)
+      });
+    }
   }
 });
 
