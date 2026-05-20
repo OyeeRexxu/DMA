@@ -113,6 +113,9 @@ main { min-height:100vh; background:var(--black); position:relative; z-index:2; 
 </head>
 <body>
 
+<!-- Scroll Progress Bar -->
+<div id="scroll-progress" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--lime); width: 0%; z-index: 10001; pointer-events: none; box-shadow: 0 0 10px var(--lime);"></div>
+
 <!-- Preloader -->
 <div id="preloader">
   <div id="preloader-bar"></div>
@@ -192,12 +195,22 @@ gsap.registerPlugin(ScrollTrigger);
 
 // 1. Lenis Smooth Scroll
 const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1 });
-function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
 // Hook GSAP with Lenis
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
 gsap.ticker.lagSmoothing(0);
+
+// Global Scroll Progress Bar
+gsap.to('#scroll-progress', {
+  width: '100%',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: 'body',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 0.3
+  }
+});
 
 // 2. Preloader — Lime Progress Bar
 const preloader = document.getElementById('preloader');
