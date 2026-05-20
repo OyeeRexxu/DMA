@@ -72,7 +72,6 @@ body.c-style-crs.hovering #cursor-main .cursor-cross-h, body.c-style-crs.hoverin
 body.c-style-trg.hovering #cursor-main .cursor-triangle polygon { fill:#ffffff; }
 
 
-
 /* ─── NAVIGATION ───── */
 nav { position:fixed; top:0; left:0; right:0; z-index:500; display:flex; align-items:center; justify-content:space-between; padding:24px 52px; }
 .logo { font-family:'Inter',sans-serif; font-size:1rem; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:var(--white); text-decoration:none; }
@@ -111,7 +110,6 @@ main { min-height:100vh; background:var(--black); position:relative; z-index:2; 
 
 <!-- Scroll Progress Bar -->
 <div id="scroll-progress" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--lime); width: 0%; z-index: 10001; pointer-events: none; box-shadow: 0 0 10px var(--lime);"></div>
-
 
 
 <!-- Custom Cyber Telemetry Cursor -->
@@ -201,7 +199,7 @@ gsap.to('#scroll-progress', {
   }
 });
 
-// 2. Preloader removed — dispatch event immediately so animations still fire
+// 2. Fire preloaderDone immediately (preloader removed)
 document.dispatchEvent(new Event('preloaderDone'));
 
 // 3. Cyber Pointer Styles Switcher Engine
