@@ -71,6 +71,8 @@ body.c-style-rng.hovering #cursor-main, body.c-style-sqr.hovering #cursor-main {
 body.c-style-crs.hovering #cursor-main .cursor-cross-h, body.c-style-crs.hovering #cursor-main .cursor-cross-v { background:#ffffff; box-shadow:0 0 10px #ffffff; }
 body.c-style-trg.hovering #cursor-main .cursor-triangle polygon { fill:#ffffff; }
 
+/* ─── PRELOADER ───── */
+
 
 /* ─── NAVIGATION ───── */
 nav { position:fixed; top:0; left:0; right:0; z-index:500; display:flex; align-items:center; justify-content:space-between; padding:24px 52px; }
@@ -199,7 +201,7 @@ gsap.to('#scroll-progress', {
   }
 });
 
-// 2. Fire preloaderDone immediately (preloader removed)
+// Dispatch preloaderDone immediately (preloader removed)
 document.dispatchEvent(new Event('preloaderDone'));
 
 // 3. Cyber Pointer Styles Switcher Engine
