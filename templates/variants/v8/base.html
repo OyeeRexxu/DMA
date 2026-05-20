@@ -37,7 +37,6 @@
             width: 100%;
             min-height: 100vh;
             cursor: none;
-            scroll-behavior: smooth;
         }
 
         /* Ambient Glowing Background Layers over the entire website */
@@ -380,25 +379,16 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // Lenis ultra-buttery smooth scroll over entire page
+        // Lenis ultra-buttery smooth scroll — GSAP ticker integration only (no duplicate RAF)
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             smooth: true
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Bind Lenis scroll to GSAP ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time)=>{
-            lenis.raf(time * 1000);
-        });
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
 
         // Dual Cursor tracking system
         const cursorDot = document.getElementById('algopros-cursor-dot');
@@ -441,14 +431,20 @@
         }
         bindCursorEvents();
 
-        // Scroll progress bar
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const percentage = (scrollTop / scrollHeight) * 100;
-            document.getElementById('scroll-progress').style.width = percentage + '%';
+        // Scroll progress bar via GSAP ScrollTrigger (compatible with Lenis)
+        gsap.to('#scroll-progress', {
+            width: '100%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 0.3
+            }
+        });
 
-            // Update active state in sticky header nav
+        // Update active nav link on Lenis scroll
+        lenis.on('scroll', () => {
             document.querySelectorAll('main section').forEach(sec => {
                 const rect = sec.getBoundingClientRect();
                 const offset = 150;
@@ -456,7 +452,7 @@
                     const id = sec.getAttribute('id');
                     document.querySelectorAll('.nav-links a').forEach(link => {
                         link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${id}`) {
+                        if (link.getAttribute('href') === '#' + id) {
                             link.classList.add('active');
                         }
                     });
