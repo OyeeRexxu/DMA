@@ -110,7 +110,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 <section class="cta-sec"><h2>Let's<br>Talk.</h2><a href="{% url 'contact:form' %}">Start a project</a></section>
 <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
-<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v2' %}">2</a><a href="{% url 'v3' %}">3</a><a href="{% url 'v4' %}" class="active">4</a><a href="{% url 'v5' %}">5</a></div>
+<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v3' %}">3</a><a href="{% url 'v4' %}" class="active">4</a><a href="{% url 'v5' %}">5</a></div>
 <script>
 const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -50px 0px'});

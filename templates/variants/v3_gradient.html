@@ -115,7 +115,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   <a href="{% url 'contact:form' %}" class="btn-primary">Start a project</a>
 </section>
 <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
-<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v2' %}">2</a><a href="{% url 'v3' %}" class="active">3</a><a href="{% url 'v4' %}">4</a><a href="{% url 'v5' %}">5</a></div>
+<div class="vnav"><a href="{% url 'v1' %}">1</a><a href="{% url 'v3' %}" class="active">3</a><a href="{% url 'v4' %}">4</a><a href="{% url 'v5' %}">5</a></div>
 <script>
 let rx=0,ry=0;const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';rx+=(e.clientX-rx)*0.1;ry+=(e.clientY-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px'});

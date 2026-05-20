@@ -54,7 +54,7 @@ footer{padding:120px 52px 0;position:relative;z-index:1;border-top:1px solid rgb
   <div class="footer-cta"><h2>Let's<br><span class="g">Talk.</span></h2><a href="{% url 'v3_contact' %}" class="btn-p">Start a project</a></div>
   <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
 </footer>
-<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v2' %}" title="Editorial">2</a><a href="{% url 'v3' %}" class="cur" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v7' %}" title="V7 Cybernetic System">7</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
+<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" class="cur" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
 <script>
 let rx=0,ry=0;const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
 document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';rx+=(e.clientX-rx)*.1;ry+=(e.clientY-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px'});

@@ -55,7 +55,7 @@ footer{background:#0a0a0a;color:#f0ede8;padding:100px 52px 0}
   <div class="footer-cta"><h2>Let's Build<br><em>Together.</em></h2><a href="{% url 'v2_contact' %}">Start a project →</a></div>
   <div class="footer-bar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
 </footer>
-<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v2' %}" class="cur" title="Editorial">2</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v7' %}" title="V7 Cybernetic System">7</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
+<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
 <script>
 const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -50px 0px'});
