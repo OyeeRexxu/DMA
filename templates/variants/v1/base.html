@@ -201,7 +201,7 @@ gsap.to('#scroll-progress', {
   }
 });
 
-// Dispatch preloaderDone immediately (preloader removed)
+// No preloader — fire preloaderDone immediately so hero animations run
 document.dispatchEvent(new Event('preloaderDone'));
 
 // 3. Cyber Pointer Styles Switcher Engine
