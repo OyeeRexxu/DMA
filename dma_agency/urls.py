@@ -19,12 +19,7 @@ urlpatterns = [
     path('v1/work/<slug:slug>/', v.v1_work_detail),
     path('v1/contact/', v.v1_contact),
 
-    # Variant 2
-    path('v2/', v.variant_2, name='v2'),
-    path('v2/services/', v.v2_services, name='v2_services'),
-    path('v2/work/', v.v2_work, name='v2_work'),
-    path('v2/work/<slug:slug>/', v.v2_work_detail, name='v2_work_detail'),
-    path('v2/contact/', v.v2_contact, name='v2_contact'),
+
 
     # Variant 3
     path('v3/', v.variant_3, name='v3'),
@@ -54,8 +49,7 @@ urlpatterns = [
     path('v6/work/<slug:slug>/', v.v6_work_detail, name='v6_work_detail'),
     path('v6/contact/', v.v6_contact, name='v6_contact'),
 
-    # Variant 7 – Pytia Particle Globe (GIF/Image Match)
-    path('v7/', v.variant_7, name='v7'),
+
     # Variant 8 – AlgoPros Geodesic Sphere (GIF Match)
     path('v8/', v.variant_8, name='v8'),
 ]

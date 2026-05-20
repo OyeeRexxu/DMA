@@ -44,19 +44,6 @@ def v1_contact(request):
     if r: return r
     return render(request, 'variants/v1/contact.html')
 
-# ── Variant 2 – Editorial Brutalist ────────────────────────
-def variant_2(request):
-    return render(request, 'variants/v2/home.html', {'projects': _projects(), 'services': _services()})
-def v2_services(request):
-    return render(request, 'variants/v2/services.html', {'services': _services()})
-def v2_work(request):
-    return render(request, 'variants/v2/work.html', {'projects': _all_projects()})
-def v2_work_detail(request, slug):
-    return render(request, 'variants/v2/detail.html', {'project': get_object_or_404(Project, slug=slug), 'related': _projects()})
-def v2_contact(request):
-    r = _handle_contact(request, 'v2_contact')
-    if r: return r
-    return render(request, 'variants/v2/contact.html')
 
 # ── Variant 3 – Gradient Luxe ──────────────────────────────
 def variant_3(request):
@@ -114,9 +101,6 @@ def v6_contact(request):
     if r: return r
     return render(request, 'variants/v6/contact.html')
 
-# ── Variant 7 – Pytia Particle Globe (GIF/Image Match) ───────
-def variant_7(request):
-    return render(request, 'variants/v7/home.html')
 
 # ── Variant 8 – AlgoPros Geodesic Sphere (GIF Match) ─────────
 def variant_8(request):
