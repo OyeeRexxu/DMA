@@ -153,17 +153,32 @@
 .hover-bg-wrap.active { opacity: 0.3; }
 .hover-bg-wrap img, .hover-bg-wrap video { width: 100%; height: 100%; object-fit: cover; filter: url(#liquid); }
 
-/* 4. Horizontal Campaigns */
-.work-section { overflow: hidden; padding-bottom: 120px; }
+/* 4. Vertical Stacking Campaigns */
+.work-section { overflow: visible; padding: 140px 0; position: relative; background: #020202; }
 .sec-lbl { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 8px; }
-.work-gallery-wrap { height: 100vh; position: relative; }
-.work-gallery { display: flex; gap: 6vw; padding: 0 52px; width: max-content; height: 100%; align-items: center; }
-.work-item { width: 60vw; max-width: 800px; aspect-ratio: 16/9; position: relative; overflow: hidden; display: block; border-radius: 4px; border: 1px solid rgba(204,255,0,0); transition: border-color 0.4s; }
-.work-item:hover { border-color: var(--lime); }
-.work-item img, .work-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; transform: scale(1.1); }
-.work-item:hover img, .work-item:hover video { transform: scale(1.05); }
-.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 40px; }
-.work-info h3 { font-size: clamp(24px, 3vw, 48px); font-weight: 800; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.work-gallery-wrap { position: relative; width: 100%; margin-top: 60px; }
+.work-gallery { display: flex; flex-direction: column; width: 100%; gap: 0; }
+.work-item { 
+  width: 75vw; 
+  max-width: 960px; 
+  aspect-ratio: 16/9; 
+  position: sticky; 
+  top: 14vh; 
+  margin: 0 auto 12vh; 
+  overflow: hidden; 
+  display: block; 
+  border-radius: 8px; 
+  border: 1px solid rgba(204,255,0,0.1); 
+  box-shadow: 0 30px 80px rgba(0,0,0,0.85); 
+  transform-origin: top center; 
+  background: #080808;
+  transition: border-color 0.4s, box-shadow 0.4s; 
+}
+.work-item:hover { border-color: var(--lime); box-shadow: 0 30px 100px rgba(204,255,0,0.15); }
+.work-item img, .work-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; transform: scale(1.05); }
+.work-item:hover img, .work-item:hover video { transform: scale(1.0); }
+.work-info { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.1) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 50px; }
+.work-info h3 { font-size: clamp(24px, 3.5vw, 54px); font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.6); font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: -0.02em; }
 
 /* 5. Creator Roster (Draggable) */
 .roster-section { padding: 140px 0; background: #080808; overflow: hidden; cursor: grab; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -1664,91 +1679,43 @@ svcRows.forEach(row => {
   row.addEventListener('mouseleave', () => { hoverWrap.classList.remove('active'); });
 });
 
-// Horizontal Scroll Campaigns
-const workSection = document.getElementById('work-section');
-const workGallery = document.querySelector('.work-gallery');
-let scrollTween = gsap.to(workGallery, {
-  x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
-  ease: "none",
-  scrollTrigger: {
-    trigger: workSection,
-    pin: true,
-    scrub: 1,
-    start: "top top",
-    end: () => "+=" + (workGallery.scrollWidth - window.innerWidth + 104),
-    invalidateOnRefresh: true
-  }
-});
-gsap.utils.toArray('.parallax-img').forEach(img => {
-  gsap.to(img, { x: 100, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
-});
-
-// Dynamic focus, scale, colorize and text slide-up animations on horizontal scroll
-gsap.utils.toArray('.work-item').forEach(item => {
-  // Focus scale and colorization (entering from right to center)
-  gsap.fromTo(item, 
-    { scale: 0.9, filter: "grayscale(100%) brightness(0.55)" },
-    {
-      scale: 1,
-      filter: "grayscale(0%) brightness(1)",
-      ease: "power2.out",
+// Vertical Stacking Cards & Image Parallax Animations
+const cards = gsap.utils.toArray('.work-item');
+cards.forEach((card, index) => {
+  // If this is not the last card, animate it when the next card overlaps it
+  if (index < cards.length - 1) {
+    const nextCard = cards[index + 1];
+    
+    gsap.to(card, {
+      scale: 0.88,
+      filter: "brightness(0.3) grayscale(60%)",
+      yPercent: -6,
       scrollTrigger: {
-        trigger: item,
-        containerAnimation: scrollTween,
-        start: "left right-=15%",
-        end: "center center",
-        scrub: true
+        trigger: nextCard,
+        start: "top 85%", // starts shrinking as next card approaches
+        end: "top 22%",  // finishes shrinking as next card locks sticky
+        scrub: true,
+        invalidateOnRefresh: true
       }
-    }
-  );
+    });
+  }
   
-  // Transition back to de-focused (exiting from center to left)
-  gsap.to(item, {
-    scale: 0.9,
-    filter: "grayscale(100%) brightness(0.55)",
-    ease: "power2.in",
-    scrollTrigger: {
-      trigger: item,
-      containerAnimation: scrollTween,
-      start: "center center",
-      end: "right left+=15%",
-      scrub: true
-    }
-  });
-
-  // Project title entrance (slide up + fade)
-  const title = item.querySelector('h3');
-  if (title) {
-    gsap.fromTo(title,
-      { y: 60, opacity: 0, scale: 0.95 },
+  // Parallax zooming effect on the card image
+  const img = card.querySelector('img, video');
+  if (img) {
+    gsap.fromTo(img, 
+      { yPercent: -8 },
       {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        ease: "power2.out",
+        yPercent: 8,
+        ease: "none",
         scrollTrigger: {
-          trigger: item,
-          containerAnimation: scrollTween,
-          start: "left right-=20%",
-          end: "center center",
+          trigger: card,
+          start: "top bottom",
+          end: "bottom top",
           scrub: true
         }
       }
     );
-    
-    // Slide out title when card exits left
-    gsap.to(title, {
-      y: -40,
-      opacity: 0,
-      ease: "power2.in",
-      scrollTrigger: {
-        trigger: item,
-        containerAnimation: scrollTween,
-        start: "center center",
-        end: "right left+=20%",
-        scrub: true
-      }
-    });
   }
 });
 
