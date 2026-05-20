@@ -71,11 +71,7 @@ body.c-style-rng.hovering #cursor-main, body.c-style-sqr.hovering #cursor-main {
 body.c-style-crs.hovering #cursor-main .cursor-cross-h, body.c-style-crs.hovering #cursor-main .cursor-cross-v { background:#ffffff; box-shadow:0 0 10px #ffffff; }
 body.c-style-trg.hovering #cursor-main .cursor-triangle polygon { fill:#ffffff; }
 
-/* ─── PRELOADER ───── */
-#preloader { position:fixed; inset:0; background:var(--black); z-index:10000; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:52px; overflow:hidden; }
-#preloader-bar { position:absolute; top:0; left:0; height:3px; background:var(--lime); width:0%; transition:width 0.05s linear; }
-#preloader-counter { font-family:'Inter',sans-serif; font-size:clamp(80px,15vw,220px); font-weight:900; line-height:0.85; letter-spacing:-0.06em; color:var(--white); }
-#preloader-word { font-size:0.65rem; font-weight:700; letter-spacing:0.5em; text-transform:uppercase; color:var(--lime); margin-bottom:12px; }
+
 
 /* ─── NAVIGATION ───── */
 nav { position:fixed; top:0; left:0; right:0; z-index:500; display:flex; align-items:center; justify-content:space-between; padding:24px 52px; }
@@ -116,12 +112,7 @@ main { min-height:100vh; background:var(--black); position:relative; z-index:2; 
 <!-- Scroll Progress Bar -->
 <div id="scroll-progress" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--lime); width: 0%; z-index: 10001; pointer-events: none; box-shadow: 0 0 10px var(--lime);"></div>
 
-<!-- Preloader -->
-<div id="preloader">
-  <div id="preloader-bar"></div>
-  <div id="preloader-word">Loading</div>
-  <div id="preloader-counter">0</div>
-</div>
+
 
 <!-- Custom Cyber Telemetry Cursor -->
 <!-- Ultimate Switchable Cursor Core -->
@@ -210,29 +201,8 @@ gsap.to('#scroll-progress', {
   }
 });
 
-// 2. Preloader — Lime Progress Bar
-const preloader = document.getElementById('preloader');
-const counter = document.getElementById('preloader-counter');
-const bar = document.getElementById('preloader-bar');
-let count = 0;
-const updateCounter = setInterval(() => {
-  count += Math.floor(Math.random() * 8) + 2;
-  if (count >= 100) {
-    count = 100;
-    clearInterval(updateCounter);
-    counter.innerText = count;
-    bar.style.width = '100%';
-    setTimeout(() => {
-      gsap.to(preloader, { yPercent: -100, duration: 1.4, ease: "expo.inOut", onComplete: () => {
-        preloader.style.display = 'none';
-        document.dispatchEvent(new Event('preloaderDone'));
-      }});
-    }, 400);
-  } else {
-    counter.innerText = count;
-    bar.style.width = count + '%';
-  }
-}, 28);
+// 2. Preloader removed — dispatch event immediately so animations still fire
+document.dispatchEvent(new Event('preloaderDone'));
 
 // 3. Cyber Pointer Styles Switcher Engine
 let activeCursorStyle = 'rng';
