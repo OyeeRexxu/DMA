@@ -4,15 +4,20 @@
 <title>{% block title %}DMA.{% endblock %}</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:auto}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 :root{--acc:#7c6fff;--acc2:#50c8ff}
 body{background:#06070f;color:#e8eaf0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
 .orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;animation:obf 9s ease-in-out infinite}
 .o1{width:700px;height:700px;background:radial-gradient(circle,rgba(124,111,255,.12),transparent 70%);top:-150px;left:-150px;animation-delay:0s}
 .o2{width:600px;height:600px;background:radial-gradient(circle,rgba(80,200,255,.08),transparent 70%);bottom:-100px;right:-100px;animation-delay:-5s}
 @keyframes obf{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-50px) scale(1.06)}}
-#cur{position:fixed;width:8px;height:8px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
-#cur-r{position:fixed;width:30px;height:30px;border:1px solid rgba(124,111,255,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+#cur{position:fixed;width:6px;height:6px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(255,255,255,0.8),0 0 5px var(--acc2);transition:transform .2s}
+#cur-r{position:fixed;width:44px;height:44px;background:radial-gradient(circle,rgba(124,111,255,0.15) 0%,rgba(80,200,255,0.03) 60%,transparent 100%);border:1.5px solid rgba(124,111,255,0.35);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);animation:morphBlob 8s linear infinite;transition:width .4s cubic-bezier(.19,1,.22,1),height .4s cubic-bezier(.19,1,.22,1),background .4s,border-color .4s,border-radius .4s,box-shadow .4s,backdrop-filter .4s;box-shadow:0 0 15px rgba(124,111,255,0.1);display:flex;align-items:center;justify-content:center;overflow:hidden}
+@keyframes morphBlob{0%{border-radius:42% 58% 70% 30%/45% 45% 55% 55%}25%{border-radius:70% 30% 52% 48%/60% 40% 60% 40%}50%{border-radius:30% 70% 40% 60%/50% 60% 40% 50%}75%{border-radius:60% 40% 60% 40%/40% 50% 60% 50%}100%{border-radius:42% 58% 70% 30%/45% 45% 55% 55%}}
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 52px;background:rgba(6,7,15,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
 .logo{font-size:.95rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,#fff,var(--acc));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
 .nav-links{display:flex;gap:32px;list-style:none}
@@ -32,7 +37,7 @@ footer{padding:120px 52px 0;position:relative;z-index:1;border-top:1px solid rgb
 .footer-cta h2{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-.04em;line-height:.9;margin-bottom:40px}
 .fbar{display:flex;justify-content:space-between;padding:24px 0;border-top:1px solid rgba(255,255,255,.04);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.2)}
 .fbar a{color:inherit;text-decoration:none;transition:color .3s}.fbar a:hover{color:#fff}
-.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;gap:5px}
+.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex; flex-wrap:wrap; justify-content:flex-end; max-width:90vw;gap:5px}
 .vsw a{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);background:rgba(6,7,15,.8);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-decoration:none;border-radius:6px;transition:all .3s}
 .vsw a:hover,.vsw a.cur{background:var(--acc);color:#fff;border-color:var(--acc)}
 {% block extra_css %}{% endblock %}
@@ -54,11 +59,72 @@ footer{padding:120px 52px 0;position:relative;z-index:1;border-top:1px solid rgb
   <div class="footer-cta"><h2>Let's<br><span class="g">Talk.</span></h2><a href="{% url 'v3_contact' %}" class="btn-p">Start a project</a></div>
   <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
 </footer>
-<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" class="cur" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
+<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" class="cur" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v8' %}" title="AlgoPros">8</a>
+  {% if subdomain_urls %}
+  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
+  <a href="{{ subdomain_urls.pulse }}" title="Pulse" data-cursor="PULSE">P</a>
+  <a href="{{ subdomain_urls.atelier }}" title="Atelier" data-cursor="ATELIER">A</a>
+  <a href="{{ subdomain_urls.orbit }}" title="Orbit" data-cursor="ORBIT">O</a>
+  <a href="{{ subdomain_urls.signal }}" title="Signal" data-cursor="SIGNAL">S</a>
+  <a href="{{ subdomain_urls.quiet }}" title="Quiet" data-cursor="QUIET">Q</a>
+  {% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
+gsap.registerPlugin(ScrollTrigger);
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  direction: 'vertical',
+  gestureDirection: 'vertical',
+  smooth: true,
+  mouseMultiplier: 1
+});
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+gsap.ticker.lagSmoothing(0);
+
 let rx=0,ry=0;const cur=document.getElementById('cur'),ring=document.getElementById('cur-r');
-document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';rx+=(e.clientX-rx)*.1;ry+=(e.clientY-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px'});
-(function loop(){rx+=(parseFloat(cur.style.left||0)-rx)*.1;ry+=(parseFloat(cur.style.top||0)-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';rx+=(e.clientX-rx)*.15;ry+=(e.clientY-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px'});
+(function loop(){rx+=(parseFloat(cur.style.left||0)-rx)*.15;ry+=(parseFloat(cur.style.top||0)-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+
+// Global interactive hover bindings for the morphing capsule cursor
+document.addEventListener('mouseover', e => {
+  const target = e.target.closest('[data-cursor], a, button, .magnetic, .team-item, .catalyst-card, .logo-item');
+  if (target) {
+    const badgeText = target.getAttribute('data-cursor') || 'VIEW';
+    document.body.classList.add('hovering');
+    ring.style.width = '85px';
+    ring.style.height = '36px';
+    ring.style.borderRadius = '30px';
+    ring.style.animation = 'none';
+    ring.style.background = 'rgba(6, 7, 15, 0.85)';
+    ring.style.backdropFilter = 'blur(10px)';
+    ring.style.borderColor = 'var(--acc2)';
+    ring.style.boxShadow = '0 0 25px rgba(80, 200, 255, 0.35)';
+    ring.innerHTML = `<span style="font-size: 8px; color: #fff; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; pointer-events: none;">${badgeText}</span>`;
+    cur.style.transform = 'translate(-50%, -50%) scale(0)';
+  }
+});
+document.addEventListener('mouseout', e => {
+  const target = e.target.closest('[data-cursor], a, button, .magnetic, .team-item, .catalyst-card, .logo-item');
+  if (target && (!e.relatedTarget || !e.relatedTarget.closest('[data-cursor], a, button, .magnetic, .team-item, .catalyst-card, .logo-item'))) {
+    document.body.classList.remove('hovering');
+    ring.style.width = '44px';
+    ring.style.height = '44px';
+    ring.style.borderRadius = '';
+    ring.style.animation = 'morphBlob 8s linear infinite';
+    ring.style.background = 'radial-gradient(circle, rgba(124, 111, 255, 0.15) 0%, rgba(80, 200, 255, 0.03) 60%, transparent 100%)';
+    ring.style.backdropFilter = 'none';
+    ring.style.borderColor = 'rgba(124, 111, 255, 0.35)';
+    ring.style.boxShadow = '0 0 15px rgba(124, 111, 255, 0.1)';
+    ring.innerHTML = '';
+    cur.style.transform = 'translate(-50%, -50%) scale(1)';
+  }
+});
+
 const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>

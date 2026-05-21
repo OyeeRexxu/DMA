@@ -18,6 +18,12 @@ form{display:flex;flex-direction:column;gap:40px}
 .field span{position:absolute;right:0;bottom:8px;font-size:.6rem;color:rgba(255,255,255,.2)}
 button[type=submit]{align-self:flex-start;padding:18px 56px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:background .3s,border-color .3s}
 button[type=submit]:hover{background:#fff;color:#000;border-color:#fff}
+
+@media (max-width: 768px) {
+  .contact-wrap { grid-template-columns: 1fr; padding-top: 80px; }
+  .contact-left { padding: 40px 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); gap: 40px; }
+  .contact-right { padding: 40px 24px; }
+}
 {% endblock %}
 {% block content %}
 <div class="contact-wrap">

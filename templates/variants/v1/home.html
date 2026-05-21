@@ -102,7 +102,7 @@
 
 /* ── PROCESS (Execution Protocols) ── */
 .process-section { padding: 140px 52px; background: #050505; border-top: 1px solid rgba(204,255,0,0.15); }
-.p-cards-wrap { position: relative; height: 300vh; }
+.p-cards-wrap { position: relative; height: 200vh; }
 .p-card { position: sticky; top: 120px; height: 60vh; background: #0c0c0c; border: 1px solid rgba(204,255,0,0.2); padding: 60px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 -20px 40px rgba(0,0,0,0.8); transform-origin: top center; margin-bottom: 40px; }
 .p-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, transparent, var(--lime), transparent); }
 .p-card h3 { font-size: clamp(40px, 6vw, 100px); font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 0 20px rgba(204,255,0,0.3); }
@@ -236,6 +236,246 @@
 .catalyst-card:hover .cat-stat { color:var(--lime); }
 .cat-title { font-size:0.75rem; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-bottom:12px; }
 .cat-desc { font-size:0.85rem; color:rgba(255,255,255,0.45); line-height:1.6; }
+
+/* --- RESPONSIVE STYLE OVERRIDES --- */
+@media (max-width: 992px) {
+  .bts-grid { grid-template-columns: repeat(2, 1fr); height: auto; }
+}
+
+@media (max-width: 768px) {
+  /* Hero */
+  .hero { padding: 40px 20px; }
+  .hero-content { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 32px; }
+  .hero-title { font-size: clamp(48px, 11vw, 90px); line-height: 0.9; }
+  .hero-title .word { white-space: nowrap; }
+  .hero-meta { text-align: left; }
+
+  /* Sections general padding */
+  .ethos-section,
+  .pillars-section,
+  .tiers-section,
+  .team-section,
+  .brand-matrix,
+  .roster-section,
+  .bts-section,
+  .process-section,
+  .faq-section,
+  .cta-section,
+  .map-section {
+    padding: 80px 20px !important;
+  }
+
+  /* Catalyst Matrix */
+  .catalyst-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 40px; }
+  .catalyst-card { padding: 32px 24px; }
+  
+  /* Brand Matrix */
+  .logo-grid { grid-template-columns: repeat(2, 1fr); }
+  .logo-item { height: 120px; font-size: 1.1rem; }
+
+  /* Ethos & Testimonials */
+  .ethos-text { font-size: clamp(22px, 6vw, 36px); }
+  .testimonial-sec { padding: 100px 20px !important; }
+  .test-card p { font-size: clamp(18px, 5vw, 32px); }
+
+  /* Pillars */
+  .svc-row { flex-direction: column; align-items: flex-start; gap: 12px; padding: 32px 0; }
+  .svc-row h3 { font-size: clamp(24px, 6vw, 40px); }
+  .svc-row p { text-align: left; opacity: 0.7; transform: none; max-width: 100%; }
+  .svc-row:hover h3 { transform: none; }
+
+  /* Tiers */
+  .tier-grid { grid-template-columns: 1fr; gap: 20px; }
+  .tier-card { padding: 32px 24px; }
+
+  /* Team */
+  .team-grid { grid-template-columns: 1fr; gap: 32px; }
+  .team-item .t-info { bottom: 20px; left: 20px; padding: 20px; }
+  .team-item h4 { font-size: 1.6rem; }
+
+  /* Work Gallery */
+  .work-section { padding: 80px 0 !important; }
+  .work-gallery { gap: 20px; padding: 0 20px; }
+  .work-item { width: 80vw; }
+  .work-info { opacity: 1; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 70%); }
+  .work-info h3 { font-size: 1.5rem; }
+
+  /* Creator Roster */
+  .roster-header { padding: 0 20px; margin-bottom: 40px; }
+  .roster-track { gap: 20px; padding: 0 20px; }
+  .creator-card { width: 220px; height: 330px; border-radius: 4px; }
+  .creator-card .c-info { bottom: 15px; left: 15px; }
+  .creator-card h4 { font-size: 1.2rem; }
+
+  /* BTS Server Logs */
+  .bts-grid { grid-template-columns: 1fr; gap: 16px; height: auto; }
+  .bts-col { gap: 16px; transform: none !important; }
+  .bts-col img { height: 250px !important; }
+
+  /* Execution Protocols (Process) */
+  .p-cards-wrap { height: auto; }
+  .p-card { position: relative; top: 0 !important; height: auto; padding: 32px 24px; margin-bottom: 20px; }
+  .p-card h3 { font-size: clamp(24px, 5vw, 40px); margin-bottom: 12px; }
+  .p-card p { font-size: 1rem; }
+
+  /* Map Container */
+  .map-container { height: 50vh; }
+
+  /* CTA Huge Button */
+  .huge-btn { font-size: clamp(28px, 7vw, 56px); padding: 24px 48px; border-radius: 100px; }
+}
+
+/* ── DESIGN REFRACTIONS SHOWCASE ── */
+.refractions-section {
+  padding: 120px 52px;
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid rgba(245,245,240,0.06);
+}
+.ref-header {
+  margin-bottom: 60px;
+}
+.ref-lbl {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 12px;
+}
+.ref-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(34px, 4.5vw, 76px);
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+.ref-card {
+  position: relative;
+  background: rgba(15, 15, 15, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px 30px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
+}
+.ref-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.01));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+.ref-card:hover {
+  background: rgba(20, 20, 20, 0.8);
+  transform: translateY(-8px);
+  border-color: rgba(204, 255, 0, 0.3);
+}
+.ref-card:hover::before {
+  background: linear-gradient(135deg, var(--lime), rgba(255,255,255,0.05));
+}
+.ref-hover-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(204, 255, 0, 0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.ref-card:hover .ref-hover-bg {
+  opacity: 1;
+}
+.ref-num {
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--lime);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.ref-meta-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 12px;
+  transition: color 0.3s;
+}
+.ref-card:hover .ref-meta-title {
+  color: var(--lime);
+}
+.ref-archetype {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 24px;
+}
+.ref-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(245, 245, 240, 0.6);
+  margin-top: auto;
+}
+.ref-arrow {
+  margin-top: 32px;
+  font-size: 1rem;
+  color: var(--lime);
+  transform: translateX(0);
+  transition: transform 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.ref-card:hover .ref-arrow {
+  transform: translateX(6px);
+}
+
+@media (max-width: 1200px) {
+  .ref-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 850px) {
+  .ref-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .refractions-section {
+    padding: 80px 32px;
+  }
+}
+@media (max-width: 550px) {
+  .ref-grid {
+    grid-template-columns: 1fr;
+  }
+  .refractions-section {
+    padding: 60px 20px;
+  }
+}
 {% endblock %}
 
 {% block content %}
@@ -263,6 +503,77 @@
     <div class="hero-meta anim-up">
       <span>Scroll Down <br>↓</span>
     </div>
+  </div>
+</section>
+
+<!-- Design Refractions Navigation Showcase -->
+<section class="refractions-section" id="refractions-section">
+  <div class="ref-header">
+    <div class="ref-lbl">Design Refractions</div>
+    <h2 class="ref-title">The Five Brand Directives</h2>
+  </div>
+  <div class="ref-grid">
+    
+    <!-- PULSE -->
+    <a href="{{ subdomain_urls.pulse|default:'#' }}" class="ref-card" data-cursor="PULSE">
+      <div class="ref-hover-bg"></div>
+      <div class="ref-num">01 // PULSE</div>
+      <div>
+        <div class="ref-meta-title">Pulse</div>
+        <div class="ref-archetype">Brutalist / Cyberpunk</div>
+        <p class="ref-desc">Loud, raw, unapologetic creative for brands that refuse to whisper in a crowded digital landscape.</p>
+      </div>
+      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
+    </a>
+
+    <!-- ATELIER -->
+    <a href="{{ subdomain_urls.atelier|default:'#' }}" class="ref-card" data-cursor="ATELIER">
+      <div class="ref-hover-bg"></div>
+      <div class="ref-num">02 // ATELIER</div>
+      <div>
+        <div class="ref-meta-title">Atelier</div>
+        <div class="ref-archetype">Editorial / Sophisticated</div>
+        <p class="ref-desc">Considered, immersive storytelling and refined layout for high-end, legacy, and design-led portfolios.</p>
+      </div>
+      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
+    </a>
+
+    <!-- ORBIT -->
+    <a href="{{ subdomain_urls.orbit|default:'#' }}" class="ref-card" data-cursor="ORBIT">
+      <div class="ref-hover-bg"></div>
+      <div class="ref-num">03 // ORBIT</div>
+      <div>
+        <div class="ref-meta-title">Orbit</div>
+        <div class="ref-archetype">Immersive / Dynamic</div>
+        <p class="ref-desc">Fluid 3D kinetic design, micro-animations, and space-grade visual structures that move forward.</p>
+      </div>
+      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
+    </a>
+
+    <!-- SIGNAL -->
+    <a href="{{ subdomain_urls.signal|default:'#' }}" class="ref-card" data-cursor="SIGNAL">
+      <div class="ref-hover-bg"></div>
+      <div class="ref-num">04 // SIGNAL</div>
+      <div>
+        <div class="ref-meta-title">Signal</div>
+        <div class="ref-archetype">Glitch-Gloss / Tech-Forward</div>
+        <p class="ref-desc">Retro-futurism meets sleek digital-native aesthetics. High frequency grid layouts and gloss effects.</p>
+      </div>
+      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
+    </a>
+
+    <!-- QUIET -->
+    <a href="{{ subdomain_urls.quiet|default:'#' }}" class="ref-card" data-cursor="QUIET">
+      <div class="ref-hover-bg"></div>
+      <div class="ref-num">05 // QUIET</div>
+      <div>
+        <div class="ref-meta-title">Quiet</div>
+        <div class="ref-archetype">Minimalist / Restraint</div>
+        <p class="ref-desc">Maximum restraint is the loudest signal of confidence. Pure typography, asymmetry, and space.</p>
+      </div>
+      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
+    </a>
+
   </div>
 </section>
 
@@ -1739,36 +2050,65 @@ svcRows.forEach(row => {
   row.addEventListener('mouseleave', () => { hoverWrap.classList.remove('active'); });
 });
 
-// Horizontal Cyber-Gallery (02 / Encrypted Archives)
+// --- Responsive Layout & Interaction Control via gsap.matchMedia ---
 const workGallery = document.querySelector('.work-gallery');
 const workWrap = document.querySelector('.work-gallery-wrap');
-if (workGallery && workWrap) {
-  let scrollTween = gsap.to(workGallery, {
-    x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
-    ease: "none",
-    scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
-  });
-  gsap.utils.toArray('.parallax-img').forEach(img => {
-    gsap.to(img, { x: 150, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
-  });
-}
-
-
-// Draggable Creator Roster
 const track = document.getElementById('drag-track');
-Draggable.create(track, {
-  type: "x",
-  bounds: { minX: -(track.scrollWidth - window.innerWidth + 104), maxX: 0 },
-  inertia: true
+
+let mm = gsap.matchMedia();
+
+// Desktop Breakpoint
+mm.add("(min-width: 769px)", () => {
+  // Horizontal Work Gallery
+  if (workGallery && workWrap) {
+    let scrollTween = gsap.to(workGallery, {
+      x: () => -(workGallery.scrollWidth - window.innerWidth + 104),
+      ease: "none",
+      scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
+    });
+    gsap.utils.toArray('.parallax-img').forEach(img => {
+      gsap.to(img, { x: 150, ease: "none", scrollTrigger: { trigger: img.parentElement, containerAnimation: scrollTween, start: "left right", end: "right left", scrub: true } });
+    });
+  }
+
+  // Draggable Creator Roster
+  if (track) {
+    Draggable.create(track, {
+      type: "x",
+      bounds: { minX: -(track.scrollWidth - window.innerWidth + 104), maxX: 0 },
+      inertia: true
+    });
+  }
+
+  // BTS Parallax
+  gsap.to('.bts-up', { y: -150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+  gsap.to('.bts-down', { y: 150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+
+  // Process Sticky Cards
+  gsap.utils.toArray('.p-card').forEach((card, i) => {
+    ScrollTrigger.create({ trigger: card, start: "top 120px", pinSpacing: false });
+  });
 });
 
-// BTS Parallax
-gsap.to('.bts-up', { y: -150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
-gsap.to('.bts-down', { y: 150, ease: "none", scrollTrigger: { trigger: '.bts-section', start: "top bottom", end: "bottom top", scrub: 1 }});
+// Mobile/Tablet Breakpoint
+mm.add("(max-width: 768px)", () => {
+  // Horizontal Work Gallery with Mobile Padding Offsets (40 instead of 104)
+  if (workGallery && workWrap) {
+    let scrollTween = gsap.to(workGallery, {
+      x: () => -(workGallery.scrollWidth - window.innerWidth + 40),
+      ease: "none",
+      scrollTrigger: { trigger: workWrap, pin: true, scrub: 1, end: () => "+=" + workGallery.scrollWidth }
+    });
+  }
 
-// Process Sticky Cards
-gsap.utils.toArray('.p-card').forEach((card, i) => {
-  ScrollTrigger.create({ trigger: card, start: "top 120px", pinSpacing: false });
+  // Draggable Creator Roster with Mobile Padding Offsets (40 instead of 104)
+  if (track) {
+    Draggable.create(track, {
+      type: "x",
+      bounds: { minX: -(track.scrollWidth - window.innerWidth + 40), maxX: 0 },
+      inertia: true
+    });
+  }
 });
 
 // FAQ Accordion

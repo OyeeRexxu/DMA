@@ -45,6 +45,8 @@ def v1_contact(request):
     return render(request, 'variants/v1/contact.html')
 
 
+
+
 # ── Variant 3 – Gradient Luxe ──────────────────────────────
 def variant_3(request):
     return render(request, 'variants/v3/home.html', {'projects': _projects(), 'services': _services()})
@@ -86,20 +88,6 @@ def v5_contact(request):
     r = _handle_contact(request, 'v5_contact')
     if r: return r
     return render(request, 'variants/v5/contact.html')
-
-# ── Variant 6 – Ultra Premium (Awwwards) ────────────────
-def variant_6(request):
-    return render(request, 'variants/v6/home.html', {'projects': _projects(), 'services': _services()})
-def v6_services(request):
-    return render(request, 'variants/v6/services.html', {'services': _services()})
-def v6_work(request):
-    return render(request, 'variants/v6/work.html', {'projects': _all_projects()})
-def v6_work_detail(request, slug):
-    return render(request, 'variants/v6/detail.html', {'project': get_object_or_404(Project, slug=slug), 'related': _projects()})
-def v6_contact(request):
-    r = _handle_contact(request, 'v6_contact')
-    if r: return r
-    return render(request, 'variants/v6/contact.html')
 
 
 # ── Variant 8 – AlgoPros Geodesic Sphere (GIF Match) ─────────

@@ -19,11 +19,7 @@ SECRET_KEY = 'django-insecure-^d**8vutb1+yb$4(mfg3mn=4dc!h9&x(&ynga_nq=-$o!dzpl*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "rexxuop.pythonanywhere.com",
-    "127.0.0.1",
-    "localhost"
-]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,10 +35,17 @@ INSTALLED_APPS = [
     'projects',
     'services',
     'contact',
+    'site_core',
+    'apps.site_pulse',
+    'apps.site_atelier',
+    'apps.site_orbit',
+    'apps.site_signal',
+    'apps.site_quiet',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'site_core.middleware.SubdomainRoutingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -63,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'site_core.context_processors.site_context',
             ],
         },
     },
@@ -127,3 +131,47 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Map Host header subdomains -> per-site URLconf modules.
+# A request to pulse.localhost is routed through apps.site_pulse.urls only.
+# A request to localhost (no subdomain) hits the landing index.
+SUBDOMAIN_URLCONFS = {
+    "pulse": "apps.site_pulse.urls",
+    "atelier": "apps.site_atelier.urls",
+    "orbit": "apps.site_orbit.urls",
+    "signal": "apps.site_signal.urls",
+    "quiet": "apps.site_quiet.urls",
+}
+
+SITE_META = {
+    "pulse": {
+        "name": "Pulse",
+        "tagline": "Loud creative for brands that refuse to whisper.",
+        "accent": "#FF3B00",
+    },
+    "atelier": {
+        "name": "Atelier",
+        "tagline": "Considered storytelling for considered brands.",
+        "accent": "#1A1A1A",
+    },
+    "orbit": {
+        "name": "Orbit",
+        "tagline": "Immersive worlds for brands that move forward.",
+        "accent": "#7C5CFF",
+    },
+    "signal": {
+        "name": "Signal",
+        "tagline": "Glitch, gloss, and growth for digital-native brands.",
+        "accent": "#FF00C8",
+    },
+    "quiet": {
+        "name": "Quiet",
+        "tagline": "Restraint is the loudest signal of confidence.",
+        "accent": "#0F766E",
+    },
+}
+
+# Canonical site origin (used for absolute URLs in sitemaps & OG tags).
+CANONICAL_HOST = "localhost:8000"
+CANONICAL_SCHEME = "http"
+

@@ -19,8 +19,6 @@ urlpatterns = [
     path('v1/work/<slug:slug>/', v.v1_work_detail),
     path('v1/contact/', v.v1_contact),
 
-
-
     # Variant 3
     path('v3/', v.variant_3, name='v3'),
     path('v3/services/', v.v3_services, name='v3_services'),
@@ -41,14 +39,6 @@ urlpatterns = [
     path('v5/work/', v.v5_work, name='v5_work'),
     path('v5/work/<slug:slug>/', v.v5_work_detail, name='v5_work_detail'),
     path('v5/contact/', v.v5_contact, name='v5_contact'),
-
-    # Variant 6
-    path('v6/', v.variant_6, name='v6'),
-    path('v6/services/', v.v6_services, name='v6_services'),
-    path('v6/work/', v.v6_work, name='v6_work'),
-    path('v6/work/<slug:slug>/', v.v6_work_detail, name='v6_work_detail'),
-    path('v6/contact/', v.v6_contact, name='v6_contact'),
-
 
     # Variant 8 – AlgoPros Geodesic Sphere (GIF Match)
     path('v8/', v.variant_8, name='v8'),

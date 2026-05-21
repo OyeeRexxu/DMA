@@ -30,7 +30,7 @@ footer{padding:140px 60px 0}
 .footer-cta a:hover{background:#fff;color:#000;border-color:#fff}
 .fbar{display:flex;justify-content:space-between;padding:24px 0;border-top:1px solid rgba(255,255,255,.04);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.18)}
 .fbar a{color:inherit;text-decoration:none;transition:color .3s}.fbar a:hover{color:#fff}
-.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;gap:5px}
+.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex; flex-wrap:wrap; justify-content:flex-end; max-width:90vw;gap:5px}
 .vsw a{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-decoration:none;transition:all .3s}
 .vsw a:hover,.vsw a.cur{background:#fff;color:#000;border-color:#fff}
 {% block extra_css %}{% endblock %}
@@ -52,7 +52,16 @@ footer{padding:140px 60px 0}
   <div class="footer-cta"><h2>Let's<br>Talk.</h2><a href="{% url 'v4_contact' %}">Start a project</a></div>
   <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
 </footer>
-<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" class="cur" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v6' %}" title="Masterpiece">6</a><a href="{% url 'v8' %}" title="AlgoPros">8</a></div>
+<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" class="cur" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v8' %}" title="AlgoPros">8</a>
+  {% if subdomain_urls %}
+  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
+  <a href="{{ subdomain_urls.pulse }}" title="Pulse" data-cursor="PULSE">P</a>
+  <a href="{{ subdomain_urls.atelier }}" title="Atelier" data-cursor="ATELIER">A</a>
+  <a href="{{ subdomain_urls.orbit }}" title="Orbit" data-cursor="ORBIT">O</a>
+  <a href="{{ subdomain_urls.signal }}" title="Signal" data-cursor="SIGNAL">S</a>
+  <a href="{{ subdomain_urls.quiet }}" title="Quiet" data-cursor="QUIET">Q</a>
+  {% endif %}
+</div>
 <script>
 const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -50px 0px'});

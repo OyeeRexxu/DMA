@@ -282,7 +282,7 @@
             bottom: 40px;
             left: 40px;
             z-index: 9999;
-            display: flex;
+            display: flex; flex-wrap:wrap; justify-content:flex-end; max-width:90vw;
             gap: 6px;
         }
 
@@ -369,13 +369,19 @@
     <!-- Variant Switcher -->
     <div class="vsw">
         <a href="{% url 'v1' %}" title="Cinematic">1</a>
-        
         <a href="{% url 'v3' %}" title="Gradient">3</a>
         <a href="{% url 'v4' %}" title="Type">4</a>
         <a href="{% url 'v5' %}" title="Neon">5</a>
-        <a href="{% url 'v6' %}" title="Masterpiece">6</a>
         <a href="{% url 'v8' %}" class="cur" title="AlgoPros">8</a>
-    </div>
+  {% if subdomain_urls %}
+  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
+  <a href="{{ subdomain_urls.pulse }}" title="Pulse" data-cursor="PULSE">P</a>
+  <a href="{{ subdomain_urls.atelier }}" title="Atelier" data-cursor="ATELIER">A</a>
+  <a href="{{ subdomain_urls.orbit }}" title="Orbit" data-cursor="ORBIT">O</a>
+  <a href="{{ subdomain_urls.signal }}" title="Signal" data-cursor="SIGNAL">S</a>
+  <a href="{{ subdomain_urls.quiet }}" title="Quiet" data-cursor="QUIET">Q</a>
+  {% endif %}
+</div>
 
     <!-- Core CDNs -->
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>

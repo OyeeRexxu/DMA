@@ -11,6 +11,14 @@
 .svc-title{font-size:clamp(24px,3vw,40px);font-weight:900;letter-spacing:-.03em;margin-bottom:16px}
 .svc-short{font-size:.9rem;color:rgba(255,255,255,.35);line-height:1.7}
 .svc-detail{font-size:.82rem;color:rgba(255,255,255,.25);line-height:1.8;padding-top:6px}
+
+@media (max-width: 768px) {
+  .pg-hero { padding: 120px 24px 48px; }
+  .svc-list { padding: 40px 24px 80px; }
+  .svc-item { grid-template-columns: 1fr; gap: 16px; padding: 36px 0; }
+  .svc-item:hover { padding-left: 0; }
+  .svc-n { padding-top: 0; }
+}
 {% endblock %}
 {% block content %}
 <div class="pg-hero">

@@ -101,9 +101,33 @@ main { min-height:100vh; background:var(--black); position:relative; z-index:2; 
 .sec-num { font-size:0.58rem; font-weight:700; letter-spacing:0.3em; color:rgba(245,245,240,0.2); }
 
 /* ─── VARIANT SWITCHER ───── */
-.vsw { position:fixed; bottom:24px; right:24px; z-index:999; display:flex; gap:6px; }
+.vsw { position:fixed; bottom:24px; right:24px; z-index:999; display:flex; flex-wrap:wrap; justify-content:flex-end; max-width:90vw; gap:6px; }
 .vsw a { width:32px; height:32px; border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:700; color:rgba(255,255,255,.3); text-decoration:none; transition:all .3s; }
 .vsw a:hover, .vsw a.cur { background:var(--lime); color:var(--black); border-color:var(--lime); }
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 1024px) {
+  body { cursor: auto !important; }
+  #cursor-main, #cursor-trail, #cursor-badge, #cursor-control-deck { display: none !important; }
+  * { cursor: auto !important; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 0.55rem; letter-spacing: 0.15em; }
+
+  .footer-wrap { padding: 60px 24px 30px; }
+  .footer-top { flex-direction: column; align-items: flex-start; gap: 32px; padding-bottom: 40px; }
+  .footer-headline { font-size: clamp(36px, 10vw, 64px); }
+  .footer-cta-btn { padding: 16px 36px; width: 100%; text-align: center; }
+  .footer-bar { flex-direction: column; gap: 16px; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .vsw { bottom: 16px; right: 16px; gap: 4px; }
+  .vsw a { width: 28px; height: 28px; font-size: 0.55rem; }
+}
 
 {% block extra_css %}{% endblock %}
 </style>
@@ -171,8 +195,15 @@ main { min-height:100vh; background:var(--black); position:relative; z-index:2; 
   <a href="{% url 'v3' %}" title="Gradient" data-cursor="VARIANT 3">3</a>
   <a href="{% url 'v4' %}" title="Type" data-cursor="VARIANT 4">4</a>
   <a href="{% url 'v5' %}" title="Neon" data-cursor="VARIANT 5">5</a>
-  <a href="{% url 'v6' %}" title="Masterpiece" data-cursor="VARIANT 6">6</a>
   <a href="{% url 'v8' %}" title="AlgoPros" data-cursor="VARIANT 8">8</a>
+  {% if subdomain_urls %}
+  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
+  <a href="{{ subdomain_urls.pulse }}" title="Pulse" data-cursor="PULSE">P</a>
+  <a href="{{ subdomain_urls.atelier }}" title="Atelier" data-cursor="ATELIER">A</a>
+  <a href="{{ subdomain_urls.orbit }}" title="Orbit" data-cursor="ORBIT">O</a>
+  <a href="{{ subdomain_urls.signal }}" title="Signal" data-cursor="SIGNAL">S</a>
+  <a href="{{ subdomain_urls.quiet }}" title="Quiet" data-cursor="QUIET">Q</a>
+  {% endif %}
 </div>
 
 <!-- Scripts -->
