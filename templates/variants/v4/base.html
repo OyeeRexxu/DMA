@@ -53,14 +53,12 @@ footer{padding:140px 60px 0}
   <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
 </footer>
 <div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" class="cur" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v8' %}" title="AlgoPros">8</a>
-  {% if subdomain_urls %}
   <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
-  <a href="{{ subdomain_urls.pulse }}" title="Pulse" data-cursor="PULSE">P</a>
-  <a href="{{ subdomain_urls.atelier }}" title="Atelier" data-cursor="ATELIER">A</a>
-  <a href="{{ subdomain_urls.orbit }}" title="Orbit" data-cursor="ORBIT">O</a>
-  <a href="{{ subdomain_urls.signal }}" title="Signal" data-cursor="SIGNAL">S</a>
-  <a href="{{ subdomain_urls.quiet }}" title="Quiet" data-cursor="QUIET">Q</a>
-  {% endif %}
+  <a href="{% url 'v9:home' %}" title="Pulse">9</a>
+  <a href="{% url 'v10:home' %}" title="Atelier">10</a>
+  <a href="{% url 'v11:home' %}" title="Orbit">11</a>
+  <a href="{% url 'v12:home' %}" title="Signal">12</a>
+  <a href="{% url 'v13:home' %}" title="Quiet">13</a>
 </div>
 <script>
 const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});

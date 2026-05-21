@@ -16,16 +16,16 @@
   <div class="grain"></div>
 
   <header class="nav">
-    <a href="/" class="brand">
+    <a href="{% url 'v11:home' %}" class="brand">
       <span class="brand-glyph">◐</span>
       <span class="brand-name">ORBIT</span>
       <span class="brand-version">v.26</span>
     </a>
     <nav class="links">
-      <a href="/" data-nav>Home</a>
-      <a href="/services/" data-nav>Capabilities</a>
-      <a href="/projects/" data-nav>Worlds</a>
-      <a href="/contact/" data-nav class="cta">Open a channel ↗</a>
+      <a href="{% url 'v11:home' %}" data-nav>Home</a>
+      <a href="{% url 'v11:services' %}" data-nav>Capabilities</a>
+      <a href="{% url 'v11:projects' %}" data-nav>Worlds</a>
+      <a href="{% url 'v11:contact' %}" data-nav class="cta">Open a channel ↗</a>
     </nav>
   </header>
 
@@ -57,11 +57,11 @@
         <div>
           <p class="micro">Other refractions</p>
           <p>
-                        <a href="{{ main_url }}">DMA Agency</a> ·
-            <a href="{{ subdomain_urls.pulse }}">Pulse</a> ·
-            <a href="{{ subdomain_urls.atelier }}">Atelier</a> ·
-            <a href="{{ subdomain_urls.signal }}">Signal</a> ·
-            <a href="{{ subdomain_urls.quiet }}">Quiet</a>
+            <a href="{{ main_url }}">DMA Agency</a> ·
+            <a href="{{ subdomain_urls.pulse }}">Pulse (v9)</a> ·
+            <a href="{{ subdomain_urls.atelier }}">Atelier (v10)</a> ·
+            <a href="{{ subdomain_urls.signal }}">Signal (v12)</a> ·
+            <a href="{{ subdomain_urls.quiet }}">Quiet (v13)</a>
           </p>
         </div>
       </div>

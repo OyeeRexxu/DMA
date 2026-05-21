@@ -196,14 +196,12 @@ main { min-height:100vh; background:var(--black); position:relative; z-index:2; 
   <a href="{% url 'v4' %}" title="Type" data-cursor="VARIANT 4">4</a>
   <a href="{% url 'v5' %}" title="Neon" data-cursor="VARIANT 5">5</a>
   <a href="{% url 'v8' %}" title="AlgoPros" data-cursor="VARIANT 8">8</a>
-  {% if subdomain_urls %}
   <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
-  <a href="{{ subdomain_urls.pulse }}" title="Pulse" data-cursor="PULSE">P</a>
-  <a href="{{ subdomain_urls.atelier }}" title="Atelier" data-cursor="ATELIER">A</a>
-  <a href="{{ subdomain_urls.orbit }}" title="Orbit" data-cursor="ORBIT">O</a>
-  <a href="{{ subdomain_urls.signal }}" title="Signal" data-cursor="SIGNAL">S</a>
-  <a href="{{ subdomain_urls.quiet }}" title="Quiet" data-cursor="QUIET">Q</a>
-  {% endif %}
+  <a href="{% url 'v9:home' %}" title="Pulse" data-cursor="PULSE">9</a>
+  <a href="{% url 'v10:home' %}" title="Atelier" data-cursor="ATELIER">10</a>
+  <a href="{% url 'v11:home' %}" title="Orbit" data-cursor="ORBIT">11</a>
+  <a href="{% url 'v12:home' %}" title="Signal" data-cursor="SIGNAL">12</a>
+  <a href="{% url 'v13:home' %}" title="Quiet" data-cursor="QUIET">13</a>
 </div>
 
 <!-- Scripts -->

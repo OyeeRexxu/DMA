@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'site_core.middleware.SubdomainRoutingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,15 +131,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Map Host header subdomains -> per-site URLconf modules.
-# A request to pulse.localhost is routed through apps.site_pulse.urls only.
-# A request to localhost (no subdomain) hits the landing index.
-SUBDOMAIN_URLCONFS = {
-    "pulse": "apps.site_pulse.urls",
-    "atelier": "apps.site_atelier.urls",
-    "orbit": "apps.site_orbit.urls",
-    "signal": "apps.site_signal.urls",
-    "quiet": "apps.site_quiet.urls",
+# Variant path prefixes (v9–v13) – formerly subdomain-based sites
+VARIANT_PATHS = {
+    "pulse":   "v9",
+    "atelier": "v10",
+    "orbit":   "v11",
+    "signal":  "v12",
+    "quiet":   "v13",
 }
 
 SITE_META = {
@@ -174,4 +171,3 @@ SITE_META = {
 # Canonical site origin (used for absolute URLs in sitemaps & OG tags).
 CANONICAL_HOST = "localhost:8000"
 CANONICAL_SCHEME = "http"
-

@@ -15,14 +15,14 @@
   <div class="cursor" aria-hidden="true"><span></span></div>
 
   <header class="bar">
-    <a class="logo" href="/" data-magnetic>
+    <a class="logo" href="{% url 'v9:home' %}" data-magnetic>
       <span class="dot"></span>PULSE<span class="tm">©2026</span>
     </a>
     <nav class="nav">
-      <a href="/" data-magnetic>Home</a>
-      <a href="/services/" data-magnetic>Services</a>
-      <a href="/projects/" data-magnetic>Work</a>
-      <a href="/contact/" data-magnetic class="cta">Start a project →</a>
+      <a href="{% url 'v9:home' %}" data-magnetic>Home</a>
+      <a href="{% url 'v9:services' %}" data-magnetic>Services</a>
+      <a href="{% url 'v9:projects' %}" data-magnetic>Work</a>
+      <a href="{% url 'v9:contact' %}" data-magnetic class="cta">Start a project →</a>
     </nav>
   </header>
 
@@ -51,11 +51,11 @@
         </div>
         <div>
           <p class="label">Other refractions</p>
-                    <a href="{{ main_url }}">DMA Agency</a> ·
-          <a href="{{ subdomain_urls.atelier }}">Atelier</a> ·
-          <a href="{{ subdomain_urls.orbit }}">Orbit</a> ·
-          <a href="{{ subdomain_urls.signal }}">Signal</a> ·
-          <a href="{{ subdomain_urls.quiet }}">Quiet</a>
+          <a href="{{ main_url }}">DMA Agency</a> ·
+          <a href="{{ subdomain_urls.atelier }}">Atelier (v10)</a> ·
+          <a href="{{ subdomain_urls.orbit }}">Orbit (v11)</a> ·
+          <a href="{{ subdomain_urls.signal }}">Signal (v12)</a> ·
+          <a href="{{ subdomain_urls.quiet }}">Quiet (v13)</a>
         </div>
       </div>
       <div class="footer-meta">

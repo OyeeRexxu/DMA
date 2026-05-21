@@ -42,6 +42,13 @@ urlpatterns = [
 
     # Variant 8 – AlgoPros Geodesic Sphere (GIF Match)
     path('v8/', v.variant_8, name='v8'),
+
+    # Variants 9–13 – New design variants (path-based, formerly subdomain)
+    path('v9/',  include(('apps.site_pulse.urls',   'apps.site_pulse'),   namespace='v9')),
+    path('v10/', include(('apps.site_atelier.urls', 'apps.site_atelier'), namespace='v10')),
+    path('v11/', include(('apps.site_orbit.urls',   'apps.site_orbit'),   namespace='v11')),
+    path('v12/', include(('apps.site_signal.urls',  'apps.site_signal'),  namespace='v12')),
+    path('v13/', include(('apps.site_quiet.urls',   'apps.site_quiet'),   namespace='v13')),
 ]
 
 if settings.DEBUG:

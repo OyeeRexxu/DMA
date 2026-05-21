@@ -15,15 +15,15 @@
   <div class="spotlight-warm" aria-hidden="true"></div>
   <div data-barba="wrapper">
   <header class="qnav">
-    <a href="/" class="qbrand">
+    <a href="{% url 'v13:home' %}" class="qbrand">
       <span class="qbrand-mark">●</span>
       <span class="qbrand-name">Quiet</span>
     </a>
     <nav class="qnav-links">
-      <a href="/" data-link>Home</a>
-      <a href="/services/" data-link>Services</a>
-      <a href="/projects/" data-link>Work</a>
-      <a href="/contact/" data-link class="qnav-cta" data-magnetic>Start →</a>
+      <a href="{% url 'v13:home' %}" data-link>Home</a>
+      <a href="{% url 'v13:services' %}" data-link>Services</a>
+      <a href="{% url 'v13:projects' %}" data-link>Work</a>
+      <a href="{% url 'v13:contact' %}" data-link class="qnav-cta" data-magnetic>Start →</a>
     </nav>
   </header>
 
@@ -36,7 +36,7 @@
       <div class="qfoot-card qfoot-cta">
         <p class="qfoot-pretitle">Have a project?</p>
         <h2>Let's <em>talk.</em></h2>
-        <a href="/contact/" class="qbtn qbtn--solid" data-magnetic>Start a conversation</a>
+        <a href="{% url 'v13:contact' %}" class="qbtn qbtn--solid" data-magnetic>Start a conversation</a>
       </div>
       <div class="qfoot-grid">
         <div class="qfoot-card">
@@ -54,11 +54,11 @@
         <div class="qfoot-card">
           <p class="qfoot-label">Other refractions</p>
           <p>
-                        <a href="{{ main_url }}">DMA Agency</a>,
-            <a href="{{ subdomain_urls.pulse }}">Pulse</a>,
-            <a href="{{ subdomain_urls.atelier }}">Atelier</a>,
-            <a href="{{ subdomain_urls.orbit }}">Orbit</a>,
-            <a href="{{ subdomain_urls.signal }}">Signal</a>
+            <a href="{{ main_url }}">DMA Agency</a>,
+            <a href="{{ subdomain_urls.pulse }}">Pulse (v9)</a>,
+            <a href="{{ subdomain_urls.atelier }}">Atelier (v10)</a>,
+            <a href="{{ subdomain_urls.orbit }}">Orbit (v11)</a>,
+            <a href="{{ subdomain_urls.signal }}">Signal (v12)</a>
           </p>
         </div>
       </div>
