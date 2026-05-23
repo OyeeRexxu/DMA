@@ -2,68 +2,359 @@
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}DMA.{% endblock %}</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,700;0,900;1,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:#000;color:#f0f0f0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
-#cur{position:fixed;width:6px;height:6px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+*{box-sizing:border-box;margin:0;padding:0}
+a{color:inherit;text-decoration:none}
+html{scroll-behavior:auto}
+:root{--w:#f0f0ec;--b:#080808;--dim:rgba(240,240,236,.1);--dim2:rgba(240,240,236,.04)}
+body{background:var(--b);color:var(--w);font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+
+/* ── NOISE OVERLAY ── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9990;opacity:.6}
+
+/* ── SCROLL PROGRESS ── */
+#sp{position:fixed;top:0;left:0;height:2px;background:var(--w);width:0%;z-index:10001;pointer-events:none;box-shadow:0 0 8px rgba(240,240,236,.5)}
+
+/* ── CURSOR — V4 EXCLUSIVE: CROSSHAIR + TRAILING RINGS ── */
+#cur-xa,#cur-ya,#cur-ring,#cur-lbl,#cur-coords,.cur-trail{pointer-events:none;position:fixed;mix-blend-mode:difference}
+#cur-xa{z-index:10000;width:1px;height:28px;background:var(--w);transform:translate(-50%,-50%);transition:height .22s cubic-bezier(.16,1,.3,1),opacity .15s}
+#cur-ya{z-index:10000;width:28px;height:1px;background:var(--w);transform:translate(-50%,-50%);transition:width .22s cubic-bezier(.16,1,.3,1),opacity .15s}
+#cur-ring{z-index:9998;width:44px;height:44px;border:1px solid rgba(240,240,236,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .42s cubic-bezier(.16,1,.3,1),height .42s cubic-bezier(.16,1,.3,1),border-radius .42s,border-color .28s,transform .3s,opacity .3s}
+#cur-lbl{z-index:10001;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--w);white-space:nowrap;opacity:0;transition:opacity .18s;transform:translateY(-50%)}
+#cur-coords{z-index:10001;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.12em;color:rgba(240,240,236,.3);white-space:nowrap;transition:opacity .18s;transform:translateY(-50%)}
+/* Trail rings */
+.cur-trail{border-radius:50%;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s}
+#tr1{z-index:9997;width:64px;height:64px;border:1px solid rgba(240,240,236,.09)}
+#tr2{z-index:9996;width:86px;height:86px;border:1px solid rgba(240,240,236,.05)}
+/* Idle ring breathe */
+@keyframes ringPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.45}50%{transform:translate(-50%,-50%) scale(1.45);opacity:.1}}
+/* Mobile: restore native cursor */
+@media(hover:none),(pointer:coarse){body{cursor:auto!important}#cur-xa,#cur-ya,#cur-ring,#cur-lbl,#cur-coords,#tr1,#tr2{display:none!important}}
+
+/* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;mix-blend-mode:difference}
-.logo{font-size:.9rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-decoration:none}
+.logo{font-size:.9rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#fff}
 .nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{font-size:.6rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#fff;text-decoration:none;opacity:.35;transition:opacity .3s}
+.nav-links a{font-size:.6rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#fff;opacity:.35;transition:opacity .3s}
 .nav-links a:hover,.nav-links a.active{opacity:1}
+
+/* ── MAIN ── */
 main{min-height:100vh;padding-top:70px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes ghostIn{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.16,1,.3,1)}
-.reveal.active{opacity:1;transform:translateY(0)}
-.ticker{overflow:hidden;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);padding:14px 0}
-.ticker-t{display:flex;white-space:nowrap;animation:tick 22s linear infinite}
-.ticker-t span{font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.2);padding:0 36px}
-.ticker-t .s{color:rgba(255,255,255,.45)}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:translateX(0)}}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-footer{padding:140px 60px 0}
+@keyframes glitch1{0%,100%{clip-path:inset(0 0 95% 0);transform:translate(-4px,0)}20%{clip-path:inset(30% 0 50% 0);transform:translate(4px,0)}40%{clip-path:inset(60% 0 20% 0);transform:translate(-2px,0)}60%{clip-path:inset(80% 0 5% 0);transform:translate(3px,0)}80%{clip-path:inset(10% 0 75% 0);transform:translate(-3px,0)}}
+@keyframes glitch2{0%,100%{clip-path:inset(50% 0 30% 0);transform:translate(4px,0)}25%{clip-path:inset(10% 0 80% 0);transform:translate(-4px,0)}50%{clip-path:inset(70% 0 10% 0);transform:translate(2px,0)}75%{clip-path:inset(20% 0 60% 0);transform:translate(-2px,0)}}
+@keyframes scanH{0%{top:-5%}100%{top:105%}}
+@keyframes lineGrow{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
+@keyframes charDrop{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
+@keyframes borderPulse{0%,100%{border-color:rgba(240,240,236,.1)}50%{border-color:rgba(240,240,236,.4)}}
+
+/* ── REVEAL SYSTEM ── */
+.rv{opacity:0;transform:translateY(60px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-60px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv-l.on{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(60px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv-r.on{opacity:1;transform:translateX(0)}
+.rv-scale{opacity:0;transform:scale(.92);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv-scale.on{opacity:1;transform:scale(1)}
+
+/* ── TICKER ── */
+.ticker{overflow:hidden;border-top:1px solid var(--dim);border-bottom:1px solid var(--dim);padding:14px 0}
+.ticker-t{display:flex;white-space:nowrap;animation:tick 28s linear infinite}
+.ticker-t span{font-size:.55rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.2);padding:0 36px}
+.ticker-t .s{color:rgba(240,240,236,.5)}
+
+/* ── FOOTER ── */
+footer{padding:140px 60px 0;position:relative;overflow:hidden}
 .footer-cta{text-align:center;padding-bottom:80px}
-.footer-cta h2{font-size:clamp(56px,11vw,150px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.85;color:rgba(255,255,255,.05);transition:color .6s}
-.footer-cta:hover h2{color:rgba(255,255,255,.1)}
-.footer-cta a{display:inline-block;margin-top:56px;padding:16px 52px;border:1px solid rgba(255,255,255,.12);font-size:.65rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#fff;text-decoration:none;transition:background .3s,border-color .3s}
-.footer-cta a:hover{background:#fff;color:#000;border-color:#fff}
-.fbar{display:flex;justify-content:space-between;padding:24px 0;border-top:1px solid rgba(255,255,255,.04);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.18)}
-.fbar a{color:inherit;text-decoration:none;transition:color .3s}.fbar a:hover{color:#fff}
-.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex; flex-wrap:wrap; justify-content:flex-end; max-width:90vw;gap:5px}
-.vsw a{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-decoration:none;transition:all .3s}
+.footer-cta h2{font-size:clamp(56px,11vw,150px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.85;color:rgba(240,240,236,.05);transition:color .8s}
+.footer-cta:hover h2{color:rgba(240,240,236,.12)}
+.footer-cta a{display:inline-block;margin-top:56px;padding:16px 52px;border:1px solid rgba(240,240,236,.15);font-size:.65rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--w);position:relative;overflow:hidden}
+.footer-cta a::before{content:'';position:absolute;inset:0;background:var(--w);transform:translateX(-101%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.footer-cta a:hover::before{transform:translateX(0)}
+.footer-cta a span{position:relative;z-index:1;transition:color .4s}
+.footer-cta a:hover span{color:var(--b)}
+.fbar{display:flex;justify-content:space-between;padding:24px 0;border-top:1px solid var(--dim2);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,236,.2)}
+.fbar a{transition:color .3s}
+.fbar a:hover{color:var(--w)}
+
+/* ── VSW ── */
+.vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-wrap:wrap;justify-content:flex-end;max-width:90vw;gap:5px}
+.vsw a{width:32px;height:32px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);transition:all .3s}
 .vsw a:hover,.vsw a.cur{background:#fff;color:#000;border-color:#fff}
+
+/* ── UTILS ── */
+.sec-lbl{font-size:.55rem;font-weight:700;letter-spacing:.4em;text-transform:uppercase;color:rgba(240,240,236,.25);display:block;margin-bottom:12px}
+
+@media(max-width:1024px){nav{padding:20px 32px}}
+@media(max-width:768px){nav{padding:16px 20px}.nav-links{gap:16px}.nav-links a{font-size:.55rem;letter-spacing:.15em}footer{padding:80px 24px 0}}
+@media(max-width:480px){nav{padding:14px 16px;flex-wrap:wrap;gap:10px}.nav-links{gap:10px;order:2;width:100%;justify-content:center}.nav-links a{font-size:.5rem;letter-spacing:.1em}footer{padding:60px 16px 0}.footer-cta a{padding:14px 32px;font-size:.6rem}.fbar{flex-direction:column;gap:10px;align-items:center}.vsw{bottom:14px;right:14px}}
+
 {% block extra_css %}{% endblock %}
-</style></head>
+</style>
+</head>
 <body>
-<div id="cur"></div>
+
+<div id="sp"></div>
+<div id="tr2" class="cur-trail"></div>
+<div id="tr1" class="cur-trail"></div>
+<div id="cur-ring"></div>
+<div id="cur-xa"></div>
+<div id="cur-ya"></div>
+<div id="cur-lbl"></div>
+<div id="cur-coords"></div>
+
 <nav>
-  <a href="{% url 'v4' %}" class="logo">DMA.</a>
+  <a href="{% url 'v4' %}" class="logo" data-cur="HOME">DMA.</a>
   <ul class="nav-links">
-    <li><a href="{% url 'v4' %}" {% if request.resolver_match.url_name == 'v4' %}class="active"{% endif %}>Home</a></li>
-    <li><a href="{% url 'v4_work' %}" {% if 'v4_work' in request.resolver_match.url_name %}class="active"{% endif %}>Work</a></li>
-    <li><a href="{% url 'v4_services' %}" {% if request.resolver_match.url_name == 'v4_services' %}class="active"{% endif %}>Services</a></li>
-    <li><a href="{% url 'v4_contact' %}" {% if request.resolver_match.url_name == 'v4_contact' %}class="active"{% endif %}>Contact</a></li>
+    <li><a href="{% url 'v4' %}" {% if request.resolver_match.url_name == 'v4' %}class="active"{% endif %} data-cur="HOME">Home</a></li>
+    <li><a href="{% url 'v4_work' %}" {% if 'v4_work' in request.resolver_match.url_name %}class="active"{% endif %} data-cur="WORK">Work</a></li>
+    <li><a href="{% url 'v4_services' %}" {% if request.resolver_match.url_name == 'v4_services' %}class="active"{% endif %} data-cur="SERVICES">Services</a></li>
+    <li><a href="{% url 'v4_contact' %}" {% if request.resolver_match.url_name == 'v4_contact' %}class="active"{% endif %} data-cur="CONTACT">Contact</a></li>
   </ul>
 </nav>
+
 <main>{% block content %}{% endblock %}</main>
-<div class="ticker"><div class="ticker-t"><span>Brand Strategy</span><span class="s">✦</span><span>Content Creation</span><span class="s">✦</span><span>Influencer Management</span><span class="s">✦</span><span>AI Production</span><span class="s">✦</span><span>Campaign Execution</span><span class="s">✦</span><span>Brand Strategy</span><span class="s">✦</span><span>Content Creation</span><span class="s">✦</span><span>Influencer Management</span><span class="s">✦</span><span>AI Production</span><span class="s">✦</span><span>Campaign Execution</span><span class="s">✦</span></div></div>
-<footer>
-  <div class="footer-cta"><h2>Let's<br>Talk.</h2><a href="{% url 'v4_contact' %}">Start a project</a></div>
-  <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
-</footer>
-<div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" class="cur" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v8' %}" title="AlgoPros">8</a>
-  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
-  <a href="{% url 'v9:home' %}" title="Pulse">9</a>
-  <a href="{% url 'v10:home' %}" title="Atelier">10</a>
-  <a href="{% url 'v11:home' %}" title="Orbit">11</a>
-  <a href="{% url 'v12:home' %}" title="Signal">12</a>
-  <a href="{% url 'v13:home' %}" title="Quiet">13</a>
+
+<div class="ticker">
+  <div class="ticker-t">
+    <span>Brand Strategy</span><span class="s">✦</span><span>Content Creation</span><span class="s">✦</span><span>Influencer Management</span><span class="s">✦</span><span>AI Production</span><span class="s">✦</span><span>Campaign Execution</span><span class="s">✦</span><span>Paid Media</span><span class="s">✦</span><span>SEO & Growth</span><span class="s">✦</span>
+    <span>Brand Strategy</span><span class="s">✦</span><span>Content Creation</span><span class="s">✦</span><span>Influencer Management</span><span class="s">✦</span><span>AI Production</span><span class="s">✦</span><span>Campaign Execution</span><span class="s">✦</span><span>Paid Media</span><span class="s">✦</span><span>SEO & Growth</span><span class="s">✦</span>
+  </div>
 </div>
+
+<footer>
+  <div class="footer-cta">
+    <h2>Let's<br>Talk.</h2>
+    <a href="{% url 'v4_contact' %}" data-cur="START"><span>Start a project →</span></a>
+  </div>
+  <div class="fbar">
+    <span>© 2026 DMA. Studio</span>
+    <div style="display:flex;gap:20px"><a href="#" data-cur="VISIT">IG</a><a href="#" data-cur="VISIT">X</a><a href="#" data-cur="VISIT">LI</a></div>
+  </div>
+</footer>
+
+<div class="vsw">
+  <a href="{% url 'v1' %}" title="Cinematic">1</a>
+  <a href="{% url 'v3' %}" title="Gradient">3</a>
+  <a href="{% url 'v4' %}" class="cur" title="Type">4</a>
+  <a href="{% url 'v5' %}" title="Neon">5</a>
+  <a href="{% url 'v8' %}" title="AlgoPros">8</a>
+</div>
+
 <script>
-const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
-const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+/* ══ SCROLL PROGRESS ══ */
+const sp = document.getElementById('sp');
+window.addEventListener('scroll', () => {
+  sp.style.width = (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+}, { passive: true });
+
+/* ══ V4 CURSOR — touch-safe crosshair + trailing rings ══ */
+const _touch = window.matchMedia('(hover:none),(pointer:coarse)').matches;
+
+if (!_touch) {
+  const curXa   = document.getElementById('cur-xa');
+  const curYa   = document.getElementById('cur-ya');
+  const curRing = document.getElementById('cur-ring');
+  const curLbl  = document.getElementById('cur-lbl');
+  const curCrd  = document.getElementById('cur-coords');
+  const tr1     = document.getElementById('tr1');
+  const tr2     = document.getElementById('tr2');
+
+  let mx = innerWidth/2, my = innerHeight/2;
+  let rx = mx, ry = my;
+  let t1x = mx, t1y = my, t2x = mx, t2y = my;
+  let visible = false, idleTimer;
+
+  /* ─ Reveal on first move ─ */
+  function showCursor() {
+    if (visible) return; visible = true;
+    [curXa,curYa,curRing,tr1,tr2].forEach(el => el.style.opacity = '1');
+    if(curCrd) curCrd.style.opacity = '1';
+  }
+
+  /* ─ Idle breathe ─ */
+  function resetIdle() {
+    clearTimeout(idleTimer);
+    curRing.style.animation = 'none';
+    idleTimer = setTimeout(() => {
+      curRing.style.animation = 'ringPulse 2.2s ease-in-out infinite';
+    }, 2800);
+  }
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    showCursor(); resetIdle();
+    if(curCrd) curCrd.textContent = String(mx).padStart(4,'0') + ' : ' + String(my).padStart(4,'0');
+  }, {passive:true});
+
+  /* ─ mousedown/up tactile ─ */
+  document.addEventListener('mousedown', () => {
+    curRing.style.transform = 'translate(-50%,-50%) scale(.6)';
+    curXa.style.opacity = '.15'; curYa.style.opacity = '.15';
+  });
+  document.addEventListener('mouseup', () => {
+    curRing.style.transform = 'translate(-50%,-50%) scale(1)';
+    curXa.style.opacity = ''; curYa.style.opacity = '';
+  });
+
+  /* ─ Leave / enter viewport ─ */
+  document.addEventListener('mouseleave', () => {
+    [curXa,curYa,curRing,tr1,tr2,curLbl,curCrd].forEach(el => { if(el) el.style.opacity = '0'; });
+  });
+  document.addEventListener('mouseenter', () => {
+    [curXa,curYa,curRing,tr1,tr2].forEach(el => { if(el) el.style.opacity = '1'; });
+    if(curCrd) curCrd.style.opacity = '1';
+  });
+
+  /* ─ RAF loop ─ */
+  (function loop() {
+    /* crosshair snaps to mouse instantly */
+    curXa.style.left = mx + 'px'; curXa.style.top = my + 'px';
+    curYa.style.left = mx + 'px'; curYa.style.top = my + 'px';
+
+    /* ring lags behind */
+    rx += (mx - rx) * .11; ry += (my - ry) * .11;
+    curRing.style.left = rx + 'px'; curRing.style.top = ry + 'px';
+
+    /* label follows ring */
+    if(curLbl){ curLbl.style.left = (rx + 28) + 'px'; curLbl.style.top = ry + 'px'; }
+    if(curCrd){ curCrd.style.left = (rx + 28) + 'px'; curCrd.style.top = (ry + 14) + 'px'; }
+
+    /* trail 1 lags ring */
+    t1x += (rx - t1x) * .07; t1y += (ry - t1y) * .07;
+    if(tr1){ tr1.style.left = t1x + 'px'; tr1.style.top = t1y + 'px'; }
+
+    /* trail 2 lags trail 1 */
+    t2x += (t1x - t2x) * .05; t2y += (t1y - t2y) * .05;
+    if(tr2){ tr2.style.left = t2x + 'px'; tr2.style.top = t2y + 'px'; }
+
+    requestAnimationFrame(loop);
+  })();
+
+  /* ─ Hover: labeled elements ─ */
+  document.addEventListener('mouseover', e => {
+    const labeled = e.target.closest('[data-cur]');
+    const linked  = !labeled && e.target.closest('a,button,[role="button"]');
+    if (labeled) {
+      curRing.style.width = '70px'; curRing.style.height = '70px';
+      curRing.style.borderRadius = '2px';
+      curRing.style.borderColor = 'rgba(240,240,236,.85)';
+      curXa.style.height = '0'; curYa.style.width = '0';
+      if(curLbl){ curLbl.textContent = '[ ' + labeled.dataset.cur + ' ]'; curLbl.style.opacity = '1'; }
+      if(curCrd) curCrd.style.opacity = '0';
+      if(tr1) tr1.style.opacity = '.07'; if(tr2) tr2.style.opacity = '.04';
+    } else if (linked) {
+      curRing.style.width = '54px'; curRing.style.height = '54px';
+      curRing.style.borderColor = 'rgba(240,240,236,.65)';
+    }
+  });
+  document.addEventListener('mouseout', e => {
+    const labeled = e.target.closest('[data-cur]');
+    const linked  = !labeled && e.target.closest('a,button,[role="button"]');
+    if (labeled && !e.relatedTarget?.closest('[data-cur]')) {
+      curRing.style.width = '44px'; curRing.style.height = '44px';
+      curRing.style.borderRadius = '50%';
+      curRing.style.borderColor = 'rgba(240,240,236,.45)';
+      curXa.style.height = '28px'; curYa.style.width = '28px';
+      if(curLbl) curLbl.style.opacity = '0';
+      if(curCrd) curCrd.style.opacity = '1';
+      if(tr1) tr1.style.opacity = '1'; if(tr2) tr2.style.opacity = '1';
+    } else if (linked && !e.relatedTarget?.closest('a,button,[role="button"]')) {
+      curRing.style.width = '44px'; curRing.style.height = '44px';
+      curRing.style.borderColor = 'rgba(240,240,236,.45)';
+    }
+  });
+}
+
+/* ══ CLICK PARTICLE BURST (works on both desktop & mobile tap) ══ */
+document.addEventListener('click', e => {
+  if (!e.clientX) return;
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    const angle = (i / 10) * Math.PI * 2;
+    const dist  = 28 + Math.random() * 38;
+    p.style.cssText = `position:fixed;pointer-events:none;z-index:9997;width:2px;height:2px;background:rgba(240,240,236,.9);border-radius:50%;left:${e.clientX}px;top:${e.clientY}px;transform:translate(-50%,-50%);transition:all .6s cubic-bezier(.16,1,.3,1)`;
+    document.body.appendChild(p);
+    requestAnimationFrame(() => {
+      p.style.left = (e.clientX + Math.cos(angle)*dist) + 'px';
+      p.style.top  = (e.clientY + Math.sin(angle)*dist) + 'px';
+      p.style.opacity = '0'; p.style.width = '0'; p.style.height = '0';
+    });
+    setTimeout(() => p.remove(), 680);
+  }
+});
+
+/* ══ TEXT SCRAMBLE UTILITY ══ */
+const SC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#%?—×';
+window.scramble = function(el, dur = 900) {
+  const final = el.textContent;
+  let f = 0, total = Math.round(dur / 40);
+  const iv = setInterval(() => {
+    const prog = f / total;
+    el.textContent = final.split('').map((ch, i) => {
+      if (!ch.trim()) return ch;
+      return (i / final.length < prog) ? ch : SC[Math.floor(Math.random() * SC.length)];
+    }).join('');
+    if (++f > total) { el.textContent = final; clearInterval(iv); }
+  }, 40);
+};
+
+/* ══ MAGNETIC ELEMENTS ══ */
+if (!_touch) {
+  document.querySelectorAll('[data-mag]').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width/2)  * .18;
+      const y = (e.clientY - r.top  - r.height/2) * .18;
+      el.style.transition = 'transform .1s';
+      el.style.transform  = `translate(${x}px,${y}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform .6s cubic-bezier(.16,1,.3,1)';
+      el.style.transform  = '';
+    });
+  });
+}
+
+/* ══ REVEAL ON SCROLL ══ */
+const rvObs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('on'), e.target.dataset.delay || 0);
+      rvObs.unobserve(e.target);
+    }
+  });
+}, { threshold: .07, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-scale').forEach((el, i) => {
+  // Stagger siblings
+  const siblings = el.parentElement.querySelectorAll('.rv,.rv-l,.rv-r,.rv-scale');
+  siblings.forEach((s, j) => s.dataset.delay = j * 80);
+  rvObs.observe(el);
+});
+
+/* ══ LINE GROW on scroll ══ */
+const lineObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animation = 'lineGrow .8s cubic-bezier(.16,1,.3,1) forwards';
+      lineObs.unobserve(e.target);
+    }
+  });
+}, { threshold: .5 });
+document.querySelectorAll('.line-grow').forEach(el => {
+  el.style.transform = 'scaleX(0)';
+  el.style.transformOrigin = 'left';
+  lineObs.observe(el);
+});
 </script>
 {% block extra_js %}{% endblock %}
 </body></html>

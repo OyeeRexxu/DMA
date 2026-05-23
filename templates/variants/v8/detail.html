@@ -1,0 +1,364 @@
+{% extends 'variants/v8/base.html' %}
+{% block title %}{{ project.title }} — DMA.{% endblock %}
+
+{% block extra_css %}
+/* ── Hero ── */
+.d-hero{position:relative;height:80vh;min-height:520px;overflow:hidden;background:#03040b}
+.d-hero img{width:100%;height:100%;object-fit:cover;opacity:.55;transform:scale(1.04);transition:transform 6s ease}
+.d-hero.loaded img{transform:scale(1)}
+.d-hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#04060f,#0d0d1a)}
+.d-hero-grad{position:absolute;inset:0;background:linear-gradient(to top,#03040b 0%,rgba(3,4,11,.6) 40%,transparent 100%)}
+.d-hero-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.25),transparent);animation:heroScan 8s linear infinite;pointer-events:none}
+@keyframes heroScan{0%{top:0}100%{top:100%}}
+.d-hero-breadcrumb{position:absolute;top:120px;left:8%;display:flex;align-items:center;gap:12px}
+.d-hero-breadcrumb a{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s}
+.d-hero-breadcrumb a:hover{color:var(--c-cyan)}
+.d-hero-breadcrumb span{color:rgba(255,255,255,.15);font-size:.6rem}
+.d-hero-title{position:absolute;bottom:60px;left:8%;right:8%}
+.d-hero-client{font-family:var(--font-mono);font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--c-cyan);margin-bottom:16px;text-shadow:0 0 14px rgba(0,229,255,.5)}
+.d-hero-title h1{font-size:clamp(44px,7vw,100px);font-weight:900;letter-spacing:-.04em;line-height:.88;text-transform:uppercase;color:#fff}
+
+/* ── Meta bar ── */
+.d-meta-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(0,229,255,.08)}
+.d-meta-cell{padding:32px 40px;border-right:1px solid rgba(0,229,255,.08);position:relative;overflow:hidden;transition:background .3s}
+.d-meta-cell:last-child{border-right:none}
+.d-meta-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--c-cyan);box-shadow:0 0 10px var(--c-cyan);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.d-meta-cell:hover::before{transform:scaleX(1)}
+.d-meta-cell:hover{background:rgba(0,229,255,.02)}
+.d-meta-lbl{font-family:var(--font-mono);font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,229,255,.35);margin-bottom:8px}
+.d-meta-val{font-size:.95rem;font-weight:700;color:rgba(255,255,255,.75)}
+
+/* ── Body + Sidebar ── */
+.d-body{display:grid;grid-template-columns:1fr 360px;border-bottom:1px solid rgba(0,229,255,.08)}
+.d-content{padding:72px 8% 80px;border-right:1px solid rgba(0,229,255,.08)}
+.d-content p{font-size:.95rem;line-height:1.95;color:rgba(255,255,255,.45);margin-bottom:26px}
+.d-content h2{font-size:clamp(22px,2.5vw,32px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;color:#fff;margin:52px 0 20px}
+.d-content h3{font-size:1rem;font-weight:800;color:rgba(255,255,255,.65);margin:36px 0 12px}
+.d-content blockquote{border-left:2px solid var(--c-cyan);padding:20px 28px;margin:40px 0;background:rgba(0,229,255,.03)}
+.d-content blockquote p{font-size:1rem;font-style:italic;color:rgba(255,255,255,.55);margin:0}
+
+/* ── Sidebar ── */
+.d-sidebar{padding:72px 40px}
+.d-sidebar-block{margin-bottom:44px;padding-bottom:44px;border-bottom:1px solid rgba(0,229,255,.07)}
+.d-sidebar-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.d-sidebar-lbl{font-family:var(--font-mono);font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,229,255,.4);margin-bottom:14px}
+.d-sidebar-val{font-size:.88rem;color:rgba(255,255,255,.45);line-height:1.8}
+.d-tag-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.d-tag{padding:5px 14px;border:1px solid rgba(0,229,255,.12);font-family:var(--font-mono);font-size:.52rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,229,255,.5)}
+.d-cta-link{display:flex;align-items:center;gap:12px;padding:16px 22px;border:1px solid rgba(0,229,255,.2);background:rgba(0,229,255,.04);text-decoration:none;transition:all .3s;margin-top:8px;position:relative;overflow:hidden}
+.d-cta-link::before{content:'';position:absolute;inset:0;background:var(--c-cyan);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.d-cta-link:hover::before{transform:scaleX(1)}
+.d-cta-link:hover .d-cta-text,.d-cta-link:hover .d-cta-arrow{color:#03040b}
+.d-cta-text{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--c-cyan);transition:color .3s;position:relative;z-index:1}
+.d-cta-arrow{font-size:.8rem;color:var(--c-cyan);transition:color .3s;margin-left:auto;position:relative;z-index:1}
+.d-video-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.4);font-family:var(--font-mono);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;margin-top:8px}
+.d-video-link:hover{color:var(--c-cyan)}
+.d-video-icon{width:40px;height:40px;border:1px solid rgba(0,229,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:all .3s;flex-shrink:0}
+.d-video-link:hover .d-video-icon{border-color:var(--c-cyan);background:rgba(0,229,255,.1);box-shadow:0 0 14px rgba(0,229,255,.3)}
+
+/* ── Results band ── */
+.d-results{padding:80px 8%;border-bottom:1px solid rgba(0,229,255,.08)}
+.d-results-eyebrow{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(0,229,255,.5);margin-bottom:48px;display:block}
+.d-results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.d-result-item{padding:40px 32px;background:rgba(255,255,255,.01);border:1px solid rgba(0,229,255,.07);position:relative;overflow:hidden;transition:background .3s}
+.d-result-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--c-cyan),var(--c-violet));box-shadow:0 0 10px var(--c-cyan);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.d-result-item:hover::before{transform:scaleX(1)}
+.d-result-item:hover{background:rgba(0,229,255,.02)}
+.d-result-val{font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-.04em;background:linear-gradient(90deg,var(--c-cyan),var(--c-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
+.d-result-lbl{font-family:var(--font-mono);font-size:.52rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:8px}
+
+/* ── Full-width image ── */
+.d-full-img{width:100%;aspect-ratio:21/9;overflow:hidden;background:#08080f;border-top:1px solid rgba(0,229,255,.06);border-bottom:1px solid rgba(0,229,255,.06)}
+.d-full-img img{width:100%;height:100%;object-fit:cover;opacity:.65;transition:opacity .6s}
+.d-full-img:hover img{opacity:.9}
+.d-full-img-ph{width:100%;height:100%;background:linear-gradient(135deg,#04060f,#0d0d1a);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);color:rgba(0,229,255,.08);font-size:.7rem;letter-spacing:.4em;text-transform:uppercase}
+
+/* ── Approach strip ── */
+.d-approach{padding:80px 8%;border-bottom:1px solid rgba(0,229,255,.08)}
+.d-approach-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:48px;flex-wrap:wrap;gap:16px}
+.d-approach-hd h2{font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.9;color:#fff}
+.d-approach-tag{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,229,255,.45)}
+.d-approach-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.d-step{padding:36px 32px;background:rgba(255,255,255,.01);border:1px solid rgba(0,229,255,.07);position:relative;overflow:hidden;transition:background .3s}
+.d-step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--c-cyan);box-shadow:0 0 10px var(--c-cyan);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.d-step:hover::before{transform:scaleX(1)}
+.d-step:hover{background:rgba(0,229,255,.02)}
+.d-step-num{font-family:var(--font-mono);font-size:.52rem;font-weight:700;letter-spacing:.3em;color:rgba(0,229,255,.45);margin-bottom:20px}
+.d-step-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:10px}
+.d-step-desc{font-size:.78rem;color:rgba(255,255,255,.28);line-height:1.8}
+
+/* ── Related ── */
+.d-related{padding:80px 8% 0}
+.d-related-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:40px}
+.d-related-hd h2{font-size:clamp(24px,3vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;color:#fff}
+.d-related-hd a{font-family:var(--font-mono);font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,229,255,.4);text-decoration:none;transition:color .3s}
+.d-related-hd a:hover{color:var(--c-cyan)}
+.d-rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.d-rel-item{position:relative;overflow:hidden;aspect-ratio:4/3;background:#0d0d1a;display:block;text-decoration:none;border:1px solid transparent;transition:border-color .3s}
+.d-rel-item:hover{border-color:rgba(0,229,255,.35)}
+.d-rel-scan{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--c-cyan),transparent);transform:scaleX(0);transition:transform .4s cubic-bezier(.16,1,.3,1);box-shadow:0 0 12px var(--c-cyan)}
+.d-rel-item:hover .d-rel-scan{transform:scaleX(1)}
+.d-rel-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(60%);transition:filter .6s,transform .7s}
+.d-rel-item:hover img{filter:grayscale(0%);transform:scale(1.04)}
+.d-rel-ph{width:100%;height:100%;background:linear-gradient(135deg,#04060f,#0c0c1a)}
+.d-rel-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,4,11,.95),rgba(3,4,11,.1) 55%,transparent);display:flex;align-items:flex-end;padding:24px;opacity:0;transition:opacity .4s}
+.d-rel-item:hover .d-rel-ov{opacity:1}
+.d-rel-client{font-family:var(--font-mono);font-size:.5rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--c-cyan);margin-bottom:6px}
+.d-rel-title{font-size:.95rem;font-weight:800;color:#fff}
+
+/* Mobile */
+@media(max-width:1024px){
+  .d-results-grid{grid-template-columns:repeat(2,1fr)}
+  .d-approach-steps{grid-template-columns:repeat(2,1fr)}
+  .d-rel-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .d-hero{height:55vh}
+  .d-hero-breadcrumb{left:24px;top:100px}
+  .d-hero-title{left:24px;right:24px;bottom:36px}
+  .d-meta-bar{grid-template-columns:repeat(2,1fr)}
+  .d-meta-cell:nth-child(2){border-right:none}
+  .d-meta-cell:nth-child(3){border-right:1px solid rgba(0,229,255,.08)}
+  .d-body{grid-template-columns:1fr}
+  .d-content{padding:40px 24px 48px;border-right:none;border-bottom:1px solid rgba(0,229,255,.08)}
+  .d-sidebar{padding:40px 24px}
+  .d-results{padding:60px 24px}
+  .d-approach{padding:60px 24px}
+  .d-approach-steps{grid-template-columns:1fr}
+  .d-related{padding:60px 24px 0}
+  .d-rel-grid{grid-template-columns:1fr;gap:2px}
+  .d-rel-ov{opacity:1}
+}
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<div class="d-hero" id="d-hero">
+  {% if project.cover_image %}
+    <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+  {% else %}
+    <div class="d-hero-ph"></div>
+  {% endif %}
+  <div class="d-hero-grad"></div>
+  <div class="d-hero-scan"></div>
+  <div class="d-hero-breadcrumb">
+    <a href="{% url 'v8_work' %}" data-cursor data-cursor-text="BACK">← All Work</a>
+    <span>/</span>
+    <a href="#" data-cursor data-cursor-text="PROJECT">{{ project.client_name }}</a>
+  </div>
+  <div class="d-hero-title">
+    <div class="d-hero-client">{{ project.client_name }}</div>
+    <h1>{{ project.title }}</h1>
+  </div>
+</div>
+
+<!-- Meta Bar -->
+<div class="d-meta-bar">
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Client</div>
+    <div class="d-meta-val">{{ project.client_name|default:"—" }}</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Year</div>
+    <div class="d-meta-val">{{ project.created_at|date:"Y" }}</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Category</div>
+    <div class="d-meta-val">Creative Production</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Status</div>
+    <div class="d-meta-val" style="color:var(--c-cyan);text-shadow:0 0 12px rgba(0,229,255,.4)">Delivered ✓</div>
+  </div>
+</div>
+
+<!-- Body + Sidebar -->
+<div class="d-body">
+  <div class="d-content">
+    <p style="font-size:1.05rem;color:rgba(255,255,255,.6);font-weight:400;line-height:1.9">{{ project.short_description }}</p>
+
+    {{ project.content|linebreaks }}
+
+    {% if not project.content %}
+    <h2>The Challenge</h2>
+    <p>Every great campaign starts with a problem worth solving. For {{ project.client_name }}, the challenge was standing out in a saturated market while maintaining brand integrity and driving measurable growth across digital channels.</p>
+
+    <h2>Our Approach</h2>
+    <p>We began with a deep discovery phase — auditing existing assets, mapping the competitive landscape, and identifying the whitespace where the brand could own a distinct voice. From there, we built a creative strategy anchored in three pillars: authenticity, precision targeting, and relentless iteration.</p>
+
+    <blockquote><p>"The team at DMA didn't just execute — they elevated the entire brief. The results exceeded every benchmark we set."</p></blockquote>
+
+    <h2>Execution</h2>
+    <p>Production ran across six weeks with a dedicated team of strategists, creatives, and media buyers working in lockstep. Every asset was built for performance — tested, refined, and scaled based on real-time data signals.</p>
+
+    <h3>Creative Direction</h3>
+    <p>Visual identity, tone of voice, and campaign architecture were developed in parallel, ensuring consistency from the first touchpoint to the last conversion.</p>
+
+    <h3>Media Strategy</h3>
+    <p>Paid distribution across Meta, TikTok, and programmatic channels — with a full-funnel approach from awareness through to retargeting and retention.</p>
+
+    <h2>The Outcome</h2>
+    <p>The campaign delivered results that moved the needle at every stage of the funnel. Brand awareness lifted significantly, engagement rates outperformed category benchmarks, and the client saw a measurable uplift in both revenue and brand equity.</p>
+    {% endif %}
+  </div>
+
+  <aside class="d-sidebar">
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">About this project</div>
+      <div class="d-sidebar-val">{{ project.short_description }}</div>
+    </div>
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Disciplines</div>
+      <div class="d-tag-list">
+        <span class="d-tag">Strategy</span>
+        <span class="d-tag">Creative</span>
+        <span class="d-tag">Production</span>
+        <span class="d-tag">Paid Media</span>
+        <span class="d-tag">Analytics</span>
+      </div>
+    </div>
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Deliverables</div>
+      <div class="d-sidebar-val" style="font-size:.8rem;line-height:2.1">
+        Campaign Strategy<br>
+        Visual Identity<br>
+        Content Production<br>
+        Media Buying<br>
+        Performance Reporting
+      </div>
+    </div>
+
+    {% if project.video_url %}
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Case Video</div>
+      <a href="{{ project.video_url }}" target="_blank" class="d-video-link" data-cursor data-cursor-text="PLAY">
+        <div class="d-video-icon">▶</div>
+        Watch the case film
+      </a>
+    </div>
+    {% endif %}
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Start your project</div>
+      <a href="{% url 'v8_contact' %}" class="d-cta-link" data-cursor data-cursor-text="START">
+        <span class="d-cta-text">Work with us</span>
+        <span class="d-cta-arrow">→</span>
+      </a>
+    </div>
+
+  </aside>
+</div>
+
+<!-- Results Band -->
+<div class="d-results">
+  <span class="d-results-eyebrow">Campaign Results</span>
+  <div class="d-results-grid">
+    <div class="d-result-item">
+      <div class="d-result-val">3.8×</div>
+      <div class="d-result-lbl">Return on Ad Spend</div>
+    </div>
+    <div class="d-result-item">
+      <div class="d-result-val">+214%</div>
+      <div class="d-result-lbl">Engagement Rate</div>
+    </div>
+    <div class="d-result-item">
+      <div class="d-result-val">12M</div>
+      <div class="d-result-lbl">Total Impressions</div>
+    </div>
+    <div class="d-result-item">
+      <div class="d-result-val">-38%</div>
+      <div class="d-result-lbl">Cost Per Acquisition</div>
+    </div>
+  </div>
+</div>
+
+<!-- Full-Width Image -->
+<div class="d-full-img">
+  {% if project.cover_image %}
+    <img src="{{ project.cover_image.url }}" alt="{{ project.title }} — full view" loading="lazy">
+  {% else %}
+    <div class="d-full-img-ph">{{ project.title }}</div>
+  {% endif %}
+</div>
+
+<!-- Approach Strip -->
+<div class="d-approach">
+  <div class="d-approach-hd">
+    <h2>How We<br>Did It</h2>
+    <span class="d-approach-tag">Our Process</span>
+  </div>
+  <div class="d-approach-steps">
+    <div class="d-step">
+      <div class="d-step-num">01 —</div>
+      <div class="d-step-title">Discovery & Audit</div>
+      <p class="d-step-desc">Brand audit, audience research, and competitive analysis to identify the exact opportunity space.</p>
+    </div>
+    <div class="d-step">
+      <div class="d-step-num">02 —</div>
+      <div class="d-step-title">Strategy & Creative</div>
+      <p class="d-step-desc">Campaign architecture, creative direction, and messaging framework built for the target audience.</p>
+    </div>
+    <div class="d-step">
+      <div class="d-step-num">03 —</div>
+      <div class="d-step-title">Production & Launch</div>
+      <p class="d-step-desc">In-house production, precision media deployment, and real-time optimisation from day one.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Related Work -->
+{% if related %}
+<div class="d-related">
+  <div class="d-related-hd">
+    <h2>More Work</h2>
+    <a href="{% url 'v8_work' %}" data-cursor data-cursor-text="ALL">View all projects →</a>
+  </div>
+  <div class="d-rel-grid">
+    {% for p in related %}
+    <a href="{% url 'v8_work_detail' p.slug %}" class="d-rel-item" data-cursor data-cursor-text="VIEW">
+      <div class="d-rel-scan"></div>
+      {% if p.cover_image %}
+        <img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">
+      {% else %}
+        <div class="d-rel-ph"></div>
+      {% endif %}
+      <div class="d-rel-ov">
+        <div>
+          <div class="d-rel-client">{{ p.client_name }}</div>
+          <div class="d-rel-title">{{ p.title }}</div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+window.addEventListener('load', () => {
+  document.getElementById('d-hero').classList.add('loaded');
+});
+
+gsap.utils.toArray('.d-result-item').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,y:40,duration:.6,delay:i*.1,scrollTrigger:{trigger:'.d-results',start:'top 85%'}});
+});
+gsap.utils.toArray('.d-step').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,y:30,duration:.55,delay:i*.12,scrollTrigger:{trigger:'.d-approach-steps',start:'top 85%'}});
+});
+gsap.utils.toArray('.d-rel-item').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,y:30,duration:.55,delay:i*.1,scrollTrigger:{trigger:'.d-rel-grid',start:'top 88%'}});
+});
+gsap.utils.toArray('.d-meta-cell').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,y:20,duration:.45,delay:i*.08,scrollTrigger:{trigger:'.d-meta-bar',start:'top 92%'}});
+});
+</script>
+{% endblock %}

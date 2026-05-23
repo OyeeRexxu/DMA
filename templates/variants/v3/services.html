@@ -1,18 +1,474 @@
 {% extends 'variants/v3/base.html' %}
 {% block title %}Services — DMA.{% endblock %}
 {% block extra_css %}
-.pg-hero{padding:80px 52px 60px;text-align:center}
-.pg-hero h1{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-.04em;animation:fadeUp 1s ease both}
-.pg-hero p{margin-top:16px;color:rgba(255,255,255,.3);max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
-.svc-list{padding:60px 52px 120px;display:flex;flex-direction:column;gap:2px}
-.svc-item{display:grid;grid-template-columns:80px 1fr 1fr;gap:48px;align-items:start;padding:52px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:14px;transition:background .4s,border-color .4s}
-.svc-item:hover{background:rgba(124,111,255,.06);border-color:rgba(124,111,255,.2)}
-.svc-n{font-size:.62rem;font-weight:700;letter-spacing:.3em;color:var(--acc);padding-top:4px}
-.svc-title{font-size:clamp(22px,2.5vw,34px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
-.svc-short{font-size:.88rem;color:rgba(255,255,255,.4);line-height:1.75}
-.svc-detail{font-size:.8rem;color:rgba(255,255,255,.25);line-height:1.85}
+
+/* ── HERO ── */
+.s-hero {
+  min-height: 48vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 100px 52px 64px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.s-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 70% at 90% 30%, rgba(80,200,255,.09) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(124,111,255,.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.s-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  border: 1px solid rgba(80,200,255,.25);
+  border-radius: 100px;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(80,200,255,.7);
+  margin-bottom: 28px;
+  width: fit-content;
+  animation: fadeUp .8s ease both;
+}
+.s-hero h1 {
+  font-size: clamp(56px,9vw,130px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: .88;
+  text-transform: uppercase;
+  animation: fadeUp 1s ease .1s both;
+}
+.s-hero p {
+  margin-top: 28px;
+  font-size: .95rem;
+  color: rgba(255,255,255,.3);
+  max-width: 520px;
+  line-height: 1.75;
+  animation: fadeUp 1s ease .25s both;
+}
+
+/* ── PILLARS CONSOLE (matches home page pattern) ── */
+.s-pillars {
+  padding: 80px 52px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.s-pillars-console {
+  display: grid;
+  grid-template-columns: 0.65fr 1.35fr;
+  gap: 48px;
+  align-items: start;
+}
+.s-tab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 100px;
+}
+.s-tab {
+  padding: 24px 28px;
+  background: rgba(12,13,29,.4);
+  border: 1px solid rgba(255,255,255,.04);
+  border-radius: 14px;
+  cursor: none;
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.s-tab:hover {
+  background: rgba(124,111,255,.06);
+  border-color: rgba(124,111,255,.2);
+}
+.s-tab.active {
+  background: rgba(12,13,29,.85);
+  border-color: var(--acc);
+  box-shadow: 0 12px 32px rgba(124,111,255,.15);
+}
+.s-tab-num {
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .25em;
+  color: var(--acc);
+  min-width: 28px;
+}
+.s-tab-title {
+  font-size: .95rem;
+  font-weight: 800;
+  color: rgba(255,255,255,.35);
+  text-transform: uppercase;
+  transition: color .3s;
+}
+.s-tab.active .s-tab-title, .s-tab:hover .s-tab-title { color: #fff; }
+
+/* Panel */
+.s-panel-wrap {
+  background: rgba(12,13,29,.65);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(124,111,255,.15);
+  border-radius: 24px;
+  padding: 56px;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+.s-panel-wrap::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(80,200,255,.08), transparent 70%);
+  pointer-events: none;
+}
+.s-panel { display: none; flex-direction: column; width: 100%; animation: panelFade .5s ease forwards; }
+.s-panel.active { display: flex; }
+@keyframes panelFade { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.s-panel-tag {
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--acc2);
+  margin-bottom: 20px;
+}
+.s-panel h2 {
+  font-size: clamp(28px,3.5vw,52px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.s-panel-desc {
+  font-size: .95rem;
+  color: rgba(255,255,255,.4);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+.s-panel-detail {
+  font-size: .85rem;
+  color: rgba(255,255,255,.25);
+  line-height: 1.85;
+  margin-bottom: 36px;
+  max-width: 560px;
+}
+.s-panel-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+.s-panel-tag-pill {
+  padding: 5px 16px;
+  border: 1px solid rgba(124,111,255,.2);
+  border-radius: 100px;
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(124,111,255,.7);
+}
+
+/* ── NUMBERS BAND ── */
+.s-numbers {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.s-nb {
+  padding: 52px 40px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,.04);
+  transition: background .4s;
+}
+.s-nb:last-child { border-right: none; }
+.s-nb:hover { background: rgba(124,111,255,.05); }
+.s-nb-val {
+  font-size: clamp(36px,5vw,64px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  background: linear-gradient(135deg,var(--acc),var(--acc2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s-nb-lbl {
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.2);
+  margin-top: 8px;
+}
+
+/* ── CAPABILITIES ASYMMETRIC GRID ── */
+.s-cap {
+  padding: 100px 52px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.s-cap-hd {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 60px;
+}
+.s-cap-hd h2 {
+  font-size: clamp(32px,4.5vw,64px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  line-height: .9;
+}
+.s-cap-hd p {
+  font-size: .9rem;
+  color: rgba(255,255,255,.3);
+  line-height: 1.75;
+}
+.s-cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+}
+.s-cap-card {
+  background: rgba(12,13,29,.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(124,111,255,.1);
+  border-radius: 18px;
+  padding: 40px 32px;
+  transition: all .5s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+}
+.s-cap-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(124,111,255,.1), transparent 70%);
+  transition: opacity .4s;
+  opacity: 0;
+}
+.s-cap-card:hover::after { opacity: 1; }
+.s-cap-card:hover {
+  background: rgba(124,111,255,.08);
+  border-color: rgba(124,111,255,.3);
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(124,111,255,.18);
+}
+/* Alternate card offset */
+@media (min-width: 993px) {
+  .s-cap-card:nth-child(even) { transform: translateY(32px); }
+  .s-cap-card:nth-child(even):hover { transform: translateY(24px); }
+}
+.s-cap-icon { font-size: 1.6rem; margin-bottom: 20px; }
+.s-cap-title { font-size: 1rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 10px; }
+.s-cap-desc { font-size: .8rem; color: rgba(255,255,255,.3); line-height: 1.75; }
+
+/* ── CTA GLASS ── */
+.s-cta-wrap { padding: 0 52px 80px; }
+.s-cta {
+  background: rgba(12,13,29,.65);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(124,111,255,.2);
+  border-radius: 24px;
+  padding: 64px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 30px 60px rgba(0,0,0,.4);
+  position: relative;
+  overflow: hidden;
+}
+.s-cta::before {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(80,200,255,.08), transparent 70%);
+  pointer-events: none;
+}
+.s-cta h2 {
+  font-size: clamp(28px,4vw,56px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  line-height: .9;
+}
+
+@media (max-width: 1024px) {
+  .s-pillars-console { grid-template-columns: 1fr; }
+  .s-tab-list { position: static; flex-direction: row; flex-wrap: wrap; }
+  .s-numbers { grid-template-columns: repeat(2,1fr); }
+  .s-nb:nth-child(2) { border-right: none; }
+  .s-cap-grid { grid-template-columns: repeat(2,1fr); }
+  .s-cap-hd { grid-template-columns: 1fr; gap: 20px; }
+}
+@media (max-width: 768px) {
+  .s-hero { padding: 90px 24px 48px; }
+  .s-pillars { padding: 60px 24px; }
+  .s-panel-wrap { padding: 36px 28px; min-height: auto; }
+  .s-numbers { grid-template-columns: repeat(2,1fr); }
+  .s-cap { padding: 60px 24px; }
+  .s-cap-grid { grid-template-columns: 1fr; }
+  .s-cap-card:nth-child(even) { transform: none; }
+  .s-cap-card:nth-child(even):hover { transform: translateY(-8px); }
+  .s-cta-wrap { padding: 0 24px 60px; }
+  .s-cta { padding: 40px 28px; flex-direction: column; align-items: flex-start; }
+}
 {% endblock %}
+
 {% block content %}
-<div class="pg-hero"><h1>Our <span class="g">Services</span></h1><p>End-to-end digital marketing from strategy through execution, powered by AI.</p></div>
-<div class="svc-list">{% for s in services %}<div class="svc-item reveal"><span class="svc-n">0{{ forloop.counter }}</span><div><div class="svc-title">{{ s.title }}</div><p class="svc-short">{{ s.short_description }}</p></div><p class="svc-detail">{{ s.detailed_description }}</p></div>{% endfor %}</div>
+
+<!-- Hero -->
+<div class="s-hero">
+  <div class="s-hero-badge">What We Offer</div>
+  <h1>Our <span class="g">Services</span></h1>
+  <p>End-to-end digital marketing — from strategy and creative to production and AI-led automation. Built for brands that want to lead, not follow.</p>
+</div>
+
+<!-- Pillars Console -->
+<div class="s-pillars">
+  <div class="s-pillars-console">
+    <!-- Tabs -->
+    <div class="s-tab-list">
+      {% for s in services %}
+      <div class="s-tab {% if forloop.first %}active{% endif %}" data-tab="{{ forloop.counter }}">
+        <span class="s-tab-num">{{ forloop.counter|stringformat:"02d" }}</span>
+        <span class="s-tab-title">{{ s.title }}</span>
+      </div>
+      {% empty %}
+      <div class="s-tab active"><span class="s-tab-num">01</span><span class="s-tab-title">Services</span></div>
+      {% endfor %}
+    </div>
+
+    <!-- Panels -->
+    <div class="s-panel-wrap">
+      {% for s in services %}
+      <div class="s-panel {% if forloop.first %}active{% endif %}" data-panel="{{ forloop.counter }}">
+        <div class="s-panel-tag">Service {{ forloop.counter|stringformat:"02d" }}</div>
+        <h2>{{ s.title }}</h2>
+        <p class="s-panel-desc">{{ s.short_description }}</p>
+        <p class="s-panel-detail">{{ s.detailed_description }}</p>
+        <div class="s-panel-tags">
+          <span class="s-panel-tag-pill">Strategy</span>
+          <span class="s-panel-tag-pill">Creative</span>
+          <span class="s-panel-tag-pill">Execution</span>
+        </div>
+        <a href="{% url 'v3_contact' %}" class="btn-p" style="font-size:.6rem;padding:12px 28px;align-self:flex-start;">Discuss this →</a>
+      </div>
+      {% empty %}
+      <div class="s-panel active">
+        <div class="s-panel-tag">Services</div>
+        <h2>Coming Soon</h2>
+        <p class="s-panel-desc">Services will be listed here once added.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Numbers -->
+<div class="s-numbers">
+  <div class="s-nb reveal">
+    <div class="s-nb-val">40+</div>
+    <div class="s-nb-lbl">Brands Served</div>
+  </div>
+  <div class="s-nb reveal">
+    <div class="s-nb-val">$12M</div>
+    <div class="s-nb-lbl">Media Managed</div>
+  </div>
+  <div class="s-nb reveal">
+    <div class="s-nb-val">3.2×</div>
+    <div class="s-nb-lbl">Avg. ROAS</div>
+  </div>
+  <div class="s-nb reveal">
+    <div class="s-nb-val">98%</div>
+    <div class="s-nb-lbl">Client Retention</div>
+  </div>
+</div>
+
+<!-- Capabilities -->
+<div class="s-cap">
+  <div class="s-cap-hd">
+    <div>
+      <span class="sec-lbl">Full Spectrum</span>
+      <h2>Core <span class="g">Capabilities</span></h2>
+    </div>
+    <p>Six disciplines, one team. Everything you need to build, launch, and scale a brand that matters.</p>
+  </div>
+  <div class="s-cap-grid">
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◈</div>
+      <div class="s-cap-title">Brand Strategy</div>
+      <p class="s-cap-desc">Positioning, identity systems, and messaging architecture that gives your brand a clear point of view.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◉</div>
+      <div class="s-cap-title">Content Production</div>
+      <p class="s-cap-desc">Photo, video, motion graphics, and copy — all produced in-house at studio quality and campaign speed.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◎</div>
+      <div class="s-cap-title">Paid Media</div>
+      <p class="s-cap-desc">Performance campaigns across Meta, Google, TikTok, and programmatic — built to scale profitably.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">⬡</div>
+      <div class="s-cap-title">Influencer Marketing</div>
+      <p class="s-cap-desc">Creator partnerships from nano to mega — sourced, briefed, and managed end-to-end.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">⬢</div>
+      <div class="s-cap-title">SEO & Growth</div>
+      <p class="s-cap-desc">Technical SEO, content strategy, and CRO that compounds over time and reduces paid dependency.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◆</div>
+      <div class="s-cap-title">AI Automation</div>
+      <p class="s-cap-desc">Custom AI workflows for content, reporting, and campaign ops — so your team moves faster with less.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="s-cta-wrap">
+  <div class="s-cta reveal">
+    <h2>Let's build<br><span class="g">something real.</span></h2>
+    <a href="{% url 'v3_contact' %}" class="btn-p">Start a project</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Service tab switcher
+const tabs = document.querySelectorAll('.s-tab');
+const panels = document.querySelectorAll('.s-panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const id = tab.dataset.tab;
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector(`.s-panel[data-panel="${id}"]`)?.classList.add('active');
+  });
+});
+</script>
 {% endblock %}

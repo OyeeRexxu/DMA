@@ -1,40 +1,316 @@
 {% extends 'variants/v4/base.html' %}
 {% block title %}{{ project.title }} — DMA.{% endblock %}
 {% block extra_css %}
-.d-hero{height:65vh;position:relative;overflow:hidden;background:#0a0a0a}
-.d-hero img{width:100%;height:100%;object-fit:cover;opacity:.55}
-.d-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#000,transparent 55%)}
+
+/* ── HERO ── */
+.d-hero{position:relative;height:78vh;min-height:500px;overflow:hidden;background:#050505}
+.d-hero img{width:100%;height:100%;object-fit:cover;opacity:.45;transform:scale(1.05);transition:transform 7s ease}
+.d-hero.loaded img{transform:scale(1)}
 .d-hero-ph{width:100%;height:100%;background:linear-gradient(135deg,#111,#050505)}
-.d-meta{padding:64px 60px 44px;border-bottom:1px solid rgba(255,255,255,.05)}
-.d-client{font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:14px}
-.d-title{font-size:clamp(40px,6vw,96px);font-weight:900;letter-spacing:-.04em;line-height:.9;text-transform:uppercase}
-.d-body{display:grid;grid-template-columns:1fr 300px;gap:80px;padding:64px 60px 100px;align-items:start}
-.d-content{font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.38)}
-.d-content p{margin-bottom:22px}
-.d-side{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;position:sticky;top:100px}
-.d-side h4{font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:16px}
-.d-side p{font-size:.82rem;line-height:1.75;color:rgba(255,255,255,.3);margin-bottom:28px}
-.d-side a{display:inline-flex;align-items:center;gap:12px;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#fff;text-decoration:none}
-.d-side a::after{content:'';width:36px;height:1px;background:#fff;transition:width .4s}
-.d-side a:hover::after{width:60px}
-.related{padding:0 60px 80px;border-top:1px solid rgba(255,255,255,.05)}
-.rel-hd{padding:40px 0;display:flex;justify-content:space-between;align-items:baseline}
-.rel-hd span{font-size:clamp(26px,3vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
-.rel-hd a{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);text-decoration:none;transition:color .3s}
-.rel-hd a:hover{color:#fff}
-.rel-rows a{display:grid;grid-template-columns:52px 1fr auto;gap:20px;align-items:center;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:inherit;transition:padding-left .4s}
-.rel-rows a:hover{padding-left:16px}
+.d-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#080808 0%,rgba(8,8,8,.4) 45%,transparent 100%)}
+/* Scanline overlay */
+.d-hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:1}
+.d-hero-content{position:absolute;bottom:56px;left:60px;right:60px;z-index:2;animation:fadeUp .9s ease .1s both}
+.d-breadcrumb{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.d-breadcrumb a{font-size:.55rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.35);transition:color .3s}
+.d-breadcrumb a:hover{color:var(--w)}
+.d-breadcrumb span{color:rgba(240,240,236,.18);font-size:.6rem}
+.d-hero-client{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(240,240,236,.35);margin-bottom:14px}
+.d-hero-title{font-size:clamp(40px,7vw,100px);font-weight:900;letter-spacing:-.04em;line-height:.88;text-transform:uppercase}
+
+/* ── META BAR ── */
+.d-meta-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--dim)}
+.d-meta-cell{padding:28px 36px;border-right:1px solid var(--dim);position:relative;overflow:hidden;transition:background .4s}
+.d-meta-cell:last-child{border-right:none}
+.d-meta-cell:hover{background:rgba(240,240,236,.02)}
+.d-meta-cell::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--w);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.d-meta-cell:hover::after{transform:scaleX(1)}
+.d-meta-lbl{font-size:.5rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.22);margin-bottom:8px}
+.d-meta-val{font-size:.92rem;font-weight:700;color:rgba(240,240,236,.75)}
+
+/* ── BODY ── */
+.d-body{display:grid;grid-template-columns:1fr 320px;gap:0;border-bottom:1px solid var(--dim)}
+.d-content{padding:72px 60px 80px;border-right:1px solid var(--dim)}
+.d-content p{font-size:.95rem;line-height:1.9;color:rgba(240,240,236,.55);margin-bottom:26px}
+.d-content p:first-child{font-size:1.05rem;color:rgba(240,240,236,.72)}
+.d-content h2{font-size:clamp(20px,2.5vw,32px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;color:var(--w);margin:52px 0 18px}
+.d-content h3{font-size:1rem;font-weight:800;letter-spacing:-.01em;color:rgba(240,240,236,.65);margin:36px 0 12px}
+.d-content blockquote{border-left:1px solid rgba(240,240,236,.2);padding:18px 28px;margin:40px 0}
+.d-content blockquote p{font-size:1rem;font-style:italic;color:rgba(240,240,236,.45);margin:0}
+
+/* ── SIDEBAR ── */
+.d-sidebar{padding:72px 40px;display:flex;flex-direction:column;gap:0}
+.d-side-block{padding-bottom:36px;margin-bottom:36px;border-bottom:1px solid var(--dim)}
+.d-side-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.d-side-lbl{font-size:.5rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-bottom:12px;display:block}
+.d-side-val{font-size:.88rem;color:rgba(240,240,236,.65);line-height:1.75}
+.d-tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.d-tag{padding:4px 12px;border:1px solid var(--dim);font-size:.5rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,236,.45)}
+.d-deliverables{font-size:.82rem;color:rgba(240,240,236,.55);line-height:2.1}
+.d-video-link{display:flex;align-items:center;gap:12px;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,240,236,.35);transition:color .3s}
+.d-video-link:hover{color:var(--w)}
+.d-video-icon{width:36px;height:36px;border:1px solid var(--dim);display:flex;align-items:center;justify-content:center;font-size:.65rem;transition:all .3s}
+.d-video-link:hover .d-video-icon{background:var(--w);color:var(--b);border-color:var(--w)}
+.d-cta-link{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border:1px solid var(--dim);font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,236,.35);transition:all .4s;position:relative;overflow:hidden;margin-top:8px}
+.d-cta-link::before{content:'';position:absolute;inset:0;background:var(--w);transform:translateX(-101%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.d-cta-link:hover::before{transform:translateX(0)}
+.d-cta-link span{position:relative;z-index:1;transition:color .4s}
+.d-cta-link:hover span{color:var(--b)}
+
+/* ── RESULTS ── */
+.d-results{padding:80px 60px;border-bottom:1px solid var(--dim)}
+.d-results-lbl{font-family:'Space Mono',monospace;font-size:.55rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-bottom:48px}
+.d-results-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--dim);border-left:1px solid var(--dim)}
+.d-result{padding:40px 28px;border-right:1px solid var(--dim);border-bottom:1px solid var(--dim);transition:background .4s;position:relative;overflow:hidden}
+.d-result::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--w);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.d-result:hover{background:rgba(240,240,236,.02)}
+.d-result:hover::before{transform:scaleX(1)}
+.d-result-val{font-family:'Space Mono',monospace;font-size:clamp(26px,3.5vw,48px);font-weight:700;color:var(--w);letter-spacing:-.02em}
+.d-result-lbl{font-size:.55rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-top:10px}
+
+/* ── FULL IMAGE ── */
+.d-full-img{aspect-ratio:21/9;overflow:hidden;background:#0a0a0a;border-bottom:1px solid var(--dim);position:relative}
+.d-full-img img{width:100%;height:100%;object-fit:cover;opacity:.5;transition:opacity .6s;filter:grayscale(20%)}
+.d-full-img:hover img{opacity:.75;filter:grayscale(0%)}
+.d-full-img-ph{width:100%;height:100%;background:linear-gradient(135deg,#111,#060606);display:flex;align-items:center;justify-content:center;color:rgba(240,240,236,.05);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase}
+
+/* ── APPROACH ── */
+.d-approach{padding:80px 60px;border-bottom:1px solid var(--dim)}
+.d-approach-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:56px;flex-wrap:wrap;gap:16px}
+.d-approach-hd h2{font-size:clamp(28px,4vw,56px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.9}
+.d-steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--dim)}
+.d-step{padding:40px 28px;border-right:1px solid var(--dim);transition:background .4s}
+.d-step:last-child{border-right:none}
+.d-step:hover{background:rgba(240,240,236,.02)}
+.d-step-num{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(240,240,236,.2);margin-bottom:20px;display:block}
+.d-step-title{font-size:.95rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:10px}
+.d-step-desc{font-size:.78rem;color:rgba(240,240,236,.28);line-height:1.8}
+
+/* ── RELATED ── */
+.d-related{padding:80px 60px 0}
+.d-related-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:48px}
+.d-related-hd h2{font-size:clamp(24px,3vw,44px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.d-related-hd a{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,236,.25);transition:color .3s}
+.d-related-hd a:hover{color:var(--w)}
+.d-rel-rows a{display:grid;grid-template-columns:56px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:1px solid var(--dim);transition:padding-left .5s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.d-rel-rows a::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(240,240,236,.02);transition:width .5s cubic-bezier(.16,1,.3,1)}
+.d-rel-rows a:hover{padding-left:20px}
+.d-rel-rows a:hover::before{width:100%}
+.d-rel-num{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.2em;color:rgba(240,240,236,.18)}
+.d-rel-title{font-size:clamp(18px,2.2vw,32px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.d-rel-client{font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,236,.22);text-align:right}
+
+@media(max-width:1024px){.d-results-grid{grid-template-columns:repeat(2,1fr)}.d-steps{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  .d-hero{height:55vh}
+  .d-hero-content{left:24px;right:24px;bottom:36px}
+  .d-meta-bar{grid-template-columns:repeat(2,1fr)}
+  .d-meta-cell:nth-child(2){border-right:none}
+  .d-body{grid-template-columns:1fr}
+  .d-content{padding:40px 24px 48px;border-right:none;border-bottom:1px solid var(--dim)}
+  .d-sidebar{padding:40px 24px}
+  .d-results{padding:60px 24px}
+  .d-results-grid{grid-template-columns:repeat(2,1fr)}
+  .d-approach{padding:60px 24px}
+  .d-steps{grid-template-columns:1fr}
+  .d-step{border-right:none;border-bottom:1px solid var(--dim)}
+  .d-related{padding:60px 24px 0}
+  .d-rel-rows a{grid-template-columns:40px 1fr}
+  .d-rel-client{display:none}
+}
 {% endblock %}
+
 {% block content %}
-<div class="d-hero">{% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}">{% else %}<div class="d-hero-ph"></div>{% endif %}</div>
-<div class="d-meta"><p class="d-client">{{ project.client_name }}</p><h1 class="d-title">{{ project.title }}</h1></div>
-<div class="d-body">
-  <div class="d-content">{{ project.content|linebreaks }}</div>
-  <aside class="d-side reveal"><h4>Project Details</h4><p>{{ project.short_description }}</p><a href="{% url 'v4_contact' %}">Start a project</a></aside>
+
+<!-- Hero -->
+<div class="d-hero" id="d-hero">
+  {% if project.cover_image %}
+    <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+  {% else %}
+    <div class="d-hero-ph"></div>
+  {% endif %}
+  <div class="d-hero-content">
+    <div class="d-breadcrumb">
+      <a href="{% url 'v4_work' %}" data-cur="BACK">← All Work</a>
+      <span>/</span>
+      <a href="#" data-cur="PROJECT">{{ project.client_name }}</a>
+    </div>
+    <div class="d-hero-client">{{ project.client_name }}</div>
+    <h1 class="d-hero-title">{{ project.title }}</h1>
+  </div>
 </div>
+
+<!-- Meta Bar -->
+<div class="d-meta-bar">
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Client</div>
+    <div class="d-meta-val">{{ project.client_name|default:"—" }}</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Year</div>
+    <div class="d-meta-val">{{ project.created_at|date:"Y" }}</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Category</div>
+    <div class="d-meta-val">Creative Production</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Status</div>
+    <div class="d-meta-val">Delivered ✓</div>
+  </div>
+</div>
+
+<!-- Body + Sidebar -->
+<div class="d-body">
+  <div class="d-content">
+    <p>{{ project.short_description }}</p>
+    {{ project.content|linebreaks }}
+    {% if not project.content %}
+    <h2>The Challenge</h2>
+    <p>Every great campaign starts with a problem worth solving. For {{ project.client_name }}, the challenge was standing out in a saturated market while maintaining brand integrity and driving measurable growth across digital channels.</p>
+    <h2>Our Approach</h2>
+    <p>We began with a deep discovery phase — auditing existing assets, mapping the competitive landscape, and identifying the whitespace where the brand could own a distinct voice. From there, we built a creative strategy anchored in three pillars: authenticity, precision targeting, and relentless iteration.</p>
+    <blockquote><p>"The team at DMA didn't just execute — they elevated the entire brief. The results exceeded every benchmark we set."</p></blockquote>
+    <h2>Execution</h2>
+    <p>Production ran across six weeks with a dedicated team of strategists, creatives, and media buyers working in lockstep. Every asset was built for performance — tested, refined, and scaled based on real-time data signals.</p>
+    <h3>Creative Direction</h3>
+    <p>Visual identity, tone of voice, and campaign architecture were developed in parallel, ensuring consistency from the first touchpoint to the last conversion.</p>
+    <h3>Media Strategy</h3>
+    <p>Paid distribution across Meta, TikTok, and programmatic channels — with a full-funnel approach from awareness through to retargeting and retention.</p>
+    <h2>The Outcome</h2>
+    <p>The campaign delivered results that moved the needle at every stage of the funnel. Brand awareness lifted significantly, engagement rates outperformed category benchmarks, and the client saw a measurable uplift in both revenue and brand equity.</p>
+    {% endif %}
+  </div>
+
+  <aside class="d-sidebar">
+    <div class="d-side-block">
+      <span class="d-side-lbl">About this project</span>
+      <div class="d-side-val">{{ project.short_description }}</div>
+    </div>
+    <div class="d-side-block">
+      <span class="d-side-lbl">Disciplines</span>
+      <div class="d-tag-list">
+        <span class="d-tag">Strategy</span>
+        <span class="d-tag">Creative</span>
+        <span class="d-tag">Production</span>
+        <span class="d-tag">Paid Media</span>
+        <span class="d-tag">Analytics</span>
+      </div>
+    </div>
+    <div class="d-side-block">
+      <span class="d-side-lbl">Deliverables</span>
+      <div class="d-deliverables">
+        Campaign Strategy<br>
+        Visual Identity<br>
+        Content Production<br>
+        Media Buying<br>
+        Performance Reporting
+      </div>
+    </div>
+    {% if project.video_url %}
+    <div class="d-side-block">
+      <span class="d-side-lbl">Case Video</span>
+      <a href="{{ project.video_url }}" target="_blank" class="d-video-link" data-cur="PLAY">
+        <div class="d-video-icon">▶</div>
+        Watch the case film
+      </a>
+    </div>
+    {% endif %}
+    <div class="d-side-block">
+      <span class="d-side-lbl">Start your project</span>
+      <a href="{% url 'v4_contact' %}" class="d-cta-link" data-cur="START">
+        <span>Work with us</span>
+        <span>→</span>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<!-- Results -->
+<div class="d-results">
+  <div class="d-results-lbl">Campaign Results</div>
+  <div class="d-results-grid">
+    <div class="d-result reveal">
+      <div class="d-result-val">3.8×</div>
+      <div class="d-result-lbl">Return on Ad Spend</div>
+    </div>
+    <div class="d-result reveal">
+      <div class="d-result-val">+214%</div>
+      <div class="d-result-lbl">Engagement Rate</div>
+    </div>
+    <div class="d-result reveal">
+      <div class="d-result-val">12M</div>
+      <div class="d-result-lbl">Total Impressions</div>
+    </div>
+    <div class="d-result reveal">
+      <div class="d-result-val">-38%</div>
+      <div class="d-result-lbl">Cost Per Acquisition</div>
+    </div>
+  </div>
+</div>
+
+<!-- Full Image -->
+<div class="d-full-img scan-wrap">
+  {% if project.cover_image %}
+    <img src="{{ project.cover_image.url }}" alt="{{ project.title }} — full view" loading="lazy">
+  {% else %}
+    <div class="d-full-img-ph">{{ project.title }}</div>
+  {% endif %}
+</div>
+
+<!-- Approach -->
+<div class="d-approach">
+  <div class="d-approach-hd">
+    <h2>How We<br>Did It.</h2>
+    <span class="sec-lbl" style="margin:0">Our Process</span>
+  </div>
+  <div class="d-steps">
+    <div class="d-step reveal">
+      <span class="d-step-num">01 —</span>
+      <div class="d-step-title">Discovery & Audit</div>
+      <p class="d-step-desc">Brand audit, audience research, and competitive analysis to identify the exact opportunity space.</p>
+    </div>
+    <div class="d-step reveal">
+      <span class="d-step-num">02 —</span>
+      <div class="d-step-title">Strategy & Creative</div>
+      <p class="d-step-desc">Campaign architecture, creative direction, and messaging framework built for the target audience.</p>
+    </div>
+    <div class="d-step reveal">
+      <span class="d-step-num">03 —</span>
+      <div class="d-step-title">Production & Launch</div>
+      <p class="d-step-desc">In-house production, precision media deployment, and real-time optimisation from day one.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Related -->
 {% if related %}
-<div class="related">
-  <div class="rel-hd"><span>More Work</span><a href="{% url 'v4_work' %}">All →</a></div>
-  <div class="rel-rows">{% for p in related %}<a href="{% url 'v4_work_detail' p.slug %}" class="reveal"><span style="font-size:.62rem;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.18)">0{{ forloop.counter }}</span><span style="font-size:clamp(18px,2vw,28px);font-weight:900;letter-spacing:-.03em">{{ p.title }}</span><span style="font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22)">{{ p.client_name }}</span></a>{% endfor %}</div>
-</div>{% endif %}
+<div class="d-related">
+  <div class="d-related-hd">
+    <h2>More Work.</h2>
+    <a href="{% url 'v4_work' %}" data-cur="ALL">View all →</a>
+  </div>
+  <div class="d-rel-rows">
+    {% for p in related %}
+    <a href="{% url 'v4_work_detail' p.slug %}" data-cur="VIEW">
+      <span class="d-rel-num">{{ forloop.counter|stringformat:"02d" }}</span>
+      <span class="d-rel-title">{{ p.title }}</span>
+      <span class="d-rel-client">{{ p.client_name }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
 {% endblock %}
+
+{% block extra_js %}
+<script>
+window.addEventListener('load', () => {
+  document.getElementById('d-hero').classList.add('loaded');
+});
+</script>
+{% endblock %}
+
+
+

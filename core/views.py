@@ -90,6 +90,16 @@ def v5_contact(request):
     return render(request, 'variants/v5/contact.html')
 
 
-# ── Variant 8 – AlgoPros Geodesic Sphere (GIF Match) ─────────
+# ── Variant 8 ─────────────────────────────────────────────────
 def variant_8(request):
-    return render(request, 'variants/v8/home.html')
+    return render(request, 'variants/v8/home.html', {'projects': _projects(), 'services': _services()})
+def v8_services(request):
+    return render(request, 'variants/v8/services.html', {'services': _services()})
+def v8_work(request):
+    return render(request, 'variants/v8/work.html', {'projects': _all_projects()})
+def v8_work_detail(request, slug):
+    return render(request, 'variants/v8/detail.html', {'project': get_object_or_404(Project, slug=slug), 'related': _projects()})
+def v8_contact(request):
+    r = _handle_contact(request, 'v8_contact')
+    if r: return r
+    return render(request, 'variants/v8/contact.html')

@@ -1,36 +1,177 @@
 {% extends 'variants/v5/base.html' %}
-{% block title %}Contact — DMA.{% endblock %}
+{% block title %}Contact — DMA. Cyberpunk{% endblock %}
 {% block extra_css %}
-.contact-wrap{min-height:calc(100vh - 70px);display:grid;grid-template-columns:1fr 1fr}
-.c-left{padding:80px 52px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(255,255,255,.05)}
-.c-left h1{font-size:clamp(48px,7vw,96px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88;animation:fadeUp 1.2s ease both}
-.c-left h1 b{color:var(--r)}
-.c-left p{font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.3);max-width:340px;margin-top:32px}
-.c-info strong{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:4px;margin-top:24px}
-.c-info p{font-size:.82rem;color:rgba(255,255,255,.28);line-height:1.8;margin-top:0}
-.c-right{padding:80px 52px;background:rgba(255,59,59,.02)}
-form{display:flex;flex-direction:column;gap:36px}
-.field label{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:10px}
-.field input,.field textarea{width:100%;background:rgba(255,255,255,.03);border:none;border-bottom:1px solid rgba(255,255,255,.1);padding:12px 0;font-size:.92rem;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .3s}
+/* ── Contact Hero ── */
+.ct-hero{padding:100px 52px 60px;position:relative;overflow:hidden;background:#050505;border-bottom:1px solid rgba(255,59,59,.15)}
+.ct-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 30% 50%,rgba(255,59,59,.06) 0%,transparent 65%);pointer-events:none}
+.ct-hero-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,59,59,.35),transparent);animation:ctScan 5s linear infinite;pointer-events:none}
+@keyframes ctScan{0%{top:0}100%{top:100%}}
+.ct-hero h1{font-size:clamp(52px,10vw,130px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88;position:relative;z-index:2}
+.ct-hero h1 b{color:var(--r);text-shadow:0 0 30px rgba(255,59,59,.4)}
+.ct-hero p{margin-top:20px;font-size:.9rem;color:rgba(255,255,255,.28);max-width:440px;line-height:1.75;position:relative;z-index:2}
+
+/* ── Main contact grid ── */
+.ct-body{display:grid;grid-template-columns:1fr 1.2fr;min-height:60vh;border-top:1px solid rgba(255,59,59,.1)}
+.ct-left{padding:72px 52px;border-right:1px solid rgba(255,59,59,.1);display:flex;flex-direction:column;gap:56px}
+.ct-info-block strong{display:block;font-size:.52rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--r);margin-bottom:8px;text-shadow:0 0 8px rgba(255,59,59,.3)}
+.ct-info-block p,.ct-info-block a{font-size:.88rem;color:rgba(255,255,255,.35);line-height:1.8;text-decoration:none;transition:color .3s;display:block}
+.ct-info-block a:hover{color:var(--r)}
+.ct-promise{padding:24px;border:1px solid rgba(255,59,59,.2);background:rgba(255,59,59,.03);margin-top:auto}
+.ct-promise h4{font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:10px}
+.ct-promise p{font-size:.8rem;color:rgba(255,255,255,.3);line-height:1.65}
+.ct-social{display:flex;gap:12px}
+.ct-social a{padding:10px 20px;border:1px solid rgba(255,255,255,.08);font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:all .3s}
+.ct-social a:hover{border-color:var(--r);color:var(--r);box-shadow:0 0 12px rgba(255,59,59,.2)}
+
+/* ── Form ── */
+.ct-right{padding:72px 52px;background:rgba(255,59,59,.015)}
+.ct-form-title{font-size:clamp(20px,2.5vw,32px);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:48px}
+.ct-form-title b{color:var(--r)}
+form{display:flex;flex-direction:column;gap:32px}
+.field{position:relative}
+.field label{display:block;font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:10px}
+.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.1);padding:12px 0;font-size:.9rem;color:#fff;font-family:'Inter',sans-serif;outline:none;transition:border-color .3s}
 .field input:focus,.field textarea:focus{border-color:var(--r)}
-.field textarea{resize:none;height:130px}
-.msg-box{padding:16px 20px;border:1px solid rgba(255,59,59,.3);background:rgba(255,59,59,.06);font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:28px}
+.field-scan{position:absolute;bottom:0;left:0;height:1px;background:var(--r);box-shadow:0 0 8px var(--r);width:0;transition:width .4s cubic-bezier(.16,1,.3,1)}
+.field input:focus ~ .field-scan,.field textarea:focus ~ .field-scan{width:100%}
+.field textarea{resize:none;height:120px}
+.msg-box{padding:16px 20px;border:1px solid rgba(255,59,59,.3);background:rgba(255,59,59,.06);font-size:.82rem;color:rgba(255,255,255,.7)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+
+/* ── FAQ ── */
+.ct-faq{padding:100px 52px;border-top:1px solid rgba(255,59,59,.15);background:#0a0a0a}
+.ct-faq-inner{max-width:800px}
+.ct-faq h2{font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;margin-bottom:48px}
+.ct-faq h2 b{color:var(--r)}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.07)}
+.faq-q{padding:28px 0;display:flex;justify-content:space-between;align-items:center;cursor:none;font-size:clamp(16px,2vw,22px);font-weight:800;color:rgba(255,255,255,.7);transition:color .3s}
+.faq-q:hover{color:#fff}
+.faq-icon{color:var(--r);transition:transform .35s;flex-shrink:0;font-size:1.2rem;font-weight:300}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.faq-a-inner{padding-bottom:28px;font-size:.9rem;color:rgba(255,255,255,.38);line-height:1.7}
+
+/* ── Offices ── */
+.ct-offices{padding:80px 52px;border-top:1px solid rgba(255,59,59,.15);background:#050505;display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ct-office{padding:40px 32px;border:1px solid rgba(255,255,255,.04);position:relative;overflow:hidden;transition:background .3s}
+.ct-office:hover{background:rgba(255,59,59,.03)}
+.ct-office::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--r);box-shadow:0 0 10px var(--r);transform:scaleX(0);transform-origin:left;transition:transform .45s}
+.ct-office:hover::before{transform:scaleX(1)}
+.ct-office-city{font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:8px}
+.ct-office-tz{font-size:.52rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--r);margin-bottom:16px}
+.ct-office-addr{font-size:.78rem;color:rgba(255,255,255,.28);line-height:1.75}
+
+/* Mobile */
+@media(max-width:768px){
+  .ct-hero{padding:100px 24px 48px}
+  .ct-body{grid-template-columns:1fr}
+  .ct-left{padding:48px 24px;border-right:none;border-bottom:1px solid rgba(255,59,59,.1)}
+  .ct-right{padding:48px 24px}
+  .form-row{grid-template-columns:1fr}
+  .ct-faq{padding:60px 24px}
+  .ct-offices{padding:60px 24px;grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.ct-offices{grid-template-columns:1fr}}
 {% endblock %}
+
 {% block content %}
-<div class="contact-wrap">
-  <div class="c-left">
-    <div><h1>Let's<br><b>Talk.</b></h1><p>Ready to transform your brand? Tell us about your project and we'll respond within 24 hours.</p></div>
-    <div class="c-info"><strong>Email</strong><p>hello@dma.studio</p><strong>Location</strong><p>New York, NY</p><strong>Social</strong><div style="display:flex;gap:16px;margin-top:6px"><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;transition:color .3s" onmouseover="this.style.color='var(--r)'" onmouseout="this.style.color='rgba(255,255,255,.25)'">IG</a><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase">X</a><a href="#" style="color:rgba(255,255,255,.25);text-decoration:none;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase">LI</a></div></div>
+<!-- Hero -->
+<section class="ct-hero">
+  <div class="ct-hero-bg"></div>
+  <div class="ct-hero-scan"></div>
+  <h1>Let's<br><b>Talk.</b></h1>
+  <p>Ready to transform your brand? We respond within 24 hours — usually faster.</p>
+</section>
+
+<!-- Main body -->
+<div class="ct-body">
+  <!-- Left: info -->
+  <div class="ct-left">
+    <div>
+      <div class="sec-lbl" style="margin-bottom:32px">01 / Connect</div>
+      <div class="ct-info-block"><strong>Email</strong><a href="mailto:hello@dma.studio">hello@dma.studio</a></div>
+      <div class="ct-info-block" style="margin-top:24px"><strong>New Inquiries</strong><a href="mailto:projects@dma.studio">projects@dma.studio</a></div>
+      <div class="ct-info-block" style="margin-top:24px"><strong>Location</strong><p>New York, NY — Remote Global</p></div>
+    </div>
+    <div>
+      <strong style="display:block;font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:12px">Social</strong>
+      <div class="ct-social">
+        <a href="#" data-cursor="IG">IG</a>
+        <a href="#" data-cursor="X">X</a>
+        <a href="#" data-cursor="LI">LI</a>
+      </div>
+    </div>
+    <div class="ct-promise">
+      <h4>Our Commitment</h4>
+      <p>Every inquiry gets a thoughtful reply within 24 hours. If we're not the right fit, we'll tell you — and point you in the right direction.</p>
+    </div>
   </div>
-  <div class="c-right">
-    {% if messages %}{% for m in messages %}<div class="msg-box">{{ m }}</div>{% endfor %}{% endif %}
+  <!-- Right: form -->
+  <div class="ct-right">
+    <div class="ct-form-title">Start a <b>Project</b></div>
+    {% if messages %}{% for m in messages %}<div class="msg-box" style="margin-bottom:28px">{{ m }}</div>{% endfor %}{% endif %}
     <form method="POST" action="{% url 'v5_contact' %}">{% csrf_token %}
-      <div class="field"><label>Name *</label><input type="text" name="name" required></div>
-      <div class="field"><label>Email *</label><input type="email" name="email" required></div>
-      <div class="field"><label>Company</label><input type="text" name="company"></div>
-      <div class="field"><label>Message *</label><textarea name="message" required></textarea></div>
-      <button type="submit" class="btn-r">Send message →</button>
+      <div class="form-row">
+        <div class="field"><label>Name *</label><input type="text" name="name" required><div class="field-scan"></div></div>
+        <div class="field"><label>Email *</label><input type="email" name="email" required><div class="field-scan"></div></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Company</label><input type="text" name="company"><div class="field-scan"></div></div>
+        <div class="field"><label>Budget Range</label>
+          <input type="text" name="budget" placeholder="e.g. $20k–$50k"><div class="field-scan"></div>
+        </div>
+      </div>
+      <div class="field"><label>Message *</label><textarea name="message" required></textarea><div class="field-scan"></div></div>
+      <button type="submit" class="btn-r" data-cursor="SEND">Send Message →</button>
     </form>
   </div>
 </div>
+
+<!-- Offices -->
+<section class="ct-offices">
+  <div class="ct-office"><div class="ct-office-city">New York</div><div class="ct-office-tz">UTC −5 / EST</div><p class="ct-office-addr">Primary HQ<br>Manhattan, NY 10001</p></div>
+  <div class="ct-office"><div class="ct-office-city">Los Angeles</div><div class="ct-office-tz">UTC −8 / PST</div><p class="ct-office-addr">West Coast Studio<br>Los Angeles, CA 90028</p></div>
+  <div class="ct-office"><div class="ct-office-city">London</div><div class="ct-office-tz">UTC +0 / GMT</div><p class="ct-office-addr">EMEA Operations<br>London, UK EC2A 4NE</p></div>
+</section>
+
+<!-- FAQ -->
+<section class="ct-faq">
+  <div class="sec-lbl">02 / Queries</div>
+  <div class="ct-faq-inner">
+    <h2>Quick <b>Answers</b></h2>
+    <div class="faq-item"><div class="faq-q" data-cursor="EXPAND">How fast do you respond? <span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Within 24 hours on business days. For urgent briefs, reach us directly at projects@dma.studio with [URGENT] in the subject line.</div></div></div>
+    <div class="faq-item"><div class="faq-q" data-cursor="EXPAND">What's your minimum project size? <span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">We work with brands at all stages, but our full production capabilities shine at $15k+. We're happy to discuss scoping to fit your needs.</div></div></div>
+    <div class="faq-item"><div class="faq-q" data-cursor="EXPAND">Do you work with international brands? <span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Absolutely. We've executed campaigns across North America, Europe, and Southeast Asia. Remote-first by design, global by execution.</div></div></div>
+    <div class="faq-item"><div class="faq-q" data-cursor="EXPAND">What information should I include in my brief? <span class="faq-icon">+</span></div><div class="faq-a"><div class="faq-a-inner">Your brand, campaign goals, target audience, timeline, and budget range. The more context you give, the faster we can get to a proposal.</div></div></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+gsap.registerPlugin(ScrollTrigger);
+/* Form field animations */
+document.querySelectorAll('.field input,.field textarea').forEach(el => {
+  el.addEventListener('focus', () => { if(el.previousElementSibling) el.previousElementSibling.style.color='var(--r)'; });
+  el.addEventListener('blur',  () => { if(el.previousElementSibling) el.previousElementSibling.style.color=''; });
+});
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const ans  = q.nextElementSibling;
+    if(item.classList.contains('open')){item.classList.remove('open');ans.style.maxHeight='0';}
+    else{document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0';});item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';}
+  });
+});
+/* Scroll reveals */
+gsap.utils.toArray('.ct-office').forEach((el,i) => {
+  gsap.from(el, {opacity:0,y:30,duration:.6,delay:i*.1,scrollTrigger:{trigger:'.ct-offices',start:'top 85%'}});
+});
+gsap.utils.toArray('.faq-item').forEach((el,i) => {
+  gsap.from(el, {opacity:0,x:-30,duration:.55,delay:i*.07,scrollTrigger:{trigger:el,start:'top 90%'}});
+});
+gsap.from('.ct-left', {opacity:0,x:-40,duration:.8,scrollTrigger:{trigger:'.ct-body',start:'top 80%'}});
+gsap.from('.ct-right', {opacity:0,x:40,duration:.8,scrollTrigger:{trigger:'.ct-body',start:'top 80%'}});
+</script>
 {% endblock %}

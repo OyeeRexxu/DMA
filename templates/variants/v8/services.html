@@ -1,0 +1,176 @@
+{% extends 'variants/v8/base.html' %}
+{% block title %}Services — DMA.{% endblock %}
+
+{% block extra_css %}
+/* ── Page hero ── */
+.pg-hero{min-height:52vh;padding:160px 8% 80px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid rgba(0,229,255,.08)}
+.pg-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 70% 40%,rgba(0,229,255,.055) 0%,transparent 65%);pointer-events:none}
+.pg-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.22),transparent);animation:pgScan 6s linear infinite;pointer-events:none}
+@keyframes pgScan{0%{top:0}100%{top:100%}}
+.pg-eyebrow{font-family:var(--font-mono);font-size:.65rem;font-weight:700;letter-spacing:.38em;text-transform:uppercase;color:rgba(0,229,255,.55);display:block;margin-bottom:20px;position:relative;z-index:2}
+.pg-title{font-size:clamp(56px,9vw,130px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.88;position:relative;z-index:2;color:#fff}
+.pg-title span{background:linear-gradient(90deg,var(--c-cyan),var(--c-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.pg-sub{margin-top:24px;font-size:.92rem;color:rgba(255,255,255,.32);max-width:500px;line-height:1.75;position:relative;z-index:2}
+
+/* ── Service list ── */
+.sv-list{padding:0 8%}
+.sv-item{display:grid;grid-template-columns:72px 1fr 340px;gap:48px;align-items:start;padding:60px 0;border-bottom:1px solid rgba(255,255,255,.04);position:relative;overflow:hidden;transition:padding-left .4s cubic-bezier(.16,1,.3,1)}
+.sv-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--c-cyan),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.sv-item:hover{padding-left:18px}
+.sv-item:hover::before{transform:scaleX(1)}
+.sv-num{font-family:var(--font-mono);font-size:.6rem;font-weight:700;letter-spacing:.28em;color:rgba(0,229,255,.4);padding-top:8px}
+.sv-name{font-size:clamp(24px,3vw,44px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;color:rgba(255,255,255,.2);transition:color .4s}
+.sv-item:hover .sv-name{color:#fff}
+.sv-short{font-size:.88rem;color:rgba(255,255,255,.32);line-height:1.75;margin-top:12px}
+.sv-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.sv-tag{padding:3px 12px;border:1px solid rgba(0,229,255,.18);font-family:var(--font-mono);font-size:.48rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,229,255,.45);transition:all .3s}
+.sv-item:hover .sv-tag{border-color:rgba(0,229,255,.4);color:var(--c-cyan)}
+.sv-detail{font-size:.8rem;color:rgba(255,255,255,.22);line-height:1.9}
+
+/* ── Tech / Tools grid ── */
+.tools-sec{padding:100px 8%;border-top:1px solid rgba(0,229,255,.08);background:#020308}
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:52px}
+.tool-cell{padding:32px 28px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);transition:all .35s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.tool-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--c-cyan);box-shadow:0 0 8px var(--c-cyan);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.tool-cell:hover{background:rgba(0,229,255,.025);border-color:rgba(0,229,255,.28);transform:translateY(-4px)}
+.tool-cell:hover::before{transform:scaleX(1)}
+.tool-icon{font-size:1.6rem;margin-bottom:14px}
+.tool-name{font-family:var(--font-mono);font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:6px}
+.tool-desc{font-size:.72rem;color:rgba(255,255,255,.28);line-height:1.6}
+
+/* ── Why us ── */
+.why-sec{padding:100px 8%;border-top:1px solid rgba(0,229,255,.08);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.why-left h2{font-size:clamp(32px,4.5vw,64px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.92;margin-bottom:20px;color:#fff}
+.why-left h2 span{background:linear-gradient(90deg,var(--c-cyan),var(--c-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.why-left p{font-size:.9rem;color:rgba(255,255,255,.32);line-height:1.75;max-width:400px}
+.why-items{display:flex;flex-direction:column}
+.why-row{padding:28px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:24px;align-items:flex-start;transition:padding-left .3s}
+.why-row:hover{padding-left:10px}
+.why-n{font-family:var(--font-mono);font-size:.52rem;font-weight:700;letter-spacing:.2em;color:rgba(0,229,255,.45);flex-shrink:0;margin-top:4px}
+.why-title{font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:5px;color:#fff}
+.why-desc{font-size:.8rem;color:rgba(255,255,255,.28);line-height:1.7}
+
+/* ── Stats ── */
+.sv-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(0,229,255,.08)}
+.sv-stat{padding:48px 36px;border-right:1px solid rgba(0,229,255,.08);position:relative;overflow:hidden;transition:background .3s}
+.sv-stat:last-child{border-right:none}
+.sv-stat:hover{background:rgba(0,229,255,.025)}
+.sv-stat::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--c-cyan);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.sv-stat:hover::before{transform:scaleX(1)}
+.sv-stat strong{font-size:clamp(40px,5.5vw,80px);font-weight:900;color:var(--c-cyan);letter-spacing:-.04em;display:block;text-shadow:0 0 28px rgba(0,229,255,.32)}
+.sv-stat p{font-family:var(--font-mono);font-size:.55rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:10px}
+
+/* ── Mobile ── */
+@media(max-width:1024px){.sv-item{grid-template-columns:60px 1fr}.sv-detail{display:none}.tools-grid{grid-template-columns:repeat(2,1fr)}.why-sec{grid-template-columns:1fr;gap:48px}}
+@media(max-width:768px){.pg-hero{padding:130px 24px 60px}.sv-list{padding:0 24px}.sv-item{grid-template-columns:1fr;gap:16px}.sv-num{display:none}.tools-sec,.why-sec{padding:72px 24px}.tools-grid{grid-template-columns:repeat(2,1fr)}.sv-stats{grid-template-columns:repeat(2,1fr)}.why-sec{grid-template-columns:1fr}}
+@media(max-width:480px){.tools-grid{grid-template-columns:1fr}.sv-stats{grid-template-columns:1fr}}
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="pg-hero">
+  <div class="pg-hero-bg"></div>
+  <div class="pg-scan"></div>
+  <span class="pg-eyebrow">01 / What We Do</span>
+  <h1 class="pg-title">Our <span>Services</span></h1>
+  <p class="pg-sub">Full-stack creative production — from AI-powered strategy to cinema-grade shoots and global influencer distribution.</p>
+</section>
+
+<!-- Service list -->
+<div class="sv-list">
+  {% for s in services %}
+  <div class="sv-item">
+    <span class="sv-num">{{ forloop.counter|stringformat:"02d" }}</span>
+    <div>
+      <div class="sv-name">{{ s.title }}</div>
+      <p class="sv-short">{{ s.short_description }}</p>
+      <div class="sv-tags">
+        <span class="sv-tag">Strategy</span>
+        <span class="sv-tag">Execution</span>
+        <span class="sv-tag">AI-Enhanced</span>
+      </div>
+    </div>
+    <p class="sv-detail">{{ s.detailed_description }}</p>
+  </div>
+  {% empty %}
+  <div class="sv-item">
+    <span class="sv-num">01</span>
+    <div><div class="sv-name">Social & AI Content</div><p class="sv-short">High-volume, algorithm-optimised traditional and generative AI content crafted for maximum reach and conversion.</p><div class="sv-tags"><span class="sv-tag">Strategy</span><span class="sv-tag">AI</span><span class="sv-tag">Distribution</span></div></div>
+    <p class="sv-detail">We combine generative AI with human-led creative direction to produce content at scale — without sacrificing quality or brand voice.</p>
+  </div>
+  <div class="sv-item">
+    <span class="sv-num">02</span>
+    <div><div class="sv-name">Influencer Management</div><p class="sv-short">Representing top-tier talent and orchestrating massive creator-led brand campaigns across every major platform.</p><div class="sv-tags"><span class="sv-tag">Talent</span><span class="sv-tag">Campaigns</span><span class="sv-tag">Activation</span></div></div>
+    <p class="sv-detail">Our talent roster spans fashion, beauty, tech, fitness, and gaming — matched to your brand through data-driven alignment scoring.</p>
+  </div>
+  <div class="sv-item">
+    <span class="sv-num">03</span>
+    <div><div class="sv-name">Shoots & Production</div><p class="sv-short">Cinema-grade commercial production, studio photography, and global location shoots delivered at speed.</p><div class="sv-tags"><span class="sv-tag">Production</span><span class="sv-tag">Photo</span><span class="sv-tag">Video</span></div></div>
+    <p class="sv-detail">From concept to final cut — our in-house production team handles casting, location, direction, post-production, and delivery.</p>
+  </div>
+  <div class="sv-item">
+    <span class="sv-num">04</span>
+    <div><div class="sv-name">Campaign Execution</div><p class="sv-short">End-to-end strategic rollout, precision paid media distribution, and full brand activation across channels.</p><div class="sv-tags"><span class="sv-tag">Paid Media</span><span class="sv-tag">Rollout</span><span class="sv-tag">Analytics</span></div></div>
+    <p class="sv-detail">We manage your full media mix — Meta, TikTok, Google, YouTube — with real-time optimisation and weekly performance reporting.</p>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Tools / Tech -->
+<section class="tools-sec">
+  <span class="pg-eyebrow" style="margin-bottom:12px">02 / Our Arsenal</span>
+  <h2 style="font-size:clamp(32px,4vw,60px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#fff">Built With <span style="background:linear-gradient(90deg,var(--c-cyan),var(--c-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent">The Best</span></h2>
+  <div class="tools-grid">
+    <div class="tool-cell"><div class="tool-icon">⚡</div><div class="tool-name">Generative AI</div><p class="tool-desc">Rapid asset creation and pre-vis at scale.</p></div>
+    <div class="tool-cell"><div class="tool-icon">🎬</div><div class="tool-name">RED Cinema</div><p class="tool-desc">8K production for global commercial shoots.</p></div>
+    <div class="tool-cell"><div class="tool-icon">📊</div><div class="tool-name">Live Analytics</div><p class="tool-desc">Real-time campaign intelligence and ROAS tracking.</p></div>
+    <div class="tool-cell"><div class="tool-icon">🌐</div><div class="tool-name">Paid Media</div><p class="tool-desc">Meta, TikTok, Google Ads — precision targeting.</p></div>
+    <div class="tool-cell"><div class="tool-icon">🤖</div><div class="tool-name">AI Scripting</div><p class="tool-desc">Algorithm-optimised content at production speed.</p></div>
+    <div class="tool-cell"><div class="tool-icon">🎯</div><div class="tool-name">Influencer OS</div><p class="tool-desc">Creator network management and activation.</p></div>
+    <div class="tool-cell"><div class="tool-icon">🔊</div><div class="tool-name">Audio Post</div><p class="tool-desc">Broadcast-grade sound design and mixing.</p></div>
+    <div class="tool-cell"><div class="tool-icon">📱</div><div class="tool-name">Social-First</div><p class="tool-desc">Content built for vertical, short-form, and stories.</p></div>
+  </div>
+</section>
+
+<!-- Why Us -->
+<section class="why-sec">
+  <div class="why-left">
+    <span class="pg-eyebrow">03 / Our Advantage</span>
+    <h2>Why<br>Choose<br><span>DMA.</span></h2>
+    <p>We're not an agency. We're an integrated production system — one team, one P&L, zero bureaucracy.</p>
+  </div>
+  <div class="why-items">
+    <div class="why-row"><span class="why-n">01 —</span><div><div class="why-title">Speed</div><p class="why-desc">From brief to live in days. We move faster than traditional agencies move in months.</p></div></div>
+    <div class="why-row"><span class="why-n">02 —</span><div><div class="why-title">Integrated</div><p class="why-desc">Strategy, production, and distribution under one roof. No handoffs, no delays.</p></div></div>
+    <div class="why-row"><span class="why-n">03 —</span><div><div class="why-title">AI-Powered</div><p class="why-desc">We deploy AI at every stage — scripting, pre-vis, optimisation, and dynamic creative.</p></div></div>
+    <div class="why-row"><span class="why-n">04 —</span><div><div class="why-title">Results-First</div><p class="why-desc">Every decision is anchored to a measurable outcome. We don't do vanity metrics.</p></div></div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="sv-stats">
+  <div class="sv-stat"><strong>98%</strong><p>Client retention rate</p></div>
+  <div class="sv-stat"><strong>3.2×</strong><p>Average ROAS delivered</p></div>
+  <div class="sv-stat"><strong>150+</strong><p>Campaigns shipped</p></div>
+  <div class="sv-stat"><strong>24h</strong><p>Average response time</p></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.sv-item').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,x:-40,duration:.65,delay:i*.06,scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+gsap.utils.toArray('.tool-cell').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,scale:.9,duration:.5,delay:i*.05,scrollTrigger:{trigger:'.tools-grid',start:'top 85%'}});
+});
+gsap.utils.toArray('.why-row').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,x:40,duration:.6,delay:i*.08,scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+gsap.utils.toArray('.sv-stat').forEach((el,i)=>{
+  gsap.from(el,{opacity:0,y:30,duration:.55,delay:i*.08,scrollTrigger:{trigger:'.sv-stats',start:'top 85%'}});
+});
+gsap.from('.why-left',{opacity:0,x:-40,duration:.8,scrollTrigger:{trigger:'.why-sec',start:'top 82%'}});
+</script>
+{% endblock %}

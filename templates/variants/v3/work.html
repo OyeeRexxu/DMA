@@ -1,21 +1,461 @@
 {% extends 'variants/v3/base.html' %}
 {% block title %}Work — DMA.{% endblock %}
 {% block extra_css %}
-.pg-hero{padding:80px 52px 60px;text-align:center}
-.pg-hero h1{font-size:clamp(52px,8vw,110px);font-weight:900;letter-spacing:-.04em;animation:fadeUp 1s ease both}
-.pg-hero p{margin-top:16px;color:rgba(255,255,255,.3);animation:fadeUp 1s ease .2s both}
-.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:40px 52px 120px}
-.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:transform .5s,box-shadow .5s,border-color .5s}
-.card:hover{transform:translateY(-10px);box-shadow:0 32px 64px rgba(124,111,255,.2);border-color:rgba(124,111,255,.3)}
-.card-img{aspect-ratio:4/3;overflow:hidden}
-.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
-.card:hover .card-img img{transform:scale(1.06)}
-.card-img-ph{width:100%;height:100%;background:linear-gradient(135deg,rgba(124,111,255,.12),rgba(80,200,255,.06))}
-.card-body{padding:22px}
-.card-tag{font-size:.58rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
-.card-title{font-size:1.05rem;font-weight:700;letter-spacing:-.02em}
+
+/* ── HERO ── */
+.w-hero {
+  min-height: 52vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 100px 52px 64px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.w-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 40%, rgba(124,111,255,.1) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(80,200,255,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.w-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  border: 1px solid rgba(124,111,255,.3);
+  border-radius: 100px;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 28px;
+  width: fit-content;
+  animation: fadeUp .8s ease both;
+}
+.w-hero-badge span { width: 6px; height: 6px; background: var(--acc); border-radius: 50%; }
+.w-hero h1 {
+  font-size: clamp(56px,9vw,130px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: .88;
+  text-transform: uppercase;
+  animation: fadeUp 1s ease .1s both;
+}
+.w-hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  gap: 24px;
+  animation: fadeUp 1s ease .25s both;
+}
+.w-hero-desc {
+  font-size: .9rem;
+  color: rgba(255,255,255,.3);
+  max-width: 400px;
+  line-height: 1.75;
+}
+.w-hero-stats {
+  display: flex;
+  gap: 40px;
+}
+.w-stat-val {
+  font-size: clamp(24px,3vw,40px);
+  font-weight: 900;
+  letter-spacing: -.03em;
+  background: linear-gradient(135deg,var(--acc),var(--acc2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.w-stat-lbl {
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.2);
+  margin-top: 4px;
+}
+
+/* ── FILTER ── */
+.w-filter {
+  padding: 28px 52px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.f-btn {
+  padding: 8px 22px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 100px;
+  background: transparent;
+  color: rgba(255,255,255,.3);
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all .3s;
+  font-family: 'Inter', sans-serif;
+}
+.f-btn:hover, .f-btn.active {
+  background: linear-gradient(135deg,var(--acc),var(--acc2));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(124,111,255,.3);
+}
+
+/* ── MASONRY-STYLE GRID ── */
+.w-grid-wrap { padding: 52px 52px 0; }
+.w-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 80px;
+  gap: 16px;
+}
+/* Card base */
+.wc {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(124,111,255,.12);
+  background: rgba(12,13,29,.6);
+  backdrop-filter: blur(12px);
+  display: block;
+  transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s, border-color .5s;
+}
+.wc:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 56px rgba(124,111,255,.22);
+  border-color: rgba(124,111,255,.4);
+}
+/* Grid placement */
+.wc:nth-child(1)  { grid-column: span 7; grid-row: span 5; }
+.wc:nth-child(2)  { grid-column: span 5; grid-row: span 3; }
+.wc:nth-child(3)  { grid-column: span 5; grid-row: span 2; }
+.wc:nth-child(4)  { grid-column: span 4; grid-row: span 4; }
+.wc:nth-child(5)  { grid-column: span 4; grid-row: span 4; }
+.wc:nth-child(6)  { grid-column: span 4; grid-row: span 4; }
+.wc:nth-child(n+7){ grid-column: span 4; grid-row: span 3; }
+
+.wc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .55;
+  filter: grayscale(20%);
+  transition: opacity .6s, filter .6s, transform .8s cubic-bezier(.16,1,.3,1);
+}
+.wc:hover img { opacity: .85; filter: grayscale(0%); transform: scale(1.05); }
+.wc-ph {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,rgba(124,111,255,.15),rgba(80,200,255,.07));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.07);
+  font-size: .65rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.wc-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6,7,15,.92) 0%, rgba(6,7,15,.3) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px;
+  opacity: 0;
+  transition: opacity .4s;
+}
+.wc:hover .wc-overlay { opacity: 1; }
+.wc-num {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  color: rgba(255,255,255,.3);
+  background: rgba(6,7,15,.6);
+  padding: 4px 10px;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+.wc-tag {
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--acc2);
+  margin-bottom: 6px;
+}
+.wc-title {
+  font-size: clamp(.9rem,1.5vw,1.3rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+}
+.wc-desc {
+  font-size: .75rem;
+  color: rgba(255,255,255,.45);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+.wc-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--acc);
+}
+
+/* ── PROCESS ── */
+.w-process {
+  padding: 100px 52px 60px;
+  border-top: 1px solid rgba(255,255,255,.04);
+}
+.w-process-hd {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 60px;
+}
+.w-process-hd h2 {
+  font-size: clamp(32px,4.5vw,64px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  line-height: .9;
+}
+.w-process-hd p {
+  font-size: .9rem;
+  color: rgba(255,255,255,.3);
+  line-height: 1.75;
+}
+.w-steps {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 3px;
+}
+.w-step {
+  background: rgba(12,13,29,.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(124,111,255,.1);
+  border-radius: 16px;
+  padding: 36px 28px;
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+}
+.w-step:hover {
+  background: rgba(124,111,255,.08);
+  border-color: rgba(124,111,255,.3);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(124,111,255,.15);
+}
+.w-step-num {
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+  color: var(--acc2);
+  margin-bottom: 20px;
+}
+.w-step-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: 10px;
+}
+.w-step-desc {
+  font-size: .8rem;
+  color: rgba(255,255,255,.3);
+  line-height: 1.75;
+}
+
+/* ── CTA GLASS CARD ── */
+.w-cta-wrap { padding: 0 52px 80px; }
+.w-cta {
+  background: rgba(12,13,29,.65);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(124,111,255,.2);
+  border-radius: 24px;
+  padding: 64px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 30px 60px rgba(0,0,0,.4);
+  position: relative;
+  overflow: hidden;
+}
+.w-cta::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(124,111,255,.15), transparent 70%);
+  pointer-events: none;
+}
+.w-cta h2 {
+  font-size: clamp(28px,4vw,56px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  line-height: .9;
+}
+
+@media (max-width: 1024px) {
+  .w-grid { grid-template-columns: repeat(6,1fr); }
+  .wc:nth-child(1) { grid-column: span 6; grid-row: span 4; }
+  .wc:nth-child(2) { grid-column: span 3; grid-row: span 3; }
+  .wc:nth-child(3) { grid-column: span 3; grid-row: span 3; }
+  .wc:nth-child(n+4) { grid-column: span 3; grid-row: span 3; }
+  .w-steps { grid-template-columns: repeat(2,1fr); }
+  .w-process-hd { grid-template-columns: 1fr; gap: 20px; }
+}
+@media (max-width: 768px) {
+  .w-hero { padding: 90px 24px 48px; }
+  .w-filter { padding: 20px 24px; }
+  .w-grid-wrap { padding: 32px 24px 0; }
+  .w-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .wc { aspect-ratio: 4/3; }
+  .wc:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+  .wc-overlay { opacity: 1; }
+  .w-process { padding: 60px 24px 40px; }
+  .w-steps { grid-template-columns: 1fr; }
+  .w-cta-wrap { padding: 0 24px 60px; }
+  .w-cta { padding: 40px 28px; flex-direction: column; align-items: flex-start; }
+}
 {% endblock %}
+
 {% block content %}
-<div class="pg-hero"><h1>Our <span class="g">Work</span></h1><p>{{ projects|length }} Projects across all disciplines</p></div>
-<div class="work-grid">{% for p in projects %}<a href="{% url 'v3_work_detail' p.slug %}" class="card reveal"><div class="card-img">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="card-img-ph"></div>{% endif %}</div><div class="card-body"><div class="card-tag">{{ p.client_name }}</div><div class="card-title">{{ p.title }}</div></div></a>{% endfor %}</div>
+
+<!-- Hero -->
+<div class="w-hero">
+  <div class="w-hero-badge">
+    <span></span>
+    Selected Projects
+  </div>
+  <h1>Our <span class="g">Work</span></h1>
+  <div class="w-hero-bottom">
+    <p class="w-hero-desc">Every project is a collision of strategy, craft, and obsession. We build campaigns that move culture — not just metrics.</p>
+    <div class="w-hero-stats">
+      <div>
+        <div class="w-stat-val">{{ projects|length }}</div>
+        <div class="w-stat-lbl">Projects</div>
+      </div>
+      <div>
+        <div class="w-stat-val">6+</div>
+        <div class="w-stat-lbl">Years</div>
+      </div>
+      <div>
+        <div class="w-stat-val">40+</div>
+        <div class="w-stat-lbl">Clients</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter -->
+<div class="w-filter">
+  <button class="f-btn active" data-filter="all">All Work</button>
+  <button class="f-btn" data-filter="campaign">Campaign</button>
+  <button class="f-btn" data-filter="branding">Branding</button>
+  <button class="f-btn" data-filter="production">Production</button>
+  <button class="f-btn" data-filter="digital">Digital</button>
+</div>
+
+<!-- Masonry Grid -->
+<div class="w-grid-wrap">
+  <div class="w-grid">
+    {% for p in projects %}
+    <a href="{% url 'v3_work_detail' p.slug %}" class="wc reveal">
+      <span class="wc-num">{{ forloop.counter|stringformat:"02d" }}</span>
+      {% if p.cover_image %}
+        <img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">
+      {% else %}
+        <div class="wc-ph">{{ p.title }}</div>
+      {% endif %}
+      <div class="wc-overlay">
+        <div class="wc-tag">{{ p.client_name }}</div>
+        <div class="wc-title">{{ p.title }}</div>
+        <div class="wc-desc">{{ p.short_description|truncatewords:10 }}</div>
+        <div class="wc-arrow">View case →</div>
+      </div>
+    </a>
+    {% empty %}
+    <div style="grid-column:span 12;padding:80px;text-align:center;color:rgba(255,255,255,.15);font-size:.8rem;letter-spacing:.2em;border-radius:18px;background:rgba(255,255,255,.02);">NO PROJECTS YET</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Process -->
+<div class="w-process">
+  <div class="w-process-hd">
+    <div>
+      <span class="sec-lbl">How We Work</span>
+      <h2>The <span class="g">Process</span></h2>
+    </div>
+    <p>From brief to launch — a disciplined creative process that delivers results every time, without the chaos.</p>
+  </div>
+  <div class="w-steps">
+    <div class="w-step reveal">
+      <div class="w-step-num">01 —</div>
+      <div class="w-step-title">Discovery</div>
+      <p class="w-step-desc">Deep-dive into your brand, audience, and competitive landscape. We ask the questions others skip.</p>
+    </div>
+    <div class="w-step reveal">
+      <div class="w-step-num">02 —</div>
+      <div class="w-step-title">Strategy</div>
+      <p class="w-step-desc">Data-backed creative direction. Every decision is anchored to a measurable outcome.</p>
+    </div>
+    <div class="w-step reveal">
+      <div class="w-step-num">03 —</div>
+      <div class="w-step-title">Production</div>
+      <p class="w-step-desc">In-house creative execution — copy, design, motion, and content at studio quality.</p>
+    </div>
+    <div class="w-step reveal">
+      <div class="w-step-num">04 —</div>
+      <div class="w-step-title">Launch & Scale</div>
+      <p class="w-step-desc">Precision deployment across channels. We iterate fast and scale what works.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="w-cta-wrap">
+  <div class="w-cta reveal">
+    <h2>Ready to make<br><span class="g">yours?</span></h2>
+    <a href="{% url 'v3_contact' %}" class="btn-p">Start a project</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
 {% endblock %}

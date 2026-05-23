@@ -1,70 +1,366 @@
 {% extends 'variants/v1/base.html' %}
 {% block title %}{{ project.title }} — DMA.{% endblock %}
 {% block extra_css %}
-.hero-img{height:70vh;position:relative;overflow:hidden;background:#111}
-.hero-img img{width:100%;height:100%;object-fit:cover;opacity:.7}
-.hero-img .over{position:absolute;inset:0;background:linear-gradient(to top,#050505 0%,transparent 60%)}
-.hero-img-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a,#0d0d0d)}
-.detail-meta{padding:72px 52px 48px;border-bottom:1px solid rgba(255,255,255,.06)}
-.detail-client{font-size:.6rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px}
-.detail-title{font-size:clamp(40px,7vw,96px);font-weight:900;letter-spacing:-.04em;line-height:.9;text-transform:uppercase}
-.detail-body{display:grid;grid-template-columns:1fr 360px;gap:80px;padding:72px 52px 120px;align-items:start}
-.detail-content{font-size:1rem;line-height:1.85;color:rgba(255,255,255,.5)}
-.detail-content p{margin-bottom:24px}
-.detail-sidebar{position:sticky;top:120px}
-.detail-sidebar h4{font-size:.58rem;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06)}
-.detail-sidebar p{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.7;margin-bottom:32px}
-.detail-sidebar a{display:inline-flex;align-items:center;gap:12px;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#fff;text-decoration:none}
-.detail-sidebar a::after{content:'';width:36px;height:1px;background:#fff;transition:width .4s}
-.detail-sidebar a:hover::after{width:64px}
-.related{padding:80px 52px 0;border-top:1px solid rgba(255,255,255,.06)}
-.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:48px}
-.rel-item{position:relative;overflow:hidden;aspect-ratio:4/3;background:#111;display:block;text-decoration:none}
-.rel-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(30%);transition:all .7s}
-.rel-item:hover img{filter:grayscale(0%);transform:scale(1.04)}
-.rel-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a,#0c0c0c)}
-.rel-ov{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);opacity:0;transition:opacity .4s}
-.rel-item:hover .rel-ov{opacity:1}
-.rel-ov h4{font-size:.95rem;font-weight:700}
 
+/* ── HERO ── */
+.d-hero { position: relative; height: 80vh; min-height: 520px; overflow: hidden; background: #0a0a0a; }
+.d-hero img { width: 100%; height: 100%; object-fit: cover; opacity: .6; transform: scale(1.04); transition: transform 6s ease; }
+.d-hero.loaded img { transform: scale(1); }
+.d-hero-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); }
+.d-hero-grad { position: absolute; inset: 0; background: linear-gradient(to top, #080808 0%, rgba(8,8,8,.5) 40%, transparent 100%); }
+.d-hero-badge { position: absolute; top: 120px; left: 52px; display: flex; align-items: center; gap: 12px; animation: fadeUp .8s ease both; }
+.d-hero-badge a { font-size: .58rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.4); text-decoration: none; transition: color .3s; }
+.d-hero-badge a:hover { color: var(--lime); }
+.d-hero-badge span { color: rgba(255,255,255,.2); font-size: .6rem; }
+.d-hero-title { position: absolute; bottom: 60px; left: 52px; right: 52px; animation: fadeUp .9s ease .1s both; }
+.d-hero-client { font-size: .6rem; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--lime); margin-bottom: 16px; }
+.d-hero-title h1 { font-size: clamp(44px,7vw,100px); font-weight: 900; letter-spacing: -.04em; line-height: .88; text-transform: uppercase; }
+
+/* ── META BAR ── */
+.d-meta-bar { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid rgba(255,255,255,.06); }
+.d-meta-cell { padding: 32px 40px; border-right: 1px solid rgba(255,255,255,.06); }
+.d-meta-cell:last-child { border-right: none; }
+.d-meta-lbl { font-size: .55rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 8px; }
+.d-meta-val { font-size: .95rem; font-weight: 700; color: rgba(255,255,255,.8); }
+
+/* ── BODY GRID ── */
+.d-body { display: grid; grid-template-columns: 1fr 360px; gap: 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+.d-content { padding: 72px 52px 80px; border-right: 1px solid rgba(255,255,255,.06); }
+.d-content p { font-size: 1rem; line-height: 1.9; color: rgba(255,255,255,.5); margin-bottom: 28px; }
+.d-content h2 { font-size: clamp(22px,2.5vw,32px); font-weight: 900; letter-spacing: -.03em; text-transform: uppercase; color: var(--white); margin: 52px 0 20px; }
+.d-content h3 { font-size: 1rem; font-weight: 800; letter-spacing: -.01em; color: rgba(255,255,255,.7); margin: 36px 0 12px; }
+.d-content blockquote { border-left: 2px solid var(--lime); padding: 20px 28px; margin: 40px 0; background: rgba(204,255,0,.03); }
+.d-content blockquote p { font-size: 1.05rem; font-style: italic; color: rgba(255,255,255,.6); margin: 0; }
+
+/* ── SIDEBAR ── */
+.d-sidebar { padding: 72px 40px; }
+.d-sidebar-block { margin-bottom: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.05); }
+.d-sidebar-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.d-sidebar-lbl { font-size: .55rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 16px; }
+.d-sidebar-val { font-size: .9rem; color: rgba(255,255,255,.55); line-height: 1.75; }
+.d-tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.d-tag { padding: 5px 14px; border: 1px solid rgba(255,255,255,.08); font-size: .55rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+.d-cta-link { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border: 1px solid rgba(204,255,0,.2); background: rgba(204,255,0,.04); text-decoration: none; transition: all .3s; margin-top: 8px; }
+.d-cta-link:hover { background: var(--lime); border-color: var(--lime); }
+.d-cta-link:hover .d-cta-text, .d-cta-link:hover .d-cta-arrow { color: var(--black); }
+.d-cta-text { font-size: .6rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--lime); transition: color .3s; }
+.d-cta-arrow { font-size: .8rem; color: var(--lime); transition: color .3s; margin-left: auto; }
+.d-video-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: rgba(255,255,255,.5); font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: color .3s; margin-top: 8px; }
+.d-video-link:hover { color: var(--lime); }
+.d-video-icon { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .7rem; transition: all .3s; }
+.d-video-link:hover .d-video-icon { border-color: var(--lime); background: var(--lime); color: var(--black); }
+
+/* ── RESULTS BAND ── */
+.d-results { padding: 80px 52px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.d-results-lbl { font-size: .58rem; font-weight: 700; letter-spacing: .35em; text-transform: uppercase; color: var(--lime); margin-bottom: 48px; }
+.d-results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.d-result-item { padding: 40px 32px; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.04); }
+.d-result-val { font-size: clamp(28px,4vw,52px); font-weight: 900; letter-spacing: -.04em; color: var(--lime); }
+.d-result-lbl { font-size: .6rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-top: 8px; }
+
+/* ── FULL-WIDTH IMAGE ── */
+.d-full-img { width: 100%; aspect-ratio: 21/9; overflow: hidden; background: #111; border-top: 1px solid rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.04); }
+.d-full-img img { width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity .6s; }
+.d-full-img:hover img { opacity: 1; }
+.d-full-img-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #161616, #0c0c0c); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.06); font-size: .7rem; letter-spacing: .3em; text-transform: uppercase; }
+
+/* ── APPROACH STRIP ── */
+.d-approach { padding: 80px 52px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.d-approach-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 48px; flex-wrap: wrap; gap: 16px; }
+.d-approach-hd h2 { font-size: clamp(28px,4vw,52px); font-weight: 900; letter-spacing: -.04em; text-transform: uppercase; line-height: .9; }
+.d-approach-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.d-step { padding: 36px 32px; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.04); transition: all .4s; }
+.d-step:hover { background: rgba(204,255,0,.04); border-color: rgba(204,255,0,.15); }
+.d-step-num { font-size: .55rem; font-weight: 700; letter-spacing: .3em; color: var(--lime); margin-bottom: 20px; }
+.d-step-title { font-size: 1rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 10px; }
+.d-step-desc { font-size: .8rem; color: rgba(255,255,255,.3); line-height: 1.75; }
+
+/* ── RELATED ── */
+.d-related { padding: 80px 52px 0; }
+.d-related-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 40px; }
+.d-related-hd h2 { font-size: clamp(24px,3vw,40px); font-weight: 900; letter-spacing: -.03em; text-transform: uppercase; }
+.d-related-hd a { font-size: .6rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); text-decoration: none; transition: color .3s; }
+.d-related-hd a:hover { color: var(--lime); }
+.d-rel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.d-rel-item { position: relative; overflow: hidden; aspect-ratio: 4/3; background: #111; display: block; text-decoration: none; }
+.d-rel-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%); transition: all .7s; }
+.d-rel-item:hover img { filter: grayscale(0%); transform: scale(1.04); }
+.d-rel-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a, #0c0c0c); }
+.d-rel-ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85), transparent 60%); opacity: 0; transition: opacity .4s; display: flex; align-items: flex-end; padding: 28px; }
+.d-rel-item:hover .d-rel-ov { opacity: 1; }
+.d-rel-client { font-size: .55rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--lime); margin-bottom: 6px; }
+.d-rel-title { font-size: 1rem; font-weight: 800; letter-spacing: -.02em; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1024px) {
+  .d-results-grid { grid-template-columns: repeat(2, 1fr); }
+  .d-approach-steps { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 768px) {
-  .hero-img { height: 40vh; }
-  .detail-meta { padding: 40px 24px 24px; }
-  .detail-body { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 80px; }
-  .detail-sidebar { position: static; }
-  .related { padding: 40px 24px 0; }
-  .rel-grid { grid-template-columns: 1fr; gap: 16px; }
-  .rel-ov { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); }
+  .d-hero { height: 55vh; }
+  .d-hero-badge { left: 24px; top: 100px; }
+  .d-hero-title { left: 24px; right: 24px; bottom: 36px; }
+  .d-meta-bar { grid-template-columns: repeat(2, 1fr); }
+  .d-meta-cell:nth-child(2) { border-right: none; }
+  .d-meta-cell:nth-child(3) { border-right: 1px solid rgba(255,255,255,.06); }
+  .d-body { grid-template-columns: 1fr; }
+  .d-content { padding: 40px 24px 48px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .d-sidebar { padding: 40px 24px; }
+  .d-results { padding: 60px 24px; }
+  .d-results-grid { grid-template-columns: repeat(2, 1fr); }
+  .d-approach { padding: 60px 24px; }
+  .d-approach-steps { grid-template-columns: 1fr; }
+  .d-related { padding: 60px 24px 0; }
+  .d-rel-grid { grid-template-columns: 1fr; gap: 16px; }
+  .d-rel-ov { opacity: 1; }
+}
+@media (max-width: 480px) {
+  .d-hero { height: 45vh; }
+  .d-hero-badge { left: 16px; top: 90px; }
+  .d-hero-title { left: 16px; right: 16px; bottom: 28px; }
+  .d-meta-bar { grid-template-columns: 1fr 1fr; }
+  .d-meta-cell { padding: 20px 16px; }
+  .d-content { padding: 32px 16px 40px; }
+  .d-sidebar { padding: 32px 16px; }
+  .d-results { padding: 48px 16px; }
+  .d-results-grid { grid-template-columns: 1fr 1fr; }
+  .d-result-item { padding: 28px 20px; }
+  .d-approach { padding: 48px 16px; }
+  .d-related { padding: 48px 16px 0; }
+  .d-cta-link { padding: 14px 18px; }
 }
 {% endblock %}
+
 {% block content %}
-<div class="hero-img">
-  {% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}">{% else %}<div class="hero-img-ph"></div>{% endif %}
-  <div class="over"></div>
+
+<!-- Hero -->
+<div class="d-hero" id="d-hero">
+  {% if project.cover_image %}
+    <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+  {% else %}
+    <div class="d-hero-ph"></div>
+  {% endif %}
+  <div class="d-hero-grad"></div>
+  <div class="d-hero-badge">
+    <a href="{% url 'v1_work' %}" data-cursor="BACK">← All Work</a>
+    <span>/</span>
+    <a href="#" data-cursor="PROJECT">{{ project.client_name }}</a>
+  </div>
+  <div class="d-hero-title">
+    <div class="d-hero-client">{{ project.client_name }}</div>
+    <h1>{{ project.title }}</h1>
+  </div>
 </div>
-<div class="detail-meta">
-  <p class="detail-client">{{ project.client_name }}</p>
-  <h1 class="detail-title">{{ project.title }}</h1>
+
+<!-- Meta Bar -->
+<div class="d-meta-bar">
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Client</div>
+    <div class="d-meta-val">{{ project.client_name|default:"—" }}</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Year</div>
+    <div class="d-meta-val">{{ project.created_at|date:"Y" }}</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Category</div>
+    <div class="d-meta-val">Creative Production</div>
+  </div>
+  <div class="d-meta-cell">
+    <div class="d-meta-lbl">Status</div>
+    <div class="d-meta-val" style="color:var(--lime);">Delivered ✓</div>
+  </div>
 </div>
-<div class="detail-body">
-  <div class="detail-content">{{ project.content|linebreaks }}</div>
-  <aside class="detail-sidebar reveal">
-    <h4>About this project</h4>
-    <p>{{ project.short_description }}</p>
-    {% if project.video_url %}<a href="{{ project.video_url }}" target="_blank">Watch video</a>{% endif %}
-    <br><br>
-    <a href="{% url 'v1_contact' %}">Start a project</a>
+
+<!-- Body + Sidebar -->
+<div class="d-body">
+  <div class="d-content">
+    <p style="font-size:1.15rem;color:rgba(255,255,255,.65);font-weight:400;line-height:1.8;">{{ project.short_description }}</p>
+
+    {{ project.content|linebreaks }}
+
+    {% if not project.content %}
+    <h2>The Challenge</h2>
+    <p>Every great campaign starts with a problem worth solving. For {{ project.client_name }}, the challenge was standing out in a saturated market while maintaining brand integrity and driving measurable growth across digital channels.</p>
+
+    <h2>Our Approach</h2>
+    <p>We began with a deep discovery phase — auditing existing assets, mapping the competitive landscape, and identifying the whitespace where the brand could own a distinct voice. From there, we built a creative strategy anchored in three pillars: authenticity, precision targeting, and relentless iteration.</p>
+
+    <blockquote><p>"The team at DMA didn't just execute — they elevated the entire brief. The results exceeded every benchmark we set."</p></blockquote>
+
+    <h2>Execution</h2>
+    <p>Production ran across six weeks with a dedicated team of strategists, creatives, and media buyers working in lockstep. Every asset was built for performance — tested, refined, and scaled based on real-time data signals.</p>
+
+    <h3>Creative Direction</h3>
+    <p>Visual identity, tone of voice, and campaign architecture were developed in parallel, ensuring consistency from the first touchpoint to the last conversion.</p>
+
+    <h3>Media Strategy</h3>
+    <p>Paid distribution across Meta, TikTok, and programmatic channels — with a full-funnel approach from awareness through to retargeting and retention.</p>
+
+    <h2>The Outcome</h2>
+    <p>The campaign delivered results that moved the needle at every stage of the funnel. Brand awareness lifted significantly, engagement rates outperformed category benchmarks, and the client saw a measurable uplift in both revenue and brand equity.</p>
+    {% endif %}
+  </div>
+
+  <aside class="d-sidebar">
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">About this project</div>
+      <div class="d-sidebar-val">{{ project.short_description }}</div>
+    </div>
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Disciplines</div>
+      <div class="d-tag-list">
+        <span class="d-tag">Strategy</span>
+        <span class="d-tag">Creative</span>
+        <span class="d-tag">Production</span>
+        <span class="d-tag">Paid Media</span>
+        <span class="d-tag">Analytics</span>
+      </div>
+    </div>
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Deliverables</div>
+      <div class="d-sidebar-val" style="font-size:.82rem;line-height:2;">
+        Campaign Strategy<br>
+        Visual Identity<br>
+        Content Production<br>
+        Media Buying<br>
+        Performance Reporting
+      </div>
+    </div>
+
+    {% if project.video_url %}
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Case Video</div>
+      <a href="{{ project.video_url }}" target="_blank" class="d-video-link" data-cursor="PLAY">
+        <div class="d-video-icon">▶</div>
+        Watch the case film
+      </a>
+    </div>
+    {% endif %}
+
+    <div class="d-sidebar-block">
+      <div class="d-sidebar-lbl">Start your project</div>
+      <a href="{% url 'v1_contact' %}" class="d-cta-link magnetic" data-cursor="START">
+        <span class="d-cta-text">Work with us</span>
+        <span class="d-cta-arrow">→</span>
+      </a>
+    </div>
+
   </aside>
 </div>
-{% if related %}
-<div class="related">
-  <div class="sec-hd" style="display:flex;justify-content:space-between;align-items:baseline">
-    <span style="font-size:clamp(24px,2.5vw,34px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase">More Work</span>
-    <a href="{% url 'v1_work' %}" style="font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none">All projects →</a>
+
+<!-- Results Band -->
+<div class="d-results">
+  <div class="d-results-lbl">Campaign Results</div>
+  <div class="d-results-grid">
+    <div class="d-result-item reveal">
+      <div class="d-result-val">3.8×</div>
+      <div class="d-result-lbl">Return on Ad Spend</div>
+    </div>
+    <div class="d-result-item reveal">
+      <div class="d-result-val">+214%</div>
+      <div class="d-result-lbl">Engagement Rate</div>
+    </div>
+    <div class="d-result-item reveal">
+      <div class="d-result-val">12M</div>
+      <div class="d-result-lbl">Total Impressions</div>
+    </div>
+    <div class="d-result-item reveal">
+      <div class="d-result-val">-38%</div>
+      <div class="d-result-lbl">Cost Per Acquisition</div>
+    </div>
   </div>
-  <div class="rel-grid">
-    {% for p in related %}<a href="{% url 'v1_work_detail' p.slug %}" class="rel-item reveal">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="rel-ph"></div>{% endif %}<div class="rel-ov"><h4>{{ p.title }}</h4></div></a>{% endfor %}
+</div>
+
+<!-- Full-Width Image -->
+<div class="d-full-img">
+  {% if project.cover_image %}
+    <img src="{{ project.cover_image.url }}" alt="{{ project.title }} — full view" loading="lazy">
+  {% else %}
+    <div class="d-full-img-ph">{{ project.title }}</div>
+  {% endif %}
+</div>
+
+<!-- Approach Strip -->
+<div class="d-approach">
+  <div class="d-approach-hd">
+    <h2>How We<br>Did It</h2>
+    <span class="sec-tag" style="margin:0">Our Process</span>
+  </div>
+  <div class="d-approach-steps">
+    <div class="d-step reveal">
+      <div class="d-step-num">01 —</div>
+      <div class="d-step-title">Discovery & Audit</div>
+      <p class="d-step-desc">Brand audit, audience research, and competitive analysis to identify the exact opportunity space.</p>
+    </div>
+    <div class="d-step reveal">
+      <div class="d-step-num">02 —</div>
+      <div class="d-step-title">Strategy & Creative</div>
+      <p class="d-step-desc">Campaign architecture, creative direction, and messaging framework built for the target audience.</p>
+    </div>
+    <div class="d-step reveal">
+      <div class="d-step-num">03 —</div>
+      <div class="d-step-title">Production & Launch</div>
+      <p class="d-step-desc">In-house production, precision media deployment, and real-time optimisation from day one.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Related Work -->
+{% if related %}
+<div class="d-related">
+  <div class="d-related-hd">
+    <h2>More Work</h2>
+    <a href="{% url 'v1_work' %}" data-cursor="ALL">View all projects →</a>
+  </div>
+  <div class="d-rel-grid">
+    {% for p in related %}
+    <a href="{% url 'v1_work_detail' p.slug %}" class="d-rel-item reveal" data-cursor="VIEW">
+      {% if p.cover_image %}
+        <img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">
+      {% else %}
+        <div class="d-rel-ph"></div>
+      {% endif %}
+      <div class="d-rel-ov">
+        <div>
+          <div class="d-rel-client">{{ p.client_name }}</div>
+          <div class="d-rel-title">{{ p.title }}</div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
   </div>
 </div>
 {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Subtle hero image scale-in on load
+window.addEventListener('load', () => {
+  document.getElementById('d-hero').classList.add('loaded');
+});
+
+// Scroll reveals
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(40px)';
+  el.style.transition = 'opacity .8s ease, transform .8s ease';
+  io.observe(el);
+});
+</script>
 {% endblock %}

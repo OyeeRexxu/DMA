@@ -1,18 +1,225 @@
 {% extends 'variants/v4/base.html' %}
 {% block title %}Services — DMA.{% endblock %}
 {% block extra_css %}
-.pg-hero{padding:100px 60px 60px;border-bottom:1px solid rgba(255,255,255,.05)}
-.pg-hero h1{font-size:clamp(52px,9vw,130px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1s ease both}
-.pg-hero p{margin-top:16px;font-size:.9rem;color:rgba(255,255,255,.28);max-width:480px;line-height:1.7}
-.svc-body{padding:80px 60px 120px}
-.svc-item{display:grid;grid-template-columns:80px 1fr 360px;gap:48px;align-items:start;padding:52px 0;border-bottom:1px solid rgba(255,255,255,.05);transition:padding-left .4s}
-.svc-item:hover{padding-left:16px}
-.svc-n{font-size:.62rem;font-weight:700;letter-spacing:.3em;color:rgba(255,255,255,.2);padding-top:4px}
-.svc-title{font-size:clamp(24px,2.8vw,38px);font-weight:900;letter-spacing:-.03em;margin-bottom:14px;text-transform:uppercase}
-.svc-short{font-size:.88rem;color:rgba(255,255,255,.35);line-height:1.75}
-.svc-detail{font-size:.8rem;color:rgba(255,255,255,.22);line-height:1.85}
+
+/* ── HERO ── */
+.s-hero{padding:120px 60px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--dim);background:var(--b)}
+.s-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(240,240,236,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(240,240,236,.04) 1px,transparent 1px);background-size:80px 80px;animation:gridShift 20s linear infinite;pointer-events:none}
+@keyframes gridShift{from{background-position:0 0}to{background-position:80px 80px}}
+.s-ghost{position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:clamp(120px,20vw,280px);font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:rgba(240,240,236,.06);pointer-events:none;white-space:nowrap;animation:ghostIn 1.4s ease both}
+.s-hero-inner{position:relative;z-index:2}
+.s-hero-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.s-hero h1{font-size:clamp(56px,10vw,140px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.85;animation:fadeUp 1s ease both}
+.s-hero-right{animation:fadeUp 1s ease .3s both;max-width:380px}
+.s-hero-right p{font-size:.9rem;color:rgba(240,240,236,.3);line-height:1.75}
+
+/* ── SERVICE LIST ── */
+.s-list{padding:0 60px}
+.s-item{display:grid;grid-template-columns:72px 1fr 340px;gap:48px;align-items:start;padding:56px 0;border-bottom:1px solid var(--dim);position:relative;overflow:hidden;transition:padding-left .5s cubic-bezier(.16,1,.3,1)}
+.s-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(240,240,236,.02);transition:width .5s cubic-bezier(.16,1,.3,1)}
+.s-item:hover{padding-left:20px}
+.s-item:hover::before{width:100%}
+.s-num{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.2em;color:rgba(240,240,236,.18);padding-top:8px}
+.s-title{font-size:clamp(22px,2.8vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:16px;transition:letter-spacing .4s}
+.s-item:hover .s-title{letter-spacing:-.01em}
+.s-short{font-size:.88rem;color:rgba(240,240,236,.35);line-height:1.75}
+.s-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.s-tag{padding:4px 14px;border:1px solid var(--dim);font-size:.52rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,236,.25);transition:all .3s}
+.s-item:hover .s-tag{border-color:rgba(240,240,236,.2);color:rgba(240,240,236,.5)}
+.s-cta-link{display:inline-flex;align-items:center;gap:10px;margin-top:20px;font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,236,.3);transition:color .3s}
+.s-cta-link::after{content:'';display:inline-block;width:28px;height:1px;background:currentColor;transition:width .4s}
+.s-cta-link:hover{color:var(--w)}
+.s-cta-link:hover::after{width:48px}
+.s-detail{font-size:.8rem;color:rgba(240,240,236,.22);line-height:1.9;padding-top:8px}
+
+/* ── NUMBERS ── */
+.s-numbers{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--dim);border-bottom:1px solid var(--dim)}
+.s-nb{padding:56px 40px;border-right:1px solid var(--dim);position:relative;overflow:hidden;transition:background .4s}
+.s-nb:last-child{border-right:none}
+.s-nb:hover{background:rgba(240,240,236,.02)}
+.s-nb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--w);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.s-nb:hover::after{transform:scaleX(1)}
+.s-nb-val{font-family:'Space Mono',monospace;font-size:clamp(32px,5vw,64px);font-weight:700;color:var(--w);letter-spacing:-.02em}
+.s-nb-lbl{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.2);margin-top:10px}
+
+/* ── CAPABILITIES ── */
+.s-cap{padding:100px 60px;border-bottom:1px solid var(--dim)}
+.s-cap-hd{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:72px}
+.s-cap-hd h2{font-size:clamp(32px,5vw,72px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88}
+.s-cap-hd p{font-size:.88rem;color:rgba(240,240,236,.3);line-height:1.75}
+.s-cap-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--dim);border-left:1px solid var(--dim)}
+.s-cap-card{padding:40px 32px;border-right:1px solid var(--dim);border-bottom:1px solid var(--dim);transition:background .4s;position:relative;overflow:hidden}
+.s-cap-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--w);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.s-cap-card:hover{background:rgba(240,240,236,.025)}
+.s-cap-card:hover::before{transform:scaleX(1)}
+.s-cap-icon{font-size:1.4rem;margin-bottom:20px;opacity:.5}
+.s-cap-title{font-size:.95rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:10px}
+.s-cap-desc{font-size:.78rem;color:rgba(240,240,236,.28);line-height:1.8}
+
+/* ── VISIBILITY BOOST ── */
+.s-num{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.2em;color:rgba(240,240,236,.4);padding-top:8px}
+.s-title{font-size:clamp(22px,2.8vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:16px;transition:letter-spacing .4s;color:var(--w)}
+.s-short{font-size:.88rem;color:rgba(240,240,236,.55);line-height:1.75}
+.s-detail{font-size:.8rem;color:rgba(240,240,236,.4);line-height:1.9;padding-top:8px}
+.s-nb-val{font-family:'Space Mono',monospace;font-size:clamp(32px,5vw,64px);font-weight:700;color:var(--w);letter-spacing:-.02em}
+.s-nb-lbl{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-top:10px}
+.s-cap-title{font-size:.95rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:10px;color:var(--w)}
+.s-cap-desc{font-size:.78rem;color:rgba(240,240,236,.5);line-height:1.8}
+.s-cap-icon{font-size:1.4rem;margin-bottom:20px;opacity:.8}
+.s-hero-right p{font-size:.9rem;color:rgba(240,240,236,.55);line-height:1.75}
+.s-cap-hd p{font-size:.88rem;color:rgba(240,240,236,.5);line-height:1.75}
+
+/* ── MANIFESTO STRIP ── */
+.s-manifesto{padding:100px 60px;border-bottom:1px solid var(--dim);overflow:hidden}
+.s-manifesto-text{font-size:clamp(28px,4.5vw,72px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:1.05;color:rgba(240,240,236,.12)}
+.s-manifesto-text .lit{color:rgba(240,240,236,.7);transition:color .3s}
+.s-manifesto-text .lit:hover{color:var(--w)}
+
+@media(max-width:1024px){
+  .s-cap-grid{grid-template-columns:repeat(2,1fr)}
+  .s-numbers{grid-template-columns:repeat(2,1fr)}
+  .s-nb:nth-child(2){border-right:none}
+  .s-cap-hd{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:768px){
+  .s-hero{padding:90px 24px 60px}.s-ghost{display:none}
+  .s-list{padding:0 24px}
+  .s-item{grid-template-columns:1fr;gap:16px;padding:40px 0}
+  .s-item:hover{padding-left:0}
+  .s-num{padding-top:0}
+  .s-numbers{grid-template-columns:repeat(2,1fr)}
+  .s-cap{padding:60px 24px}
+  .s-cap-grid{grid-template-columns:1fr}
+  .s-manifesto{padding:60px 24px}
+}
 {% endblock %}
+
 {% block content %}
-<div class="pg-hero"><h1>What<br>We Do.</h1><p>End-to-end digital marketing — strategy through execution.</p></div>
-<div class="svc-body">{% for s in services %}<div class="svc-item reveal"><span class="svc-n">0{{ forloop.counter }}</span><div><div class="svc-title">{{ s.title }}</div><p class="svc-short">{{ s.short_description }}</p></div><p class="svc-detail">{{ s.detailed_description }}</p></div>{% endfor %}</div>
+
+<!-- Hero -->
+<div class="s-hero">
+  <div class="s-hero-grid"></div>
+  <div class="s-ghost">Services</div>
+  <div class="s-hero-inner">
+    <h1 data-split>What<br>We Do.</h1>
+    <div class="s-hero-right">
+      <p>End-to-end digital marketing — from strategy and creative to production and AI-led automation. Built for brands that want to lead, not follow.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Service List -->
+<div class="s-list">
+  {% for s in services %}
+  <div class="s-item reveal">
+    <div class="s-num">{{ forloop.counter|stringformat:"02d" }}</div>
+    <div>
+      <div class="s-title">{{ s.title }}</div>
+      <p class="s-short">{{ s.short_description }}</p>
+      <div class="s-tags">
+        <span class="s-tag">Strategy</span>
+        <span class="s-tag">Creative</span>
+        <span class="s-tag">Execution</span>
+      </div>
+      <a href="{% url 'v4_contact' %}" class="s-cta-link" data-cur="DISCUSS">Discuss this service</a>
+    </div>
+    <p class="s-detail">{{ s.detailed_description }}</p>
+  </div>
+  {% empty %}
+  <div style="padding:80px 0;color:rgba(240,240,236,.15);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;">No services yet</div>
+  {% endfor %}
+</div>
+
+<!-- Numbers -->
+<div class="s-numbers">
+  <div class="s-nb reveal">
+    <div class="s-nb-val">40+</div>
+    <div class="s-nb-lbl">Brands Served</div>
+  </div>
+  <div class="s-nb reveal">
+    <div class="s-nb-val">$12M</div>
+    <div class="s-nb-lbl">Media Managed</div>
+  </div>
+  <div class="s-nb reveal">
+    <div class="s-nb-val">3.2×</div>
+    <div class="s-nb-lbl">Avg. ROAS</div>
+  </div>
+  <div class="s-nb reveal">
+    <div class="s-nb-val">98%</div>
+    <div class="s-nb-lbl">Retention</div>
+  </div>
+</div>
+
+<!-- Capabilities -->
+<div class="s-cap">
+  <div class="s-cap-hd">
+    <div>
+      <span class="sec-lbl">Full Spectrum</span>
+      <h2>Core<br>Capabilities.</h2>
+    </div>
+    <p>Six disciplines, one team. Everything you need to build, launch, and scale a brand that matters.</p>
+  </div>
+  <div class="s-cap-grid">
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◈</div>
+      <div class="s-cap-title">Brand Strategy</div>
+      <p class="s-cap-desc">Positioning, identity systems, and messaging architecture that gives your brand a clear point of view.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◉</div>
+      <div class="s-cap-title">Content Production</div>
+      <p class="s-cap-desc">Photo, video, motion graphics, and copy — all produced in-house at studio quality and campaign speed.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◎</div>
+      <div class="s-cap-title">Paid Media</div>
+      <p class="s-cap-desc">Performance campaigns across Meta, Google, TikTok, and programmatic — built to scale profitably.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">⬡</div>
+      <div class="s-cap-title">Influencer Marketing</div>
+      <p class="s-cap-desc">Creator partnerships from nano to mega — sourced, briefed, and managed end-to-end.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">⬢</div>
+      <div class="s-cap-title">SEO & Growth</div>
+      <p class="s-cap-desc">Technical SEO, content strategy, and CRO that compounds over time and reduces paid dependency.</p>
+    </div>
+    <div class="s-cap-card reveal">
+      <div class="s-cap-icon">◆</div>
+      <div class="s-cap-title">AI Automation</div>
+      <p class="s-cap-desc">Custom AI workflows for content, reporting, and campaign ops — so your team moves faster with less.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Manifesto Strip -->
+<div class="s-manifesto">
+  <div class="s-manifesto-text rv">
+    We don't do <span class="lit">average.</span> We don't do <span class="lit">safe.</span><br>
+    We build <span class="lit">systems</span> that <span class="lit">compound.</span><br>
+    <span class="lit">Strategy</span> first. <span class="lit">Creative</span> always. <span class="lit">Results</span> guaranteed.
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.s-item').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(40px)';
+  el.style.transition = `opacity .7s ease ${i*100}ms, transform .7s cubic-bezier(.16,1,.3,1) ${i*100}ms, padding-left .5s cubic-bezier(.16,1,.3,1)`;
+  setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 300 + i * 100);
+});
+const grid = document.querySelector('.s-hero-grid');
+if (grid) {
+  window.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - .5) * 20;
+    const y = (e.clientY / window.innerHeight - .5) * 20;
+    grid.style.backgroundPosition = `${x}px ${y}px`;
+  }, { passive: true });
+}
+</script>
 {% endblock %}

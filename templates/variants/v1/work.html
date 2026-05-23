@@ -1,39 +1,197 @@
 {% extends 'variants/v1/base.html' %}
 {% block title %}Work — DMA.{% endblock %}
 {% block extra_css %}
-.pg-hero{padding:160px 52px 80px;border-bottom:1px solid rgba(255,255,255,.06)}
-.pg-hero h1{font-size:clamp(52px,9vw,130px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1s ease both}
-.pg-hero p{margin-top:20px;font-size:.9rem;color:rgba(255,255,255,.3);animation:fadeUp 1s ease .2s both}
-.work-main{padding:80px 52px 120px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
-.wi{position:relative;overflow:hidden;aspect-ratio:4/3;background:#111;display:block;text-decoration:none}
-.wi img{width:100%;height:100%;object-fit:cover;filter:grayscale(25%);transition:filter .7s,transform .9s cubic-bezier(.16,1,.3,1)}
-.wi:hover img{filter:grayscale(0%);transform:scale(1.04)}
-.wi-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 55%);opacity:0;transition:opacity .5s;display:flex;align-items:flex-end;padding:32px}
-.wi:hover .wi-ov{opacity:1}
-.wi-ov h3{font-size:1.3rem;font-weight:800;letter-spacing:-.02em}
-.wi-ov p{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:6px}
-.wi-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a,#0c0c0c);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.07);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+/* ── PAGE HERO ── */
+.pg-hero { padding: 160px 52px 80px; border-bottom: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; }
+.pg-hero::before { content: 'WORK'; position: absolute; right: 52px; top: 50%; transform: translateY(-50%); font-size: clamp(120px,18vw,260px); font-weight: 900; letter-spacing: -.06em; color: rgba(255,255,255,.025); pointer-events: none; line-height: 1; }
+.pg-hero-inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+.pg-hero h1 { font-size: clamp(52px,9vw,130px); font-weight: 900; letter-spacing: -.04em; text-transform: uppercase; animation: fadeUp 1s ease both; line-height: .9; }
+.pg-hero-right { animation: fadeUp 1s ease .3s both; }
+.pg-hero-right p { font-size: .9rem; color: rgba(255,255,255,.35); line-height: 1.75; max-width: 340px; }
+.pg-hero-stats { display: flex; gap: 48px; margin-top: 32px; }
+.pg-stat-val { font-size: clamp(28px,4vw,52px); font-weight: 900; letter-spacing: -.03em; color: var(--lime); }
+.pg-stat-lbl { font-size: .58rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.25); margin-top: 4px; }
 
+/* ── FILTER BAR ── */
+.filter-bar { padding: 32px 52px; border-bottom: 1px solid rgba(255,255,255,.04); display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn { padding: 8px 20px; border: 1px solid rgba(255,255,255,.1); background: transparent; color: rgba(255,255,255,.35); font-size: .58rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; cursor: none; transition: all .3s; }
+.filter-btn:hover, .filter-btn.active { background: var(--lime); color: var(--black); border-color: var(--lime); }
+
+/* ── WORK GRID ── */
+.work-main { padding: 60px 52px 120px; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; }
+.wi { position: relative; overflow: hidden; aspect-ratio: 4/3; background: #111; display: block; text-decoration: none; }
+.wi.wide { grid-column: span 2; aspect-ratio: 16/7; }
+.wi img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%); transition: filter .7s, transform .9s cubic-bezier(.16,1,.3,1); }
+.wi:hover img { filter: grayscale(0%); transform: scale(1.04); }
+.wi-ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.3) 50%, transparent 100%); opacity: 0; transition: opacity .5s; display: flex; align-items: flex-end; padding: 36px; }
+.wi:hover .wi-ov { opacity: 1; }
+.wi-ov-inner { width: 100%; }
+.wi-tag { font-size: .55rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--lime); margin-bottom: 8px; }
+.wi-ov h3 { font-size: clamp(1.1rem,2vw,1.6rem); font-weight: 800; letter-spacing: -.02em; }
+.wi-ov p { font-size: .7rem; color: rgba(255,255,255,.5); margin-top: 6px; }
+.wi-arrow { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-size: .6rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--lime); }
+.wi-ph { width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a, #0c0c0c); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.07); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; }
+.wi-num { position: absolute; top: 20px; left: 24px; font-size: .58rem; font-weight: 700; letter-spacing: .2em; color: rgba(255,255,255,.2); }
+
+/* ── PROCESS STRIP ── */
+.process-strip { padding: 100px 52px; border-top: 1px solid rgba(255,255,255,.06); }
+.process-strip .sec-tag { margin-bottom: 48px; }
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.ps-item { padding: 40px 32px; background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.04); transition: background .4s, border-color .4s; }
+.ps-item:hover { background: rgba(204,255,0,.04); border-color: rgba(204,255,0,.15); }
+.ps-num { font-size: .58rem; font-weight: 700; letter-spacing: .3em; color: var(--lime); margin-bottom: 24px; }
+.ps-title { font-size: 1.1rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: 12px; }
+.ps-desc { font-size: .82rem; color: rgba(255,255,255,.3); line-height: 1.75; }
+
+
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1024px) { .process-steps { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) {
-  .pg-hero { padding: 120px 24px 48px; }
-  .work-main { padding: 40px 24px 80px; }
+  .pg-hero { padding: 100px 24px 48px; overflow: hidden !important; }
+  .pg-hero::before { display: none !important; }
+  .pg-hero-inner { flex-direction: column !important; align-items: flex-start; gap: 20px; width: 100%; }
+  .pg-hero h1 { font-size: clamp(40px, 10vw, 64px) !important; word-break: break-word; width: 100%; }
+  .pg-hero-right { width: 100%; }
+  .pg-hero-right p { max-width: 100%; text-align: left; }
+  .pg-hero-stats { gap: 24px; flex-wrap: wrap; }
+  /* Filter bar — wrap buttons, never cut off */
+  .filter-bar { padding: 16px 24px; gap: 8px; flex-wrap: wrap; }
+  .filter-btn { padding: 8px 14px; font-size: .58rem; letter-spacing: .12em; white-space: nowrap; cursor: pointer; }
+  .work-main { padding: 32px 24px 80px; }
   .grid { grid-template-columns: 1fr; gap: 16px; }
+  .wi.wide { grid-column: span 1; aspect-ratio: 4/3; }
   .wi-ov { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,.85), transparent 75%); }
+  .process-strip { padding: 60px 24px; }
+  .process-steps { grid-template-columns: 1fr 1fr; gap: 2px; }
+}
+@media (max-width: 480px) {
+  .pg-hero { padding: 90px 16px 36px; }
+  .pg-hero h1 { font-size: clamp(36px, 11vw, 52px) !important; }
+  .filter-bar { padding: 12px 16px; }
+  .work-main { padding: 24px 16px 60px; }
+  .process-strip { padding: 48px 16px; }
+  .process-steps { grid-template-columns: 1fr; }
+  .wi-ov h3 { font-size: 1.1rem; }
 }
 {% endblock %}
+
 {% block content %}
+
+<!-- Hero -->
 <div class="pg-hero">
-  <h1>Our Work</h1>
-  <p>{{ projects|length }} Projects — Strategy · Creative · Production</p>
+  <div class="pg-hero-inner">
+    <h1>Our<br>Work.</h1>
+    <div class="pg-hero-right">
+      <p>Every project is a collision of strategy, craft, and obsession. We build campaigns that move culture — not just metrics.</p>
+      <div class="pg-hero-stats">
+        <div>
+          <div class="pg-stat-val">{{ projects|length }}</div>
+          <div class="pg-stat-lbl">Projects</div>
+        </div>
+        <div>
+          <div class="pg-stat-val">6+</div>
+          <div class="pg-stat-lbl">Years</div>
+        </div>
+        <div>
+          <div class="pg-stat-val">40+</div>
+          <div class="pg-stat-lbl">Clients</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All Work</button>
+  <button class="filter-btn" data-filter="campaign">Campaign</button>
+  <button class="filter-btn" data-filter="branding">Branding</button>
+  <button class="filter-btn" data-filter="production">Production</button>
+  <button class="filter-btn" data-filter="digital">Digital</button>
+</div>
+
+<!-- Grid -->
 <div class="work-main">
   <div class="grid">
     {% for p in projects %}
-    <a href="{% url 'v1_work_detail' p.slug %}" class="wi reveal">
-      {% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="wi-ph">{{ p.title }}</div>{% endif %}
-      <div class="wi-ov"><div><h3>{{ p.title }}</h3><p>{{ p.client_name }}</p></div></div>
-    </a>{% endfor %}
+    <a href="{% url 'v1_work_detail' p.slug %}" class="wi reveal {% if forloop.counter == 1 %}wide{% endif %}" data-cursor="VIEW">
+      <div class="wi-num">{{ forloop.counter|stringformat:"02d" }}</div>
+      {% if p.cover_image %}
+        <img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">
+      {% else %}
+        <div class="wi-ph">{{ p.title }}</div>
+      {% endif %}
+      <div class="wi-ov">
+        <div class="wi-ov-inner">
+          <div class="wi-tag">{{ p.client_name }}</div>
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.short_description|truncatewords:12 }}</p>
+          <div class="wi-arrow">View Case Study →</div>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    <div class="wi-ph" style="aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.15);font-size:.8rem;letter-spacing:.2em;">NO PROJECTS YET</div>
+    {% endfor %}
   </div>
 </div>
+
+<!-- Process Strip -->
+<div class="process-strip">
+  <span class="sec-tag">How We Work</span>
+  <div class="process-steps">
+    <div class="ps-item reveal">
+      <div class="ps-num">01 —</div>
+      <div class="ps-title">Discovery</div>
+      <p class="ps-desc">Deep-dive into your brand, audience, and competitive landscape. We ask the questions others skip.</p>
+    </div>
+    <div class="ps-item reveal">
+      <div class="ps-num">02 —</div>
+      <div class="ps-title">Strategy</div>
+      <p class="ps-desc">Data-backed creative direction. Every decision is anchored to a measurable outcome.</p>
+    </div>
+    <div class="ps-item reveal">
+      <div class="ps-num">03 —</div>
+      <div class="ps-title">Production</div>
+      <p class="ps-desc">In-house creative execution — copy, design, motion, and content at studio quality.</p>
+    </div>
+    <div class="ps-item reveal">
+      <div class="ps-num">04 —</div>
+      <div class="ps-title">Launch & Scale</div>
+      <p class="ps-desc">Precision deployment across channels. We iterate fast and scale what works.</p>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Filter buttons (visual only — no backend filter needed for now)
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(40px)';
+  el.style.transition = 'opacity .8s ease, transform .8s ease';
+  io.observe(el);
+});
+</script>
 {% endblock %}

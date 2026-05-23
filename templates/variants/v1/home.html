@@ -243,9 +243,9 @@
 }
 
 @media (max-width: 768px) {
-  /* Hero */
-  .hero { padding: 40px 20px; }
-  .hero-content { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 32px; }
+  /* Hero — push text up from the very bottom */
+  .hero { padding: 100px 24px 110px; }
+  .hero-content { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 24px; }
   .hero-title { font-size: clamp(48px, 11vw, 90px); line-height: 0.9; }
   .hero-title .word { white-space: nowrap; }
   .hero-meta { text-align: left; }
@@ -323,6 +323,43 @@
 
   /* CTA Huge Button */
   .huge-btn { font-size: clamp(28px, 7vw, 56px); padding: 24px 48px; border-radius: 100px; }
+
+  /* Service row: always show description on touch */
+  .svc-row p { opacity: 0.65 !important; transform: none !important; }
+
+  /* Inline sec-lbl margin-left override for work section */
+  #work-section .sec-lbl { margin-left: 20px !important; }
+
+  /* Roster — make it scrollable horizontally, not cut off */
+  .roster-section { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 480px) {
+  .ethos-section,
+  .pillars-section,
+  .tiers-section,
+  .team-section,
+  .brand-matrix,
+  .bts-section,
+  .process-section,
+  .faq-section,
+  .cta-section { padding: 60px 16px !important; }
+  .testimonial-sec { padding: 80px 16px !important; }
+  .work-section { padding: 60px 0 !important; }
+
+  .hero { padding: 90px 16px 100px; }
+  .hero-title { font-size: clamp(42px, 12vw, 72px); }
+  .catalyst-card { padding: 28px 20px; }
+  .cat-stat { font-size: clamp(36px, 10vw, 64px); }
+  .tier-card { padding: 28px 20px; }
+  .tier-card h4 { font-size: 1.4rem; }
+  .p-card { padding: 28px 20px; }
+  .p-card h3 { font-size: clamp(22px, 7vw, 36px); }
+  .huge-btn { font-size: clamp(24px, 8vw, 44px); padding: 20px 32px; border-radius: 100px; }
+  .map-container { height: 40vh; }
+  .creator-card { width: 180px; height: 280px; }
+  .logo-item { height: 100px; font-size: 1rem; }
+  .svc-row h3 { font-size: clamp(22px, 7vw, 36px); }
 }
 
 /* ── DESIGN REFRACTIONS SHOWCASE ── */
@@ -503,77 +540,6 @@
     <div class="hero-meta anim-up">
       <span>Scroll Down <br>↓</span>
     </div>
-  </div>
-</section>
-
-<!-- Design Refractions Navigation Showcase -->
-<section class="refractions-section" id="refractions-section">
-  <div class="ref-header">
-    <div class="ref-lbl">Design Refractions</div>
-    <h2 class="ref-title">The Five Brand Directives</h2>
-  </div>
-  <div class="ref-grid">
-    
-    <!-- PULSE -->
-    <a href="{% url 'v9:home' %}" class="ref-card" data-cursor="PULSE">
-      <div class="ref-hover-bg"></div>
-      <div class="ref-num">01 // PULSE</div>
-      <div>
-        <div class="ref-meta-title">Pulse</div>
-        <div class="ref-archetype">Brutalist / Cyberpunk</div>
-        <p class="ref-desc">Loud, raw, unapologetic creative for brands that refuse to whisper in a crowded digital landscape.</p>
-      </div>
-      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
-    </a>
-
-    <!-- ATELIER -->
-    <a href="{% url 'v10:home' %}" class="ref-card" data-cursor="ATELIER">
-      <div class="ref-hover-bg"></div>
-      <div class="ref-num">02 // ATELIER</div>
-      <div>
-        <div class="ref-meta-title">Atelier</div>
-        <div class="ref-archetype">Editorial / Sophisticated</div>
-        <p class="ref-desc">Considered, immersive storytelling and refined layout for high-end, legacy, and design-led portfolios.</p>
-      </div>
-      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
-    </a>
-
-    <!-- ORBIT -->
-    <a href="{% url 'v11:home' %}" class="ref-card" data-cursor="ORBIT">
-      <div class="ref-hover-bg"></div>
-      <div class="ref-num">03 // ORBIT</div>
-      <div>
-        <div class="ref-meta-title">Orbit</div>
-        <div class="ref-archetype">Immersive / Dynamic</div>
-        <p class="ref-desc">Fluid 3D kinetic design, micro-animations, and space-grade visual structures that move forward.</p>
-      </div>
-      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
-    </a>
-
-    <!-- SIGNAL -->
-    <a href="{% url 'v12:home' %}" class="ref-card" data-cursor="SIGNAL">
-      <div class="ref-hover-bg"></div>
-      <div class="ref-num">04 // SIGNAL</div>
-      <div>
-        <div class="ref-meta-title">Signal</div>
-        <div class="ref-archetype">Glitch-Gloss / Tech-Forward</div>
-        <p class="ref-desc">Retro-futurism meets sleek digital-native aesthetics. High frequency grid layouts and gloss effects.</p>
-      </div>
-      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
-    </a>
-
-    <!-- QUIET -->
-    <a href="{% url 'v13:home' %}" class="ref-card" data-cursor="QUIET">
-      <div class="ref-hover-bg"></div>
-      <div class="ref-num">05 // QUIET</div>
-      <div>
-        <div class="ref-meta-title">Quiet</div>
-        <div class="ref-archetype">Minimalist / Restraint</div>
-        <p class="ref-desc">Maximum restraint is the loudest signal of confidence. Pure typography, asymmetry, and space.</p>
-      </div>
-      <div class="ref-arrow">Launch Directive <i class="fa-solid fa-arrow-right"></i></div>
-    </a>
-
   </div>
 </section>
 

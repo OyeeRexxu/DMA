@@ -36,11 +36,6 @@ INSTALLED_APPS = [
     'services',
     'contact',
     'site_core',
-    'apps.site_pulse',
-    'apps.site_atelier',
-    'apps.site_orbit',
-    'apps.site_signal',
-    'apps.site_quiet',
 ]
 
 MIDDLEWARE = [
@@ -130,43 +125,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Variant path prefixes (v9–v13) – formerly subdomain-based sites
-VARIANT_PATHS = {
-    "pulse":   "v9",
-    "atelier": "v10",
-    "orbit":   "v11",
-    "signal":  "v12",
-    "quiet":   "v13",
-}
-
-SITE_META = {
-    "pulse": {
-        "name": "Pulse",
-        "tagline": "Loud creative for brands that refuse to whisper.",
-        "accent": "#FF3B00",
-    },
-    "atelier": {
-        "name": "Atelier",
-        "tagline": "Considered storytelling for considered brands.",
-        "accent": "#1A1A1A",
-    },
-    "orbit": {
-        "name": "Orbit",
-        "tagline": "Immersive worlds for brands that move forward.",
-        "accent": "#7C5CFF",
-    },
-    "signal": {
-        "name": "Signal",
-        "tagline": "Glitch, gloss, and growth for digital-native brands.",
-        "accent": "#FF00C8",
-    },
-    "quiet": {
-        "name": "Quiet",
-        "tagline": "Restraint is the loudest signal of confidence.",
-        "accent": "#0F766E",
-    },
-}
 
 # Canonical site origin (used for absolute URLs in sitemaps & OG tags).
 CANONICAL_HOST = "localhost:8000"

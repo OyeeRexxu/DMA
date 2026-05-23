@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ALGOPROS // Machine Learning Web Portal{% endblock %}</title>
+    <title>{% block title %}DMA. — Production & Influencer Agency{% endblock %}</title>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -312,6 +312,73 @@
             box-shadow: 0 0 15px rgba(0, 229, 255, 0.45);
         }
 
+        /* ── Hamburger button ── */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            z-index: 1100;
+            position: relative;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: rgba(0,229,255,.8);
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s;
+            transform-origin: center;
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ── Mobile nav ── */
+        @media (max-width: 768px) {
+            header { padding: 20px 24px; }
+            .nav-hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                inset: 0;
+                background: rgba(3,4,11,.97);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 36px;
+                transform: translateX(100%);
+                transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+                z-index: 1050;
+                list-style: none;
+                padding: 0;
+            }
+            .nav-links.open { transform: translateX(0); }
+            .nav-links li { list-style: none; }
+            .nav-links a {
+                font-size: 1.8rem;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                color: rgba(255,255,255,.45);
+            }
+            .nav-links a:hover, .nav-links a.active {
+                color: var(--c-cyan);
+                text-shadow: 0 0 20px rgba(0,229,255,.5);
+            }
+            .scroll-progress-container { top: 64px; }
+            main { padding-top: 64px !important; }
+            .vsw { bottom: 16px; left: 16px; gap: 4px; }
+            .vsw a { width: 28px; height: 28px; font-size: 0.55rem; }
+        }
+        @media (max-width: 480px) {
+            header { padding: 18px 16px; }
+            .nav-links a { font-size: 1.5rem; }
+        }
+
         {% block extra_css %}{% endblock %}
     </style>
 </head>
@@ -345,14 +412,16 @@
                 <line x1="15" y1="35" x2="85" y2="75" />
                 <line x1="15" y1="75" x2="85" y2="35" />
             </svg>
-            <span>ALGOPROS</span>
+            <span>DMA.</span>
         </a>
-        <ul class="nav-links">
-            <li><a href="#section-hero" class="active" data-cursor data-cursor-text="HERO">Home</a></li>
-            <li><a href="#section-modules" data-cursor data-cursor-text="MODULES">Modules</a></li>
-            <li><a href="#section-telemetry" data-cursor data-cursor-text="TELEMETRY">Telemetry</a></li>
-            <li><a href="#section-pricing" data-cursor data-cursor-text="PRICING">Pricing</a></li>
-            <li><a href="#section-terminal" data-cursor data-cursor-text="TERMINAL">Terminal</a></li>
+        <button class="nav-hamburger" id="v8-hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="v8-nav-links">
+            <li><a href="{% url 'v8' %}" data-cursor data-cursor-text="HOME">Home</a></li>
+            <li><a href="{% url 'v8_services' %}" data-cursor data-cursor-text="SERVICES">Services</a></li>
+            <li><a href="{% url 'v8_work' %}" data-cursor data-cursor-text="WORK">Work</a></li>
+            <li><a href="{% url 'v8_contact' %}" data-cursor data-cursor-text="CONTACT">Contact</a></li>
         </ul>
     </header>
 
@@ -373,13 +442,7 @@
         <a href="{% url 'v4' %}" title="Type">4</a>
         <a href="{% url 'v5' %}" title="Neon">5</a>
         <a href="{% url 'v8' %}" class="cur" title="AlgoPros">8</a>
-  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
-  <a href="{% url 'v9:home' %}" title="Pulse">9</a>
-  <a href="{% url 'v10:home' %}" title="Atelier">10</a>
-  <a href="{% url 'v11:home' %}" title="Orbit">11</a>
-  <a href="{% url 'v12:home' %}" title="Signal">12</a>
-  <a href="{% url 'v13:home' %}" title="Quiet">13</a>
-</div>
+    </div>
 
     <!-- Core CDNs -->
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
@@ -470,14 +533,35 @@
             });
         });
 
-        // Click smooth scroll navigation links
+        // Mobile hamburger menu
+        (function() {
+            const hamburger = document.getElementById('v8-hamburger');
+            const navLinks  = document.getElementById('v8-nav-links');
+            if (!hamburger || !navLinks) return;
+            hamburger.addEventListener('click', () => {
+                const open = navLinks.classList.toggle('open');
+                hamburger.classList.toggle('open', open);
+                document.body.style.overflow = open ? 'hidden' : '';
+            });
+            navLinks.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => {
+                    navLinks.classList.remove('open');
+                    hamburger.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            });
+        })();
+
+        // Smooth scroll only for in-page anchor links (#id); let real URLs navigate normally
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetEl = document.querySelector(targetId);
-                if (targetEl) {
-                    lenis.scrollTo(targetEl, { offset: -94 });
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetEl = document.querySelector(href);
+                    if (targetEl) {
+                        lenis.scrollTo(targetEl, { offset: -94 });
+                    }
                 }
             });
         });

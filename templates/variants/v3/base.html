@@ -11,6 +11,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 :root{--acc:#7c6fff;--acc2:#50c8ff}
 body{background:#06070f;color:#e8eaf0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
+a{color:inherit;text-decoration:none;}
 .orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;animation:obf 9s ease-in-out infinite}
 .o1{width:700px;height:700px;background:radial-gradient(circle,rgba(124,111,255,.12),transparent 70%);top:-150px;left:-150px;animation-delay:0s}
 .o2{width:600px;height:600px;background:radial-gradient(circle,rgba(80,200,255,.08),transparent 70%);bottom:-100px;right:-100px;animation-delay:-5s}
@@ -60,12 +61,6 @@ footer{padding:120px 52px 0;position:relative;z-index:1;border-top:1px solid rgb
   <div class="fbar"><span>© 2026 DMA. Studio</span><div style="display:flex;gap:20px"><a href="#">IG</a><a href="#">X</a><a href="#">LI</a></div></div>
 </footer>
 <div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" class="cur" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" title="Neon">5</a><a href="{% url 'v8' %}" title="AlgoPros">8</a>
-  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
-  <a href="{% url 'v9:home' %}" title="Pulse">9</a>
-  <a href="{% url 'v10:home' %}" title="Atelier">10</a>
-  <a href="{% url 'v11:home' %}" title="Orbit">11</a>
-  <a href="{% url 'v12:home' %}" title="Signal">12</a>
-  <a href="{% url 'v13:home' %}" title="Quiet">13</a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

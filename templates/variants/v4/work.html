@@ -1,17 +1,218 @@
 {% extends 'variants/v4/base.html' %}
 {% block title %}Work — DMA.{% endblock %}
 {% block extra_css %}
-.pg-hero{padding:100px 60px 60px;border-bottom:1px solid rgba(255,255,255,.05)}
-.pg-hero h1{font-size:clamp(52px,9vw,130px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1s ease both}
-.pg-hero p{margin-top:16px;font-size:.88rem;color:rgba(255,255,255,.28);animation:fadeUp 1s ease .2s both}
-.work-body{padding:72px 60px 120px}
-.wrows a{display:grid;grid-template-columns:56px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:inherit;transition:padding-left .4s}
-.wrows a:hover{padding-left:20px}
-.wn{font-size:.62rem;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.18)}
-.wt{font-size:clamp(20px,2.8vw,40px);font-weight:900;letter-spacing:-.03em}
-.wc{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+
+/* ── HERO ── */
+.w-hero{padding:120px 60px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--dim);background:var(--b)}
+.w-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(240,240,236,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(240,240,236,.04) 1px,transparent 1px);background-size:80px 80px;animation:gridShift 20s linear infinite;pointer-events:none}
+@keyframes gridShift{from{background-position:0 0}to{background-position:80px 80px}}
+.w-ghost{position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:clamp(120px,20vw,280px);font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:rgba(240,240,236,.06);pointer-events:none;white-space:nowrap;animation:ghostIn 1.4s ease both}
+.w-hero h1{position:relative;z-index:2}
+.w-hero-top{position:relative;z-index:2}
+.w-hero-top{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.w-hero h1{font-size:clamp(56px,10vw,140px);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.85;animation:fadeUp 1s ease both}
+.w-hero-right{animation:fadeUp 1s ease .3s both}
+.w-hero-right p{font-size:.88rem;color:rgba(240,240,236,.3);max-width:320px;line-height:1.75;margin-bottom:28px}
+.w-stats{display:flex;gap:36px}
+.w-stat-val{font-family:'Space Mono',monospace;font-size:clamp(22px,3vw,36px);font-weight:700;color:var(--w)}
+.w-stat-lbl{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.2);margin-top:4px}
+
+/* ── FILTER ── */
+.w-filter{padding:24px 60px;border-bottom:1px solid var(--dim);display:flex;gap:0}
+.f-btn{padding:8px 20px;border:none;border-right:1px solid var(--dim);background:transparent;color:rgba(240,240,236,.28);font-size:.55rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;cursor:none;transition:all .3s;font-family:'Inter',sans-serif}
+.f-btn:first-child{padding-left:0}
+.f-btn:last-child{border-right:none}
+.f-btn:hover,.f-btn.active{color:var(--w)}
+.f-btn.active{position:relative}
+.f-btn.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--w)}
+
+/* ── WORK LIST ── */
+.w-list{padding:0 60px}
+.w-row{display:grid;grid-template-columns:64px 1fr 200px 120px;gap:32px;align-items:center;padding:36px 0;border-bottom:1px solid var(--dim);position:relative;overflow:hidden;transition:padding-left .5s cubic-bezier(.16,1,.3,1)}
+.w-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(240,240,236,.03);transition:width .5s cubic-bezier(.16,1,.3,1)}
+.w-row:hover{padding-left:24px}
+.w-row:hover::before{width:100%}
+.w-row-num{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.2em;color:rgba(240,240,236,.18)}
+.w-row-title{font-size:clamp(20px,2.8vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;transition:letter-spacing .4s}
+.w-row:hover .w-row-title{letter-spacing:-.01em}
+.w-row-client{font-size:.58rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,236,.22)}
+.w-row-arrow{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,236,.2);text-align:right;transition:color .3s}
+.w-row:hover .w-row-arrow{color:var(--w)}
+/* Image preview on hover */
+.w-row-img{position:fixed;pointer-events:none;z-index:100;width:280px;aspect-ratio:4/3;overflow:hidden;opacity:0;transition:opacity .3s;border:1px solid var(--dim)}
+.w-row-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%)}
+.w-row-img-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a,#080808)}
+
+/* ── PROCESS ── */
+.w-process{padding:100px 60px;border-top:1px solid var(--dim)}
+.w-process-hd{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:72px}
+.w-process-hd h2{font-size:clamp(32px,5vw,72px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88}
+.w-process-hd p{font-size:.88rem;color:rgba(240,240,236,.3);line-height:1.75}
+.w-steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--dim)}
+.w-step{padding:40px 28px;border-right:1px solid var(--dim);transition:background .4s}
+.w-step:last-child{border-right:none}
+.w-step:hover{background:rgba(240,240,236,.02)}
+.w-step-num{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(240,240,236,.2);margin-bottom:24px;display:block}
+.w-step-title{font-size:1.05rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px}
+.w-step-desc{font-size:.78rem;color:rgba(240,240,236,.28);line-height:1.8}
+
+/* ── VISIBILITY BOOST ── */
+.w-row-num{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.2em;color:rgba(240,240,236,.4)}
+.w-row-title{font-size:clamp(20px,2.8vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;transition:letter-spacing .4s;color:var(--w)}
+.w-row:hover .w-row-title{letter-spacing:-.01em}
+.w-row-client{font-size:.58rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,240,236,.45)}
+.w-row-arrow{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,240,236,.35);text-align:right;transition:color .3s}
+.w-row:hover .w-row-arrow{color:var(--w)}
+.w-hero-right p{font-size:.88rem;color:rgba(240,240,236,.55);max-width:320px;line-height:1.75;margin-bottom:28px}
+.w-stat-val{font-family:'Space Mono',monospace;font-size:clamp(22px,3vw,36px);font-weight:700;color:var(--w)}
+.w-stat-lbl{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-top:4px}
+.w-step-num{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(240,240,236,.4);margin-bottom:24px;display:block}
+.w-step-title{font-size:1.05rem;font-weight:900;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px;color:var(--w)}
+.w-step-desc{font-size:.78rem;color:rgba(240,240,236,.5);line-height:1.8}
+.w-process-hd p{font-size:.88rem;color:rgba(240,240,236,.5);line-height:1.75}
+.w-marquee{overflow:hidden;border-top:1px solid var(--dim);border-bottom:1px solid var(--dim);padding:20px 0;background:rgba(240,240,236,.015)}
+.w-marquee-t{display:flex;white-space:nowrap;animation:tick 20s linear infinite reverse}
+.w-marquee-t span{font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;color:rgba(240,240,236,.06);padding:0 40px}
+.w-marquee-t .hi{color:rgba(240,240,236,.12)}
+
+@media(max-width:1024px){.w-steps{grid-template-columns:repeat(2,1fr)}.w-step:nth-child(2){border-right:none}.w-process-hd{grid-template-columns:1fr;gap:20px}}
+@media(max-width:768px){
+  .w-hero{padding:90px 24px 60px}.w-ghost{display:none}
+  .w-filter{padding:20px 24px}
+  .w-list{padding:0 24px}
+  .w-row{grid-template-columns:40px 1fr;gap:16px;padding:28px 0}
+  .w-row-client,.w-row-arrow{display:none}
+  .w-process{padding:60px 24px}
+  .w-steps{grid-template-columns:1fr}
+  .w-step{border-right:none;border-bottom:1px solid var(--dim)}
+}
 {% endblock %}
+
 {% block content %}
-<div class="pg-hero"><h1>Our Work.</h1><p>{{ projects|length }} Projects — Strategy · Creative · Production</p></div>
-<div class="work-body"><div class="wrows">{% for p in projects %}<a href="{% url 'v4_work_detail' p.slug %}" class="reveal"><span class="wn">0{{ forloop.counter }}</span><span class="wt">{{ p.title }}</span><span class="wc">{{ p.client_name }}</span></a>{% endfor %}</div></div>
+
+<!-- Hero -->
+<div class="w-hero">
+  <div class="w-hero-grid"></div>
+  <div class="w-ghost">Work</div>
+  <div class="w-hero-top">
+    <h1 data-split>Our<br>Work.</h1>
+    <div class="w-hero-right">
+      <p>Every project is a collision of strategy, craft, and obsession. We build campaigns that move culture — not just metrics.</p>
+      <div class="w-stats">
+        <div><div class="w-stat-val">{{ projects|length }}</div><div class="w-stat-lbl">Projects</div></div>
+        <div><div class="w-stat-val">6+</div><div class="w-stat-lbl">Years</div></div>
+        <div><div class="w-stat-val">40+</div><div class="w-stat-lbl">Clients</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter -->
+<div class="w-filter">
+  <button class="f-btn active" data-filter="all">All</button>
+  <button class="f-btn" data-filter="campaign">Campaign</button>
+  <button class="f-btn" data-filter="branding">Branding</button>
+  <button class="f-btn" data-filter="production">Production</button>
+  <button class="f-btn" data-filter="digital">Digital</button>
+</div>
+
+<!-- Work List -->
+<div class="w-list">
+  {% for p in projects %}
+  <a href="{% url 'v4_work_detail' p.slug %}" class="w-row" data-cur="VIEW">
+    <span class="w-row-num">{{ forloop.counter|stringformat:"02d" }}</span>
+    <span class="w-row-title">{{ p.title }}</span>
+    <span class="w-row-client">{{ p.client_name }}</span>
+    <span class="w-row-arrow">View →</span>
+  </a>
+  {% empty %}
+  <div style="padding:80px 0;color:rgba(240,240,236,.15);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;">No projects yet</div>
+  {% endfor %}
+</div>
+
+<!-- Marquee -->
+<div class="w-marquee">
+  <div class="w-marquee-t">
+    <span>Strategy</span><span class="hi">✦</span><span>Creative</span><span class="hi">✦</span><span>Production</span><span class="hi">✦</span><span>Media</span><span class="hi">✦</span><span>Growth</span><span class="hi">✦</span>
+    <span>Strategy</span><span class="hi">✦</span><span>Creative</span><span class="hi">✦</span><span>Production</span><span class="hi">✦</span><span>Media</span><span class="hi">✦</span><span>Growth</span><span class="hi">✦</span>
+  </div>
+</div>
+
+<!-- Process -->
+<div class="w-process">
+  <div class="w-process-hd">
+    <div>
+      <span class="sec-lbl">How We Work</span>
+      <h2>The<br>Process.</h2>
+    </div>
+    <p>From brief to launch — a disciplined creative process that delivers results every time, without the chaos.</p>
+  </div>
+  <div class="w-steps">
+    <div class="w-step reveal">
+      <span class="w-step-num">01 —</span>
+      <div class="w-step-title">Discovery</div>
+      <p class="w-step-desc">Deep-dive into your brand, audience, and competitive landscape. We ask the questions others skip.</p>
+    </div>
+    <div class="w-step reveal">
+      <span class="w-step-num">02 —</span>
+      <div class="w-step-title">Strategy</div>
+      <p class="w-step-desc">Data-backed creative direction. Every decision is anchored to a measurable outcome.</p>
+    </div>
+    <div class="w-step reveal">
+      <span class="w-step-num">03 —</span>
+      <div class="w-step-title">Production</div>
+      <p class="w-step-desc">In-house creative execution — copy, design, motion, and content at studio quality.</p>
+    </div>
+    <div class="w-step reveal">
+      <span class="w-step-num">04 —</span>
+      <div class="w-step-title">Launch & Scale</div>
+      <p class="w-step-desc">Precision deployment across channels. We iterate fast and scale what works.</p>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Stagger work rows on load
+document.querySelectorAll('.w-row').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateX(-30px)';
+  el.style.transition = `opacity .6s ease ${i*80}ms, transform .6s cubic-bezier(.16,1,.3,1) ${i*80}ms, padding-left .5s cubic-bezier(.16,1,.3,1)`;
+  setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateX(0)'; }, 200 + i * 80);
+});
+
+// Row hover image preview
+document.querySelectorAll('.w-row').forEach(row => {
+  const img = document.createElement('div');
+  img.className = 'w-row-img';
+  img.innerHTML = '<div class="w-row-img-ph"></div>';
+  document.body.appendChild(img);
+  row.addEventListener('mousemove', e => {
+    img.style.left = (e.clientX + 28) + 'px';
+    img.style.top  = (e.clientY - 90) + 'px';
+    img.style.opacity = '1';
+  });
+  row.addEventListener('mouseleave', () => { img.style.opacity = '0'; });
+});
+
+// Parallax grid on mousemove
+const grid = document.querySelector('.w-hero-grid');
+if (grid) {
+  window.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - .5) * 20;
+    const y = (e.clientY / window.innerHeight - .5) * 20;
+    grid.style.backgroundPosition = `${x}px ${y}px`;
+  }, { passive: true });
+}
+</script>
+{% endblock %}
+

@@ -15,18 +15,18 @@
 :root{--r:#ff3b3b;--rd:rgba(255,59,59,.15)}
 body{background:#0a0a0a;color:#e0e0e0;font-family:'Inter',sans-serif;cursor:none;overflow-x:hidden}
 
-/* Custom Cyberpunk Cursor */
-#cursor-dot { position:fixed; width:12px; height:12px; background:transparent; pointer-events:none; z-index:9999; top:0; left:0; transform:translate(-50%,-50%); transition:opacity 0.2s; }
-#cursor-dot::before, #cursor-dot::after { content:''; position:absolute; background:var(--r); }
-#cursor-dot::before { top: 50%; left: 0; right: 0; height: 2px; transform:translateY(-50%); }
-#cursor-dot::after { left: 50%; top: 0; bottom: 0; width: 2px; transform:translateX(-50%); }
-
-#cursor-ring { position:fixed; width:40px; height:40px; background:transparent; border:1px solid rgba(255,59,59,0.4); border-radius:0; pointer-events:none; z-index:9998; top:0; left:0; transform:translate(-50%,-50%); display:flex; align-items:center; justify-content:center; overflow:hidden; transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s, border-width 0.3s; }
-.cursor-text { font-size:0.55rem; font-weight:800; text-transform:uppercase; color:var(--r); opacity:0; transition:opacity 0.2s; letter-spacing:0.1em; pointer-events:none; }
-/* Cursor States */
-body.hovering #cursor-dot { opacity:0; }
-body.hovering #cursor-ring { width:100px; height:40px; background:rgba(255,59,59,0.1); border-color:var(--r); border-width: 1px 4px; border-top-color: transparent; border-bottom-color: transparent; }
-body.hovering .cursor-text { opacity:1; }
+/* ── V5 CURSOR: NEON CYBERPUNK RETICLE ── */
+#cur-ch,#cur-cv,#cur-rect,#cur-lbl,.cur-tr{position:fixed;pointer-events:none}
+#cur-ch{z-index:10000;width:22px;height:1px;background:var(--r);box-shadow:0 0 8px var(--r);transform:translate(-50%,-50%)}
+#cur-cv{z-index:10000;width:1px;height:22px;background:var(--r);box-shadow:0 0 8px var(--r);transform:translate(-50%,-50%)}
+#cur-rect{z-index:9998;width:38px;height:38px;border:1px solid rgba(255,59,59,.5);transform:translate(-50%,-50%);box-shadow:0 0 12px rgba(255,59,59,.2),inset 0 0 12px rgba(255,59,59,.04);transition:width .38s cubic-bezier(.16,1,.3,1),height .38s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s,transform .25s}
+#cur-lbl{z-index:10001;font-family:'Inter',sans-serif;font-size:7px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--r);white-space:nowrap;text-shadow:0 0 10px var(--r);opacity:0;transition:opacity .18s;transform:translateY(-50%)}
+.cur-tr{border:1px solid rgba(255,59,59,.1);transform:translate(-50%,-50%);opacity:0;transition:opacity .3s}
+#tr-a{z-index:9997;width:56px;height:56px}
+#tr-b{z-index:9996;width:76px;height:76px;border-color:rgba(255,59,59,.05)}
+@keyframes neonPulse{0%,100%{box-shadow:0 0 12px rgba(255,59,59,.2)}50%{box-shadow:0 0 28px rgba(255,59,59,.55),inset 0 0 18px rgba(255,59,59,.1)}}
+/* Mobile: restore native cursor */
+@media(hover:none),(pointer:coarse){body{cursor:auto!important}#cur-ch,#cur-cv,#cur-rect,#cur-lbl,#tr-a,#tr-b{display:none!important}}
 
 /* Grid Overlay */
 body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);background-size:40px 40px;pointer-events:none;z-index:9990;opacity:.5}
@@ -57,13 +57,22 @@ footer{padding:100px 52px 0;border-top:1px solid rgba(255,59,59,.15);background:
 .vsw{position:fixed;bottom:24px;right:24px;z-index:999;display:flex; flex-wrap:wrap; justify-content:flex-end; max-width:90vw;gap:5px}
 .vsw a{width:32px;height:32px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-decoration:none;transition:all .3s;background:#050505}
 .vsw a:hover,.vsw a.cur{background:var(--r);color:#fff;border-color:var(--r)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* Mobile responsive base */
+@media(max-width:768px){nav{padding:18px 24px}.nav-links{gap:18px}.nav-links a{font-size:.58rem}.nav-cta{padding:10px 18px;font-size:.6rem}footer{padding:80px 24px 0}.footer-cta{flex-direction:column;gap:32px;align-items:flex-start}.footer-cta h2{font-size:clamp(40px,10vw,72px)}.fbar{flex-direction:column;gap:10px;align-items:flex-start}}
+@media(max-width:480px){nav{padding:14px 16px}.nav-links{display:none}.nav-cta{padding:10px 16px;font-size:.58rem}footer{padding:60px 16px 0}.vsw{bottom:14px;right:14px}}
 
 {% block extra_css %}{% endblock %}
 </style></head>
 <body>
 
-<div id="cursor-dot"></div>
-<div id="cursor-ring"><span class="cursor-text">VIEW</span></div>
+<div id="tr-b" class="cur-tr"></div>
+<div id="tr-a" class="cur-tr"></div>
+<div id="cur-rect"></div>
+<div id="cur-ch"></div>
+<div id="cur-cv"></div>
+<div id="cur-lbl"></div>
 
 <nav>
   <a href="{% url 'v5' %}" class="logo">DMA<b>.</b></a>
@@ -83,12 +92,6 @@ footer{padding:100px 52px 0;border-top:1px solid rgba(255,59,59,.15);background:
 </footer>
 
 <div class="vsw"><a href="{% url 'v1' %}" title="Cinematic">1</a><a href="{% url 'v3' %}" title="Gradient">3</a><a href="{% url 'v4' %}" title="Type">4</a><a href="{% url 'v5' %}" class="cur" title="Neon">5</a><a href="{% url 'v8' %}" title="AlgoPros">8</a>
-  <span style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; align-self: center;"></span>
-  <a href="{% url 'v9:home' %}" title="Pulse">9</a>
-  <a href="{% url 'v10:home' %}" title="Atelier">10</a>
-  <a href="{% url 'v11:home' %}" title="Orbit">11</a>
-  <a href="{% url 'v12:home' %}" title="Signal">12</a>
-  <a href="{% url 'v13:home' %}" title="Quiet">13</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
@@ -106,36 +109,90 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
 gsap.ticker.lagSmoothing(0);
 
-// Advanced Cursor
-const cursorDot = document.getElementById('cursor-dot');
-const cursorRing = document.getElementById('cursor-ring');
-const cursorText = document.querySelector('.cursor-text');
-let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-let dotX = mouseX, dotY = mouseY, ringX = mouseX, ringY = mouseY;
-window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-function animateCursor() {
-  dotX += (mouseX - dotX) * 0.2;
-  dotY += (mouseY - dotY) * 0.2;
-  ringX += (mouseX - ringX) * 0.1;
-  ringY += (mouseY - ringY) * 0.1;
-  gsap.set(cursorDot, { x: dotX, y: dotY });
-  gsap.set(cursorRing, { x: ringX, y: ringY });
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
+/* ══ V5 CURSOR: NEON CYBERPUNK RETICLE ══ */
+const _isTouch = window.matchMedia('(hover:none),(pointer:coarse)').matches;
+if (!_isTouch) {
+  const cH  = document.getElementById('cur-ch');
+  const cV  = document.getElementById('cur-cv');
+  const cR  = document.getElementById('cur-rect');
+  const cL  = document.getElementById('cur-lbl');
+  const trA = document.getElementById('tr-a');
+  const trB = document.getElementById('tr-b');
+  let mx = innerWidth/2, my = innerHeight/2;
+  let rx = mx, ry = my, ax = mx, ay = my, bx = mx, by = my;
+  let vis = false, idleT;
 
-function initHoverCursor() {
-  document.querySelectorAll('[data-cursor]').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      document.body.classList.add('hovering');
-      cursorText.innerText = el.getAttribute('data-cursor');
-    });
-    el.addEventListener('mouseleave', () => {
-      document.body.classList.remove('hovering');
-    });
+  function showC() { if(vis)return; vis=true; [cH,cV,cR,trA,trB].forEach(e=>e.style.opacity='1'); }
+  function resetIdle() {
+    clearTimeout(idleT); cR.style.animation='none';
+    idleT = setTimeout(()=>{ cR.style.animation='neonPulse 1.6s ease-in-out infinite'; }, 2400);
+  }
+
+  window.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; showC(); resetIdle(); }, {passive:true});
+
+  document.addEventListener('mousedown', () => {
+    cR.style.transform='translate(-50%,-50%) scale(.55)';
+    /* neon burst particles */
+    for(let i=0;i<9;i++){
+      const p=document.createElement('div'), a=(i/9)*Math.PI*2, d=22+Math.random()*32;
+      p.style.cssText=`position:fixed;pointer-events:none;z-index:9997;width:2px;height:2px;background:var(--r);box-shadow:0 0 6px var(--r);border-radius:50%;left:${mx}px;top:${my}px;transform:translate(-50%,-50%);transition:all .55s cubic-bezier(.16,1,.3,1)`;
+      document.body.appendChild(p);
+      requestAnimationFrame(()=>{p.style.left=(mx+Math.cos(a)*d)+'px';p.style.top=(my+Math.sin(a)*d)+'px';p.style.opacity='0';});
+      setTimeout(()=>p.remove(), 600);
+    }
+  });
+  document.addEventListener('mouseup', () => { cR.style.transform='translate(-50%,-50%) scale(1)'; });
+  document.addEventListener('mouseleave', ()=>{ [cH,cV,cR,trA,trB,cL].forEach(e=>{if(e)e.style.opacity='0'}); });
+  document.addEventListener('mouseenter', ()=>{ [cH,cV,cR,trA,trB].forEach(e=>{if(e)e.style.opacity='1'}); });
+
+  (function loop(){
+    cH.style.left=mx+'px'; cH.style.top=my+'px';
+    cV.style.left=mx+'px'; cV.style.top=my+'px';
+    rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
+    cR.style.left=rx+'px'; cR.style.top=ry+'px';
+    if(cL){ cL.style.left=(rx+24)+'px'; cL.style.top=ry+'px'; }
+    ax+=(rx-ax)*.07; ay+=(ry-ay)*.07;
+    if(trA){ trA.style.left=ax+'px'; trA.style.top=ay+'px'; }
+    bx+=(ax-bx)*.05; by+=(ay-by)*.05;
+    if(trB){ trB.style.left=bx+'px'; trB.style.top=by+'px'; }
+    requestAnimationFrame(loop);
+  })();
+
+  function setCursorHover(label) {
+    cR.style.width='78px'; cR.style.height='36px';
+    cR.style.borderColor='var(--r)';
+    cR.style.boxShadow='0 0 22px rgba(255,59,59,.5),inset 0 0 18px rgba(255,59,59,.08)';
+    cH.style.opacity='.0'; cV.style.opacity='.0';
+    if(cL){ cL.textContent=label; cL.style.opacity='1'; }
+    if(trA)trA.style.opacity='.08'; if(trB)trB.style.opacity='.04';
+  }
+  function setCursorLink() {
+    cR.style.width='54px'; cR.style.height='54px';
+    cR.style.borderColor='rgba(255,59,59,.7)';
+    cR.style.boxShadow='0 0 16px rgba(255,59,59,.35)';
+  }
+  function resetCursor() {
+    cR.style.width='38px'; cR.style.height='38px';
+    cR.style.borderColor='rgba(255,59,59,.5)';
+    cR.style.boxShadow='0 0 12px rgba(255,59,59,.2),inset 0 0 12px rgba(255,59,59,.04)';
+    cH.style.opacity='1'; cV.style.opacity='1';
+    if(cL)cL.style.opacity='0';
+    if(trA)trA.style.opacity='1'; if(trB)trB.style.opacity='1';
+  }
+
+  document.addEventListener('mouseover', e => {
+    const labeled = e.target.closest('[data-cursor]');
+    const linked  = !labeled && e.target.closest('a,button,.svc-row,.faq-q,.wcard,.w-row-item,.creator-card');
+    if(labeled) setCursorHover(labeled.dataset.cursor);
+    else if(linked) setCursorLink();
+  });
+  document.addEventListener('mouseout', e => {
+    const el = e.target.closest('[data-cursor],a,button,.svc-row,.faq-q,.wcard,.w-row-item,.creator-card');
+    if(el && !e.relatedTarget?.closest('[data-cursor],a,button,.svc-row,.faq-q,.wcard,.w-row-item,.creator-card')) resetCursor();
   });
 }
-initHoverCursor();
+/* expose for pages that call initHoverCursor */
+window.initHoverCursor = function(){};
 </script>
 {% block extra_js %}{% endblock %}
 </body></html>

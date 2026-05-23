@@ -1,21 +1,158 @@
 {% extends 'variants/v5/base.html' %}
-{% block title %}Work — DMA.{% endblock %}
+{% block title %}Work — DMA. Cyberpunk{% endblock %}
 {% block extra_css %}
-.pg-hero{padding:80px 52px 60px;border-bottom:1px solid rgba(255,255,255,.05)}
-.pg-hero h1{font-size:clamp(52px,9vw,120px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;animation:fadeUp 1s ease both}
-.pg-hero h1 b{color:var(--r)}
-.pg-hero p{margin-top:16px;font-size:.88rem;color:rgba(255,255,255,.28);animation:fadeUp 1s ease .2s both}
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:60px 52px 120px}
-.wcard{position:relative;overflow:hidden;aspect-ratio:16/9;background:#111;display:block;text-decoration:none}
-.wcard img{width:100%;height:100%;object-fit:cover;filter:grayscale(50%);transition:filter .7s,transform .9s}
-.wcard:hover img{filter:grayscale(0%);transform:scale(1.04)}
+/* ── Work Hero ── */
+.w-hero{min-height:52vh;padding:100px 52px 60px;position:relative;overflow:hidden;background:#050505;border-bottom:1px solid rgba(255,59,59,.15);display:flex;flex-direction:column;justify-content:flex-end}
+.w-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(255,59,59,.05) 0%,transparent 65%);pointer-events:none}
+.w-hero-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,59,59,.35),transparent);animation:heroScan 5s linear infinite;pointer-events:none}
+@keyframes heroScan{0%{top:0}100%{top:100%}}
+.w-hero h1{font-size:clamp(56px,10vw,130px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.88;position:relative;z-index:2}
+.w-hero h1 b{color:var(--r);text-shadow:0 0 30px rgba(255,59,59,.4)}
+.w-hero-meta{display:flex;align-items:center;gap:48px;margin-top:36px;position:relative;z-index:2;flex-wrap:wrap}
+.w-stat{display:flex;flex-direction:column;gap:4px}
+.w-stat strong{font-size:clamp(22px,3vw,40px);font-weight:900;color:var(--r);letter-spacing:-.02em;text-shadow:0 0 20px rgba(255,59,59,.35)}
+.w-stat span{font-size:.52rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+.w-hero-divider{width:1px;height:48px;background:rgba(255,59,59,.25)}
+
+/* ── Filter bar ── */
+.w-filter{padding:20px 52px;border-bottom:1px solid rgba(255,59,59,.1);display:flex;gap:0;background:#080808;position:sticky;top:70px;z-index:40;backdrop-filter:blur(12px)}
+.f-btn{padding:8px 22px;background:none;border:none;border-right:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.25);font-size:.55rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;cursor:none;transition:all .25s;font-family:'Inter',sans-serif;position:relative}
+.f-btn:first-child{padding-left:0}
+.f-btn:last-child{border-right:none}
+.f-btn::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--r);box-shadow:0 0 8px var(--r);transform:scaleX(0);transition:transform .3s}
+.f-btn:hover,.f-btn.active{color:#fff}
+.f-btn.active::after{transform:scaleX(1)}
+
+/* ── Work grid ── */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:2px}
+.wcard{position:relative;overflow:hidden;aspect-ratio:16/9;background:#111;display:block;text-decoration:none;border:1px solid transparent;transition:border-color .3s}
+.wcard:hover{border-color:rgba(255,59,59,.4)}
+.wcard img{width:100%;height:100%;object-fit:cover;filter:grayscale(60%) contrast(1.1);transition:filter .6s,transform .8s}
+.wcard:hover img{filter:grayscale(0%) contrast(1.05);transform:scale(1.04)}
 .wcard-ph{width:100%;height:100%;background:linear-gradient(160deg,#1a0a0a,#141414)}
-.wcard-info{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,12,12,.9),transparent 55%);display:flex;align-items:flex-end;padding:28px;opacity:0;transition:opacity .4s}
+.wcard-info{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.95),rgba(5,5,5,.2) 55%,transparent);display:flex;align-items:flex-end;padding:28px;opacity:0;transition:opacity .4s}
 .wcard:hover .wcard-info{opacity:1}
-.wcard-info h3{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:6px}
-.wcard-info p{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--r)}
+.wcard-scan{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--r),transparent);transform:scaleX(0);transition:transform .4s cubic-bezier(.16,1,.3,1);box-shadow:0 0 12px var(--r)}
+.wcard:hover .wcard-scan{transform:scaleX(1)}
+.wcard-info h3{font-size:clamp(16px,2vw,26px);font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:6px;text-shadow:0 0 20px rgba(0,0,0,.8)}
+.wcard-info p{font-size:.58rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--r);text-shadow:0 0 10px rgba(255,59,59,.5)}
+.wcard-num{position:absolute;top:20px;left:20px;font-size:.52rem;font-weight:700;letter-spacing:.2em;color:rgba(255,59,59,.4);font-family:'Inter',sans-serif}
+
+/* ── Featured project ── */
+.w-featured{position:relative;overflow:hidden;aspect-ratio:21/9;background:#111;display:block;text-decoration:none;margin:2px;border:1px solid rgba(255,59,59,.15)}
+.w-featured img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%) contrast(1.1);transition:filter .8s,transform 1.2s}
+.w-featured:hover img{filter:grayscale(0%);transform:scale(1.03)}
+.w-featured-ph{width:100%;height:100%;background:linear-gradient(135deg,#1a0505,#0c0c0c)}
+.w-featured-info{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,.96),transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:52px}
+.w-featured-info .badge{font-size:.5rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--r);border:1px solid rgba(255,59,59,.35);padding:4px 12px;display:inline-block;margin-bottom:16px;text-shadow:0 0 8px rgba(255,59,59,.4)}
+.w-featured-info h2{font-size:clamp(32px,5vw,72px);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-.03em;margin-bottom:10px}
+.w-featured-info p{font-size:.75rem;color:rgba(255,255,255,.45);letter-spacing:.15em;text-transform:uppercase}
+.w-featured-scan{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--r),transparent);transform:scaleX(0);transition:transform .6s cubic-bezier(.16,1,.3,1);box-shadow:0 0 16px var(--r)}
+.w-featured:hover .w-featured-scan{transform:scaleX(1)}
+
+/* ── Process strip ── */
+.w-process{padding:100px 52px;border-top:1px solid rgba(255,59,59,.12);background:#080808;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.w-proc-item{padding:40px 32px;border-right:1px solid rgba(255,59,59,.1);position:relative;overflow:hidden;transition:background .3s}
+.w-proc-item:last-child{border-right:none}
+.w-proc-item:hover{background:rgba(255,59,59,.03)}
+.w-proc-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--r);box-shadow:0 0 10px var(--r);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.w-proc-item:hover::before{transform:scaleX(1)}
+.w-proc-n{font-size:.52rem;font-weight:700;letter-spacing:.2em;color:rgba(255,59,59,.4);margin-bottom:20px;display:block;font-family:'Inter',sans-serif}
+.w-proc-title{font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:10px}
+.w-proc-desc{font-size:.78rem;color:rgba(255,255,255,.28);line-height:1.8}
+
+/* Mobile */
+@media(max-width:768px){.w-hero{padding:100px 24px 48px}.w-filter{padding:16px 24px;top:60px}.work-grid{grid-template-columns:1fr}.w-featured{aspect-ratio:16/9;margin:2px 2px 0}.w-featured-info{padding:28px}.w-process{padding:60px 24px;grid-template-columns:1fr 1fr}.w-proc-item:nth-child(2){border-right:none}}
+@media(max-width:480px){.work-grid{grid-template-columns:1fr}.w-process{grid-template-columns:1fr}.w-proc-item{border-right:none;border-bottom:1px solid rgba(255,59,59,.1)}.w-hero-meta{gap:24px}}
 {% endblock %}
+
 {% block content %}
-<div class="pg-hero"><h1>Our <b>Work</b></h1><p>{{ projects|length }} Projects — Strategy · Creative · Production</p></div>
-<div class="work-grid">{% for p in projects %}<a href="{% url 'v5_work_detail' p.slug %}" class="wcard reveal">{% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="wcard-ph"></div>{% endif %}<div class="wcard-info"><div><h3>{{ p.title }}</h3><p>{{ p.client_name }}</p></div></div></a>{% endfor %}</div>
+<!-- Work Hero -->
+<section class="w-hero">
+  <div class="w-hero-bg"></div>
+  <div class="w-hero-scan"></div>
+  <h1>Our <b>Work</b></h1>
+  <div class="w-hero-meta">
+    <div class="w-stat"><strong class="counter" data-val="{{ projects|length }}">0</strong><span>Projects</span></div>
+    <div class="w-hero-divider"></div>
+    <div class="w-stat"><strong>12</strong><span>Industries</span></div>
+    <div class="w-hero-divider"></div>
+    <div class="w-stat"><strong>50+</strong><span>Global Brands</span></div>
+    <div class="w-hero-divider"></div>
+    <div class="w-stat"><strong>$12M+</strong><span>Media Managed</span></div>
+  </div>
+</section>
+
+<!-- Filter -->
+<div class="w-filter">
+  <button class="f-btn active" data-filter="all">All</button>
+  <button class="f-btn" data-filter="social">Social & AI</button>
+  <button class="f-btn" data-filter="production">Production</button>
+  <button class="f-btn" data-filter="campaign">Campaign</button>
+  <button class="f-btn" data-filter="influencer">Influencer</button>
+</div>
+
+<!-- Featured project (first) -->
+{% if projects %}
+{% with projects.0 as featured %}
+<a href="{% url 'v5_work_detail' featured.slug %}" class="w-featured" data-cursor="OPEN">
+  <div class="w-featured-scan"></div>
+  {% if featured.cover_image %}<img src="{{ featured.cover_image.url }}" alt="{{ featured.title }}">{% else %}<div class="w-featured-ph"></div>{% endif %}
+  <div class="w-featured-info">
+    <div class="badge">Featured Project</div>
+    <h2>{{ featured.title }}</h2>
+    <p>{{ featured.client_name }} &nbsp;/&nbsp; {{ featured.short_description|truncatewords:8 }}</p>
+  </div>
+</a>
+{% endwith %}
+{% endif %}
+
+<!-- Work grid -->
+<div class="work-grid" id="work-grid">
+  {% for p in projects %}
+  {% if not forloop.first %}
+  <a href="{% url 'v5_work_detail' p.slug %}" class="wcard" data-cursor="OPEN">
+    <div class="wcard-scan"></div>
+    <span class="wcard-num">{{ forloop.counter0|stringformat:"02d" }}</span>
+    {% if p.cover_image %}<img src="{{ p.cover_image.url }}" alt="{{ p.title }}" loading="lazy">{% else %}<div class="wcard-ph"></div>{% endif %}
+    <div class="wcard-info"><div><h3>{{ p.title }}</h3><p>{{ p.client_name }}</p></div></div>
+  </a>
+  {% endif %}
+  {% endfor %}
+</div>
+
+<!-- Process strip -->
+<section class="w-process">
+  <div class="w-proc-item"><span class="w-proc-n">01 —</span><div class="w-proc-title">Brief</div><p class="w-proc-desc">Deep-dive into your brand, audience, and objectives.</p></div>
+  <div class="w-proc-item"><span class="w-proc-n">02 —</span><div class="w-proc-title">Strategy</div><p class="w-proc-desc">Data-backed creative direction anchored to outcomes.</p></div>
+  <div class="w-proc-item"><span class="w-proc-n">03 —</span><div class="w-proc-title">Execution</div><p class="w-proc-desc">Studio-grade production at full speed, no compromise.</p></div>
+  <div class="w-proc-item"><span class="w-proc-n">04 —</span><div class="w-proc-title">Scale</div><p class="w-proc-desc">Precision deployment. Iterate fast. Scale what works.</p></div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+gsap.registerPlugin(ScrollTrigger);
+/* Card entrance */
+gsap.utils.toArray('.wcard').forEach((el,i) => {
+  gsap.from(el, {opacity:0,y:40,duration:.6,delay:(i%2)*.1,scrollTrigger:{trigger:el,start:'top 88%'}});
+});
+gsap.utils.toArray('.w-proc-item').forEach((el,i) => {
+  gsap.from(el, {opacity:0,y:30,duration:.6,delay:i*.1,scrollTrigger:{trigger:'.w-process',start:'top 85%'}});
+});
+gsap.from('.w-featured', {opacity:0,y:20,duration:.8,scrollTrigger:{trigger:'.w-featured',start:'top 90%'}});
+
+/* Filter */
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+/* Counter */
+gsap.utils.toArray('.counter[data-val]').forEach(el => {
+  gsap.to(el, {innerHTML:el.dataset.val,duration:1.8,ease:'power2.out',snap:{innerHTML:1},scrollTrigger:{trigger:el,start:'top 85%'}});
+});
+</script>
 {% endblock %}
