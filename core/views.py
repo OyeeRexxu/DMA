@@ -103,3 +103,17 @@ def v8_contact(request):
     r = _handle_contact(request, 'v8_contact')
     if r: return r
     return render(request, 'variants/v8/contact.html')
+
+# ── Variant 14 – Quantum Glass ─────────────────────────────────
+def variant_14(request):
+    return render(request, 'variants/v14/home.html', {'projects': _projects(), 'services': _services()})
+def v14_services(request):
+    return render(request, 'variants/v14/services.html', {'services': _services()})
+def v14_work(request):
+    return render(request, 'variants/v14/work.html', {'projects': _all_projects()})
+def v14_work_detail(request, slug):
+    return render(request, 'variants/v14/detail.html', {'project': get_object_or_404(Project, slug=slug), 'related': _projects()})
+def v14_contact(request):
+    r = _handle_contact(request, 'v14_contact')
+    if r: return r
+    return render(request, 'variants/v14/contact.html')

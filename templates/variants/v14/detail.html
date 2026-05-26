@@ -1,0 +1,191 @@
+{% extends "variants/v14/base.html" %}
+{% block title %}{{ project.title }} — DMA. Quantum Creative{% endblock %}
+
+{% block extra_css %}
+/* ── PROJECT HERO ──────────────────────────────────── */
+.pj-hero{min-height:92vh;display:flex;align-items:flex-end;padding:0 56px 90px;position:relative}
+.pj-hero-bg{position:absolute;inset:0;z-index:0}
+.pj-hero-bg img{width:100%;height:100%;object-fit:cover;transform-origin:center;transform:scale(1.08)}
+.pj-hero-bg-fall{width:100%;height:100%;background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(0,245,255,.15),rgba(255,0,110,.2))}
+.pj-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(3,3,8,.6) 40%,rgba(3,3,8,.1) 100%)}
+.pj-inner{position:relative;z-index:2;max-width:960px;width:100%}
+.pj-bc{display:flex;align-items:center;gap:10px;margin-bottom:36px;font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);opacity:0}
+.pj-bc a{color:var(--dim);transition:color .3s}.pj-bc a:hover{color:var(--cyan)}
+.pj-cats{display:flex;gap:8px;margin-bottom:24px;opacity:0}
+.pj-cat{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;border-radius:100px;background:var(--cyan-d);border:1px solid rgba(0,245,255,.2);color:var(--cyan)}
+.pj-title{font-size:clamp(2.8rem,6vw,6.5rem);font-weight:800;line-height:.95;letter-spacing:-.03em;margin-bottom:28px;overflow:hidden}
+.pj-title .ci{display:inline-block}
+.pj-sub{font-size:1.1rem;color:var(--muted);max-width:540px;line-height:1.85;opacity:0}
+
+/* ── META ROW ──────────────────────────────────────── */
+.pj-meta{padding:52px 56px;border-bottom:1px solid var(--border);position:relative;z-index:1}
+.pj-meta-g{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.pm-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+.pm-val{font-size:.95rem;font-weight:600}
+
+/* ── BODY ──────────────────────────────────────────── */
+.pj-body{padding:90px 56px;position:relative;z-index:1}
+.pj-body-inner{max-width:1100px;margin:0 auto}
+.pj-sec{margin-bottom:90px}
+.pj-sec h2{font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:700;margin-bottom:20px}
+.pj-sec p{color:var(--muted);line-height:1.92;font-size:.97rem}.pj-sec p+p{margin-top:16px}
+
+/* image blocks */
+.img-full{width:100%;border-radius:var(--r);overflow:hidden;margin:44px 0;cursor:none}
+.img-full img,.img-full .img-fall{width:100%;display:block;transition:transform .9s var(--ease)}
+.img-full:hover img{transform:scale(1.03)}
+.img-fall{aspect-ratio:16/9;background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(0,245,255,.1));display:flex;align-items:center;justify-content:center;font-size:6rem;font-weight:800;color:rgba(255,255,255,.03)}
+.img-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:44px 0}
+.img-2-item{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;cursor:none}
+.img-2-item img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.img-2-item:hover img{transform:scale(1.05)}
+.img-2-fall{width:100%;height:100%;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(0,245,255,.1));display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:800;color:rgba(255,255,255,.04)}
+
+/* results */
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:40px 0}
+.res-card{padding:40px 28px;text-align:center;border-radius:var(--r);background:var(--surface);border:1px solid var(--border);transition:border-color .4s,transform .5s var(--ease),box-shadow .4s}
+.res-card:hover{border-color:var(--border-glow);transform:translateY(-8px);box-shadow:0 24px 48px rgba(0,0,0,.5)}
+.res-n{font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:8px}
+.res-l{font-size:.82rem;color:var(--muted)}
+
+/* ── RELATED ───────────────────────────────────────── */
+.rel-sec{padding:90px 56px 130px;border-top:1px solid var(--border);position:relative;z-index:1}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.rel-card{border-radius:var(--r);overflow:hidden;position:relative;cursor:none;aspect-ratio:4/3;display:block}
+.rel-img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .6s}
+.rel-fall{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:800;color:rgba(255,255,255,.04);transition:transform .8s var(--ease),filter .6s}
+.rel-card:nth-child(1) .rel-fall{background:linear-gradient(135deg,rgba(124,58,237,.2),rgba(0,245,255,.1))}
+.rel-card:nth-child(2) .rel-fall{background:linear-gradient(135deg,rgba(0,245,255,.12),rgba(255,0,110,.12))}
+.rel-card:nth-child(3) .rel-fall{background:linear-gradient(135deg,rgba(255,0,110,.15),rgba(124,58,237,.15))}
+.rel-info{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,3,8,.97) 0%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:28px}
+.rel-info h4{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.rel-info span{font-size:.78rem;color:var(--muted)}
+.rel-card:hover .rel-img,.rel-card:hover .rel-fall{transform:scale(1.06);filter:brightness(.6)}
+
+@media(max-width:900px){
+  .pj-hero,.pj-meta,.pj-body,.rel-sec{padding-left:24px;padding-right:24px}
+  .pj-meta-g{grid-template-columns:repeat(2,1fr)}
+  .img-2{grid-template-columns:1fr}
+  .results{grid-template-columns:1fr 1fr}
+  .rel-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:540px){.results,.rel-grid{grid-template-columns:1fr}}
+{% endblock %}
+
+{% block content %}
+
+<section class="pj-hero">
+  <div class="pj-hero-bg">
+    {% if project.cover_image %}<img id="pj-bg-img" src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+    {% else %}<div class="pj-hero-bg-fall"></div>{% endif %}
+  </div>
+  <div class="pj-inner">
+    <div class="pj-bc" id="pj-bc">
+      <a href="/v14/">Home</a><span>/</span>
+      <a href="/v14/work/">Work</a><span>/</span>
+      <span style="color:var(--muted)">{{ project.title }}</span>
+    </div>
+    <div class="pj-cats" id="pj-cats">
+      <span class="pj-cat">{{ project.client_name|default:"Project" }}</span>
+      <span class="pj-cat">Case Study</span>
+    </div>
+    <div class="pj-title dxl" id="pj-title">
+      {% for word in project.title.split %}
+      <span class="ph-line"><span class="ci">{{ word }}</span></span>
+      {% empty %}
+      <span class="ph-line"><span class="ci">{{ project.title }}</span></span>
+      {% endfor %}
+    </div>
+    <p class="pj-sub" id="pj-sub">{{ project.short_description }}</p>
+  </div>
+</section>
+
+<div class="pj-meta">
+  <div class="pj-meta-g" data-stagger=".08">
+    <div><div class="pm-label">Client</div><div class="pm-val">{{ project.client_name|default:"Undisclosed" }}</div></div>
+    <div><div class="pm-label">Scope</div><div class="pm-val">Brand · Digital · Motion</div></div>
+    <div><div class="pm-label">Year</div><div class="pm-val">{{ project.created_at|date:"Y" }}</div></div>
+    <div><div class="pm-label">Status</div><div class="pm-val" style="color:var(--cyan)">● Live</div></div>
+  </div>
+</div>
+
+<div class="pj-body">
+  <div class="pj-body-inner">
+    <div class="pj-sec" data-reveal>
+      <div class="chip">The Challenge</div>
+      <h2>Understanding the <span class="tg">Problem</span></h2>
+      <p>{{ project.content|default:"Every great project starts with a clearly defined challenge. Our team spent significant time understanding the client's goals, their audience, and the competitive landscape they operate in." }}</p>
+      <p>We identified key opportunities for differentiation and crafted a strategic roadmap that guided every creative decision from kickoff through launch.</p>
+    </div>
+    <div class="img-full" data-reveal>
+      {% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+      {% else %}<div class="img-fall">{{ project.title|slice:":2"|upper }}</div>{% endif %}
+    </div>
+    <div class="pj-sec" data-reveal>
+      <div class="chip">Our Approach</div>
+      <h2>Crafting the <span class="tg">Solution</span></h2>
+      <p>Our multidisciplinary team worked in close collaboration with the client across multiple sprints. The design system we built prioritised clarity and emotional resonance — premium yet approachable.</p>
+      <p>Every interaction was prototyped and tested. Every visual decision was backed by research. The result is a cohesive digital experience that speaks directly to the audience.</p>
+    </div>
+    <div class="img-2" data-stagger=".1">
+      <div class="img-2-item">
+        {% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="Detail A">
+        {% else %}<div class="img-2-fall">A</div>{% endif %}
+      </div>
+      <div class="img-2-item">
+        {% if project.cover_image %}<img src="{{ project.cover_image.url }}" alt="Detail B">
+        {% else %}<div class="img-2-fall">B</div>{% endif %}
+      </div>
+    </div>
+    <div class="pj-sec" data-reveal>
+      <div class="chip">The Results</div>
+      <h2>Impact &amp; <span class="tg">Outcomes</span></h2>
+      <p>The launch exceeded all projections. Within the first quarter the client saw measurable growth across every key metric — from organic traffic to conversion rate to customer satisfaction scores.</p>
+    </div>
+    <div class="results" data-stagger=".1">
+      <div class="res-card" data-tilt><div class="res-n">+240%</div><div class="res-l">Organic Traffic Growth</div></div>
+      <div class="res-card" data-tilt><div class="res-n">3.8×</div><div class="res-l">Conversion Rate Lift</div></div>
+      <div class="res-card" data-tilt><div class="res-n">98</div><div class="res-l">Lighthouse Score</div></div>
+    </div>
+  </div>
+</div>
+
+{% if related %}
+<section class="rel-sec">
+  <div class="chip" data-reveal>More Work</div>
+  <h2 class="dmd" data-reveal data-d=".1">Related <span class="tg">Projects</span></h2>
+  <div class="rel-grid" data-stagger=".1">
+    {% for p in related %}
+    <a href="/v14/work/{{ p.slug }}/" class="rel-card" data-label="VIEW">
+      {% if p.cover_image %}<img class="rel-img" src="{{ p.cover_image.url }}" alt="{{ p.title }}">
+      {% else %}<div class="rel-fall">{{ p.title|slice:":2"|upper }}</div>{% endif %}
+      <div class="rel-info"><h4>{{ p.title }}</h4><span>{{ p.client_name|default:"Project" }}</span></div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+window.addEventListener('load',function(){
+  const tl=gsap.timeline({delay:.85});
+  /* hero bg ken burns */
+  gsap.to('.pj-hero-bg img',{scale:1,duration:2.2,ease:'power2.out'});
+  /* text reveals */
+  tl.to('#pj-bc',{opacity:1,y:0,duration:.7,ease:'power3.out'})
+    .to('#pj-cats',{opacity:1,y:0,duration:.6,ease:'power3.out'},'-=.3')
+    .from('#pj-title .ci',{y:'110%',opacity:0,stagger:.1,duration:1,ease:'back.out(1.4)'},'-=.3')
+    .to('#pj-sub',{opacity:1,y:0,duration:.8,ease:'power3.out'},'-=.4');
+  gsap.set('#pj-bc',{y:20,opacity:0});
+  gsap.set('#pj-cats',{y:16,opacity:0});
+  gsap.set('#pj-sub',{y:24,opacity:0});
+
+  /* hero scroll parallax */
+  gsap.to('.pj-hero-bg',{
+    yPercent:30,
+    scrollTrigger:{trigger:'.pj-hero',start:'top top',end:'bottom top',scrub:1.5}
+  });
+});
+{% endblock %}

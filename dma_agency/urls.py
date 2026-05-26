@@ -6,18 +6,16 @@ from core import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', v.variant_1, name='home'),
-    path('work/', v.v1_work, name='v1_work'),
-    path('work/<slug:slug>/', v.v1_work_detail, name='v1_work_detail'),
-    path('services/', v.v1_services, name='v1_services'),
-    path('contact/', v.v1_contact, name='v1_contact'),
 
-    # Variant 1 Alias for compatibility
+    # ── Root → Variant 1 (main) ──────────────────────────
+    path('', v.variant_1, name='home'),
+
+    # Variant 1 (still accessible via /v1/)
     path('v1/', v.variant_1, name='v1'),
-    path('v1/services/', v.v1_services),
-    path('v1/work/', v.v1_work),
-    path('v1/work/<slug:slug>/', v.v1_work_detail),
-    path('v1/contact/', v.v1_contact),
+    path('v1/services/', v.v1_services, name='v1_services'),
+    path('v1/work/', v.v1_work, name='v1_work'),
+    path('v1/work/<slug:slug>/', v.v1_work_detail, name='v1_work_detail'),
+    path('v1/contact/', v.v1_contact, name='v1_contact'),
 
     # Variant 3
     path('v3/', v.variant_3, name='v3'),
@@ -46,6 +44,13 @@ urlpatterns = [
     path('v8/work/', v.v8_work, name='v8_work'),
     path('v8/work/<slug:slug>/', v.v8_work_detail, name='v8_work_detail'),
     path('v8/contact/', v.v8_contact, name='v8_contact'),
+
+    # Variant 14 — Quantum Glass
+    path('v14/', v.variant_14, name='v14'),
+    path('v14/services/', v.v14_services, name='v14_services'),
+    path('v14/work/', v.v14_work, name='v14_work'),
+    path('v14/work/<slug:slug>/', v.v14_work_detail, name='v14_work_detail'),
+    path('v14/contact/', v.v14_contact, name='v14_contact'),
 
 ]
 

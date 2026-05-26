@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DMA. — Choose Your Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#030308;--surface:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);
+  --text:#f0f0f8;--muted:rgba(240,240,248,.5);--dim:rgba(240,240,248,.22);
+  --cyan:#00F5FF;--violet:#7C3AED;--pink:#FF006E;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ───── */
+#cur{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,opacity .3s}
+#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(0,245,255,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .1s ease}
+
+/* ── NOISE ───── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:.5}
+
+/* ── BG ORBS ────── */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
+.orb-1{width:700px;height:700px;top:-200px;right:-150px;background:radial-gradient(circle,rgba(124,58,237,.12),transparent 65%)}
+.orb-2{width:500px;height:500px;bottom:-100px;left:-100px;background:radial-gradient(circle,rgba(0,245,255,.09),transparent 65%)}
+
+/* ── HEADER ───── */
+header{position:relative;z-index:10;padding:40px 60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.3rem;font-weight:800;letter-spacing:.12em;color:var(--text)}
+.logo span{color:var(--cyan)}
+.header-badge{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);border:1px solid var(--border);padding:7px 16px;border-radius:100px}
+
+/* ── HERO TEXT ─── */
+.hub-hero{position:relative;z-index:10;padding:60px 60px 80px}
+.hub-tag{display:inline-flex;align-items:center;gap:10px;padding:7px 18px 7px 12px;background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.16);border-radius:100px;margin-bottom:32px}
+.hub-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px rgba(0,245,255,.6);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.75);opacity:.5}}
+.hub-tag span{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+.hub-title{font-size:clamp(2.4rem,5vw,4.5rem);font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:20px}
+.hub-title .g{background:linear-gradient(135deg,var(--cyan),var(--violet),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hub-sub{font-size:1rem;color:var(--muted);max-width:480px;line-height:1.8}
+
+/* ── GRID ──────── */
+.variants-grid{position:relative;z-index:10;padding:0 60px 100px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+/* card */
+.v-card{border-radius:20px;background:var(--surface);border:1px solid var(--border);overflow:hidden;cursor:none;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:border-color .4s,transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s;position:relative}
+.v-card:hover{border-color:rgba(0,245,255,.2);transform:translateY(-10px);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+
+/* card preview area */
+.v-preview{height:200px;position:relative;overflow:hidden;flex-shrink:0}
+.v-preview-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;font-weight:900;color:rgba(255,255,255,.03);letter-spacing:-.05em;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.v-card:hover .v-preview-inner{transform:scale(1.06)}
+
+/* individual preview colours */
+.v-card[data-v="1"] .v-preview-inner{background:linear-gradient(135deg,#0a0a0a,#1a1a1a);font-size:4rem}
+.v-card[data-v="3"] .v-preview-inner{background:linear-gradient(135deg,#0a0014,#1a0035,#0a0a2a)}
+.v-card[data-v="4"] .v-preview-inner{background:linear-gradient(135deg,#fafafa,#e8e8e8);color:rgba(0,0,0,.06)}
+.v-card[data-v="5"] .v-preview-inner{background:linear-gradient(135deg,#000a0a,#001a1a,#00100a)}
+.v-card[data-v="8"] .v-preview-inner{background:linear-gradient(135deg,#080818,#0c0c24,#120824)}
+.v-card[data-v="14"] .v-preview-inner{background:linear-gradient(135deg,#030308,#0a031a,#03100a)}
+
+/* mini brand colour dots on preview */
+.v-dots{position:absolute;bottom:14px;left:16px;display:flex;gap:6px}
+.v-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* glowing border on hover for V14 */
+.v-card[data-v="14"]::before{content:'';position:absolute;inset:-1px;border-radius:21px;background:linear-gradient(135deg,var(--cyan),var(--violet),var(--pink));z-index:-1;opacity:0;transition:opacity .4s}
+.v-card[data-v="14"]:hover::before{opacity:1}
+.v-card[data-v="14"]:hover{border-color:transparent}
+
+/* card body */
+.v-body{padding:24px 26px 28px;display:flex;flex-direction:column;flex:1}
+.v-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
+.v-name{font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+.v-version{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;letter-spacing:.12em;padding:4px 10px;border-radius:100px;border:1px solid var(--border);color:var(--dim)}
+.v-card[data-v="14"] .v-version{background:rgba(0,245,255,.07);border-color:rgba(0,245,255,.2);color:var(--cyan)}
+.v-desc{font-size:.83rem;color:var(--muted);line-height:1.7;margin-bottom:20px;flex:1}
+.v-footer{display:flex;align-items:center;justify-content:space-between}
+.v-tags{display:flex;gap:6px;flex-wrap:wrap}
+.v-tag{font-family:'JetBrains Mono',monospace;font-size:.57rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--dim)}
+.v-arrow{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.v-card:hover .v-arrow{background:var(--cyan);border-color:var(--cyan);transform:rotate(-45deg)}
+.v-arrow svg{width:14px;height:14px;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+.v-card:hover .v-arrow svg{stroke:#000}
+
+/* NEW badge */
+.new-badge{position:absolute;top:14px;right:14px;z-index:2;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;box-shadow:0 0 20px rgba(0,245,255,.3)}
+
+/* FEATURED large card - V14 spans full width at top */
+.v-card.featured{grid-column:1/-1;flex-direction:row;min-height:220px}
+.v-card.featured .v-preview{height:auto;min-width:340px;flex-shrink:0}
+.v-card.featured .v-preview-inner{font-size:7rem}
+.v-card.featured .v-body{justify-content:center;padding:36px 40px}
+.v-card.featured .v-name{font-size:1.4rem}
+.v-card.featured .v-desc{font-size:.9rem;max-width:480px}
+
+/* ── FOOTER LINE ─── */
+.hub-foot{position:relative;z-index:10;padding:28px 60px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.hub-foot p{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.1em}
+
+/* ── RESPONSIVE ─── */
+@media(max-width:960px){
+  .variants-grid{grid-template-columns:1fr 1fr}
+  .v-card.featured{flex-direction:column;grid-column:auto}
+  .v-card.featured .v-preview{height:180px;min-width:unset}
+}
+@media(max-width:640px){
+  header,.hub-hero,.variants-grid,.hub-foot{padding-left:24px;padding-right:24px}
+  .variants-grid{grid-template-columns:1fr}
+  .v-card.featured{grid-column:auto}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<header>
+  <div class="logo">DMA<span>.</span></div>
+  <div class="header-badge">Design Variant Hub</div>
+</header>
+
+<div class="hub-hero">
+  <div class="hub-tag">
+    <span class="hub-tag-dot"></span>
+    <span>6 Live Variants</span>
+  </div>
+  <h1 class="hub-title">Choose Your<br><span class="g">Experience</span></h1>
+  <p class="hub-sub">Each variant is a full site — hero animations, scroll reveals, custom cursor, and unique design language. Pick one to explore.</p>
+</div>
+
+<div class="variants-grid">
+
+  <!-- V14 — FEATURED (newest) -->
+  <a href="/v14/" class="v-card featured" data-v="14">
+    <div class="new-badge">Latest</div>
+    <div class="v-preview">
+      <div class="v-preview-inner">
+        <!-- mini particle canvas -->
+        <canvas id="mini-canvas" style="position:absolute;inset:0;width:100%;height:100%;opacity:.7"></canvas>
+        <span style="position:relative;z-index:1;background:linear-gradient(135deg,#00F5FF,#7C3AED,#FF006E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">14</span>
+      </div>
+      <div class="v-dots">
+        <div class="v-dot" style="background:#00F5FF;box-shadow:0 0 8px #00F5FF"></div>
+        <div class="v-dot" style="background:#7C3AED;box-shadow:0 0 8px #7C3AED"></div>
+        <div class="v-dot" style="background:#FF006E;box-shadow:0 0 8px #FF006E"></div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="v-row">
+        <div class="v-name">Quantum Glass</div>
+        <div class="v-version">V14</div>
+      </div>
+      <p class="v-desc">Dark glassmorphism with particle constellation hero, GSAP + Lenis smooth scroll, character-split animations, magnetic cursor with click sparks, and a full preloader sequence.</p>
+      <div class="v-footer">
+        <div class="v-tags">
+          <span class="v-tag">GSAP</span>
+          <span class="v-tag">Lenis</span>
+          <span class="v-tag">Canvas</span>
+          <span class="v-tag">Glass</span>
+        </div>
+        <div class="v-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+    </div>
+  </a>
+
+  <!-- V1 -->
+  <a href="/v1/" class="v-card" data-v="1">
+    <div class="v-preview">
+      <div class="v-preview-inner">01</div>
+      <div class="v-dots">
+        <div class="v-dot" style="background:#fff;opacity:.6"></div>
+        <div class="v-dot" style="background:rgba(255,255,255,.3)"></div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="v-row">
+        <div class="v-name">Cinematic Dark</div>
+        <div class="v-version">V1</div>
+      </div>
+      <p class="v-desc">High-contrast monochrome aesthetic. Brutal typography, grain texture overlay, and fluid intersection-observer scroll reveals.</p>
+      <div class="v-footer">
+        <div class="v-tags"><span class="v-tag">Minimal</span><span class="v-tag">Dark</span></div>
+        <div class="v-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+    </div>
+  </a>
+
+  <!-- V3 -->
+  <a href="/v3/" class="v-card" data-v="3">
+    <div class="v-preview">
+      <div class="v-preview-inner">03</div>
+      <div class="v-dots">
+        <div class="v-dot" style="background:#a855f7;box-shadow:0 0 8px #a855f7"></div>
+        <div class="v-dot" style="background:#3b82f6;box-shadow:0 0 8px #3b82f6"></div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="v-row">
+        <div class="v-name">Gradient Flow</div>
+        <div class="v-version">V3</div>
+      </div>
+      <p class="v-desc">Rich purple-to-blue gradients with glowing mesh backgrounds. Scroll-triggered text reveals and smooth CSS transitions throughout.</p>
+      <div class="v-footer">
+        <div class="v-tags"><span class="v-tag">Gradient</span><span class="v-tag">Glow</span></div>
+        <div class="v-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+    </div>
+  </a>
+
+  <!-- V4 -->
+  <a href="/v4/" class="v-card" data-v="4">
+    <div class="v-preview">
+      <div class="v-preview-inner">04</div>
+      <div class="v-dots">
+        <div class="v-dot" style="background:#111;opacity:.5"></div>
+        <div class="v-dot" style="background:#555;opacity:.4"></div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="v-row">
+        <div class="v-name">Typographic Light</div>
+        <div class="v-version">V4</div>
+      </div>
+      <p class="v-desc">Clean white canvas with editorial type hierarchy and generous white space. Ink-on-paper aesthetic with sharp hover micro-interactions.</p>
+      <div class="v-footer">
+        <div class="v-tags"><span class="v-tag">Light</span><span class="v-tag">Type</span></div>
+        <div class="v-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+    </div>
+  </a>
+
+  <!-- V5 -->
+  <a href="/v5/" class="v-card" data-v="5">
+    <div class="v-preview">
+      <div class="v-preview-inner">05</div>
+      <div class="v-dots">
+        <div class="v-dot" style="background:#00ffaa;box-shadow:0 0 8px #00ffaa"></div>
+        <div class="v-dot" style="background:#00ccff;box-shadow:0 0 8px #00ccff"></div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="v-row">
+        <div class="v-name">Neon Pulse</div>
+        <div class="v-version">V5</div>
+      </div>
+      <p class="v-desc">Cyberpunk-inspired neon greens and electric blues on near-black. Glitch effects, scan lines, and high-energy kinetic layout.</p>
+      <div class="v-footer">
+        <div class="v-tags"><span class="v-tag">Neon</span><span class="v-tag">Cyber</span></div>
+        <div class="v-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+    </div>
+  </a>
+
+  <!-- V8 -->
+  <a href="/v8/" class="v-card" data-v="8">
+    <div class="v-preview">
+      <div class="v-preview-inner">08</div>
+      <div class="v-dots">
+        <div class="v-dot" style="background:#6366f1;box-shadow:0 0 8px #6366f1"></div>
+        <div class="v-dot" style="background:#ec4899;box-shadow:0 0 8px #ec4899"></div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="v-row">
+        <div class="v-name">Aurora Dark</div>
+        <div class="v-version">V8</div>
+      </div>
+      <p class="v-desc">Deep space indigo with aurora-borealis gradient accents. Layered glassmorphism panels and ambient particle field in the hero.</p>
+      <div class="v-footer">
+        <div class="v-tags"><span class="v-tag">Aurora</span><span class="v-tag">Space</span></div>
+        <div class="v-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<div class="hub-foot">
+  <p>© 2025 DMA Creative Agency — Variant Hub</p>
+  <p>Built with Django + GSAP + Lenis</p>
+</div>
+
+<script>
+/* cursor */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let rx=window.innerWidth/2,ry=window.innerHeight/2;
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  rx+=(e.clientX-rx)*.12;ry+=(e.clientY-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+});
+(function raf(){rx+=(parseFloat(cur.style.left||0)-rx)*.12;ry+=(parseFloat(cur.style.top||0)-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf)})();
+document.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';cur.style.opacity='.4'});
+  a.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';cur.style.opacity='1'});
+});
+
+/* mini particle canvas inside V14 card */
+(function(){
+  const canvas=document.getElementById('mini-canvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<40;i++)pts.push({x:Math.random()*800,y:Math.random()*220,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.3,c:Math.random()>.6?'124,58,237':'0,245,255'});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.c},.4)`;ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(0,245,255,${.15*(1-d/90)})`;ctx.lineWidth=.4;ctx.stroke()}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* card entrance stagger */
+const cards=document.querySelectorAll('.v-card');
+const io=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>{e.target.style.opacity='1';e.target.style.transform='translateY(0)'},i*80);io.unobserve(e.target)}})},{threshold:.1});
+cards.forEach((c,i)=>{c.style.opacity='0';c.style.transform='translateY(40px)';c.style.transition=`opacity .7s ease ${i*.06}s, transform .7s cubic-bezier(.16,1,.3,1) ${i*.06}s, border-color .4s, box-shadow .4s`;io.observe(c)});
+</script>
+</body>
+</html>

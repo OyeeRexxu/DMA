@@ -1,0 +1,205 @@
+{% extends "variants/v14/base.html" %}
+{% block title %}Contact — DMA. Quantum Creative{% endblock %}
+
+{% block extra_css %}
+.ct-wrap{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;z-index:1}
+
+/* ── LEFT ─────────────────────────────────────────── */
+.ct-left{padding:160px 64px 80px 56px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+/* animated gradient orb in left panel */
+.ct-left::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.12),transparent 65%);top:-150px;left:-150px;pointer-events:none;animation:ctOrb 8s ease-in-out infinite}
+@keyframes ctOrb{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+.ct-top{}
+.ct-top .chip{margin-bottom:24px}
+.ct-h{margin-bottom:28px;overflow:hidden}
+.ct-h .ci{display:inline-block}
+.ct-h .ph-line{display:block;overflow:hidden;line-height:1.05}
+.ct-p{color:var(--muted);font-size:1rem;line-height:1.85;max-width:380px;opacity:0}
+.ct-info{margin-top:56px;display:flex;flex-direction:column;gap:22px}
+.ci-row{display:flex;align-items:flex-start;gap:16px;opacity:0}
+.ci-icon{width:42px;height:42px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .4s var(--spring)}
+.ci-icon svg{width:16px;height:16px;stroke:var(--cyan);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ci-row:hover .ci-icon{background:var(--cyan-d);border-color:var(--border-glow);transform:scale(1.12) rotate(-5deg);box-shadow:0 0 20px rgba(0,245,255,.15)}
+.ci-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.ci-val{font-size:.95rem;font-weight:500}
+.av-badge{display:inline-flex;align-items:center;gap:10px;padding:11px 22px;border-radius:100px;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.14);margin-top:48px;opacity:0}
+.av-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px rgba(34,197,94,.6);animation:avPulse 2.5s ease-in-out infinite}
+@keyframes avPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.8)}}
+.av-badge span{font-family:'JetBrains Mono',monospace;font-size:.67rem;font-weight:600;letter-spacing:.1em;color:var(--muted)}
+
+/* ── RIGHT ────────────────────────────────────────── */
+.ct-right{padding:160px 56px 80px 64px;display:flex;flex-direction:column;justify-content:center}
+.ct-form{width:100%;max-width:540px;opacity:0}
+
+/* alerts */
+.msg{padding:14px 20px;border-radius:var(--r2);margin-bottom:28px;font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:10px}
+.success{background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.2);color:#4ade80}
+.error{background:rgba(255,0,110,.09);border:1px solid rgba(255,0,110,.2);color:#fb7185}
+
+/* fields */
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.fg{margin-bottom:16px;position:relative}
+.fg label{display:block;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;transition:color .3s}
+.fg:focus-within label{color:var(--cyan)}
+.fi{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px 18px;font-size:.93rem;font-family:'Outfit',sans-serif;color:var(--text);outline:none;transition:border-color .3s,background .3s,box-shadow .3s;-webkit-appearance:none}
+.fi::placeholder{color:var(--dim)}
+.fi:focus{border-color:rgba(0,245,255,.4);background:rgba(0,245,255,.025);box-shadow:0 0 0 3px rgba(0,245,255,.06)}
+textarea.fi{resize:none;min-height:130px;line-height:1.7}
+
+/* budget */
+.budget-g{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
+.b-opt{position:relative}
+.b-opt input{position:absolute;opacity:0;pointer-events:none}
+.b-opt label{display:block;padding:12px 16px;border-radius:var(--r2);background:var(--surface);border:1px solid var(--border);font-size:.82rem;font-weight:500;color:var(--muted);text-align:center;cursor:none;transition:all .4s var(--spring)}
+.b-opt input:checked+label,.b-opt label:hover{background:var(--cyan-d);border-color:var(--border-glow);color:var(--cyan);transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,245,255,.1)}
+
+/* submit */
+.f-submit{width:100%;padding:17px;border-radius:var(--r2);background:var(--cyan);color:#000;font-size:.95rem;font-weight:700;letter-spacing:.04em;border:none;position:relative;overflow:hidden;margin-top:8px;transition:box-shadow .4s,transform .4s var(--spring)}
+.f-submit .s-fill{position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan),var(--violet));transform:translateY(101%)}
+.f-submit span{position:relative;z-index:1}
+.f-submit:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,245,255,.4)}
+
+/* ── BOTTOM BAR ───────────────────────────────────── */
+.ct-bot{position:relative;z-index:1;padding:44px 56px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.socials{display:flex;gap:14px}
+.soc{width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--muted);cursor:none;transition:all .4s var(--spring)}
+.soc:hover{background:var(--cyan-d);border-color:var(--border-glow);color:var(--cyan);transform:translateY(-5px) rotate(-8deg);box-shadow:0 10px 24px rgba(0,245,255,.15)}
+
+@media(max-width:900px){
+  .ct-wrap{grid-template-columns:1fr}
+  .ct-left{padding:140px 24px 60px;border-right:none;border-bottom:1px solid var(--border)}
+  .ct-right{padding:60px 24px 80px}
+  .ct-form{max-width:100%}
+  .ct-bot{padding:36px 24px}
+}
+@media(max-width:480px){
+  .f-row{grid-template-columns:1fr}
+  .budget-g{grid-template-columns:1fr}
+}
+{% endblock %}
+
+{% block content %}
+<div class="ct-wrap">
+
+  <!-- LEFT -->
+  <div class="ct-left">
+    <div class="ct-top">
+      <div class="chip" id="ct-chip">Get In Touch</div>
+      <h1 class="dlg ct-h" id="ct-title">
+        <span class="ph-line"><span class="ci">Let's Create</span></span>
+        <span class="ph-line"><span class="ci tg">Together</span></span>
+      </h1>
+      <p class="ct-p" id="ct-p">We'd love to hear about your project. Tell us what you're building and we'll get back to you within 24 hours.</p>
+      <div class="ct-info" id="ct-info">
+        <div class="ci-row">
+          <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><div class="ci-lbl">Email</div><div class="ci-val">hello@dma.agency</div></div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="ci-lbl">Location</div><div class="ci-val">London, United Kingdom</div></div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="ci-lbl">Response Time</div><div class="ci-val">Within 24 hours</div></div>
+        </div>
+      </div>
+      <div class="av-badge" id="av-badge">
+        <span class="av-dot"></span>
+        <span>Currently accepting new projects</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="ct-right">
+    <div class="ct-form" id="ct-form">
+      {% if messages %}
+        {% for message in messages %}
+        <div class="msg {{ message.tags }}">
+          {% if message.tags == 'success' %}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11 3 8" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {% else %}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="#fb7185" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {% endif %}
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST" action="/contact/" novalidate>
+        {% csrf_token %}
+        <div class="f-row">
+          <div class="fg"><label for="cn">Your Name *</label><input id="cn" class="fi" type="text" name="name" placeholder="Jane Smith" required></div>
+          <div class="fg"><label for="ce">Email Address *</label><input id="ce" class="fi" type="email" name="email" placeholder="jane@co.com" required></div>
+        </div>
+        <div class="fg"><label for="cc">Company</label><input id="cc" class="fi" type="text" name="company" placeholder="Acme Corp"></div>
+        <div class="fg">
+          <label>Project Budget</label>
+          <div class="budget-g">
+            <div class="b-opt"><input type="radio" name="budget" id="b1" value="5-15k"><label for="b1">£5k – £15k</label></div>
+            <div class="b-opt"><input type="radio" name="budget" id="b2" value="15-40k"><label for="b2">£15k – £40k</label></div>
+            <div class="b-opt"><input type="radio" name="budget" id="b3" value="40-100k"><label for="b3">£40k – £100k</label></div>
+            <div class="b-opt"><input type="radio" name="budget" id="b4" value="100k+"><label for="b4">£100k+</label></div>
+          </div>
+        </div>
+        <div class="fg"><label for="cm">Your Message *</label><textarea id="cm" class="fi" name="message" placeholder="Tell us about your project — goals, timeline, any specific challenges..." required></textarea></div>
+        <button type="submit" class="f-submit" data-mag>
+          <div class="s-fill"></div>
+          <span>Send Message →</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="ct-bot">
+  <p style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim)">© 2025 DMA Creative Agency</p>
+  <div class="socials">
+    <a href="#" class="soc" data-label="IG">IG</a>
+    <a href="#" class="soc" data-label="TW">TW</a>
+    <a href="#" class="soc" data-label="LI">LI</a>
+    <a href="#" class="soc" data-label="DR">DR</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+window.addEventListener('load',function(){
+  const tl=gsap.timeline({delay:.85});
+  tl.from('#ct-chip',{opacity:0,y:20,duration:.7,ease:'power3.out'})
+    .from('#ct-title .ci',{y:'110%',opacity:0,stagger:.15,duration:.9,ease:'back.out(1.5)'},'-=.3')
+    .to('#ct-p',{opacity:1,y:0,duration:.8,ease:'power3.out'},'-=.4')
+    .to('.ci-row',{opacity:1,y:0,stagger:.1,duration:.7,ease:'power3.out'},'-=.4')
+    .to('#av-badge',{opacity:1,y:0,duration:.7,ease:'back.out(1.5)'},'-=.3')
+    .to('#ct-form',{opacity:1,y:0,duration:1,ease:'power3.out'},'-=.7');
+  gsap.set('#ct-p',{y:20,opacity:0});
+  gsap.set('.ci-row',{y:16,opacity:0});
+  gsap.set('#av-badge',{y:12,opacity:0});
+  gsap.set('#ct-form',{y:30,opacity:0});
+});
+
+/* form field focus glow */
+document.querySelectorAll('.fi').forEach(input=>{
+  input.addEventListener('focus',()=>{
+    gsap.to(input,{boxShadow:'0 0 0 3px rgba(0,245,255,0.08),0 0 20px rgba(0,245,255,0.04)',duration:.4,ease:'power2.out'});
+  });
+  input.addEventListener('blur',()=>{
+    gsap.to(input,{boxShadow:'none',duration:.3});
+  });
+});
+
+/* submit hover */
+const sub=document.querySelector('.f-submit');
+if(sub){
+  const sf=sub.querySelector('.s-fill');
+  sub.addEventListener('mouseenter',()=>{
+    gsap.fromTo(sf,{y:'101%'},{y:'0%',duration:.5,ease:'power3.out'});
+    gsap.to(sub,{color:'#fff',duration:.2,delay:.15});
+  });
+  sub.addEventListener('mouseleave',()=>{
+    gsap.to(sf,{y:'-101%',duration:.45,ease:'power3.in'});
+    gsap.to(sub,{color:'#000',duration:.15});
+  });
+}
+{% endblock %}
