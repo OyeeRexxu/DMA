@@ -15,10 +15,20 @@ python manage.py migrate
 echo "🎨 Collecting static files..."
 python manage.py collectstatic --noinput
 
+echo "📁 Ensuring media directory exists..."
+mkdir -p media
+
 echo "🔍 Verifying Django Settings..."
 python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dma_agency.settings'); from django.conf import settings; print(settings.SETTINGS_MODULE)"
 
 echo "🌐 Verifying WSGI Import..."
 python -c "from dma_agency.wsgi import application; print('✅ WSGI IMPORT SUCCESS')"
 
-echo "🚀 Deployment finished! Please reload your web app in the PythonAnywhere dashboard."
+echo ""
+echo "✅ Deployment finished!"
+echo ""
+echo "⚠️  MEDIA FILES — make sure PythonAnywhere Web tab has these Static Files mappings:"
+echo "   URL: /static/   → Directory: /home/Rexxuop/DMA/staticfiles"
+echo "   URL: /media/    → Directory: /home/Rexxuop/DMA/media"
+echo ""
+echo "👉 Then click 'Reload' in the PythonAnywhere dashboard."
