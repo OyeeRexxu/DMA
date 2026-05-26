@@ -398,23 +398,23 @@ setupMagnetic();
 
 /* ─── GLOBAL SCROLL REVEALS ──────────────────────── */
 function initReveal(){
-  // generic text — immediateRender:false keeps elements visible until trigger fires
   gsap.utils.toArray('[data-reveal]').forEach(el=>{
     const dir=el.dataset.reveal||'up';
     const from=dir==='left'?{x:-60,opacity:0}:dir==='right'?{x:60,opacity:0}:dir==='scale'?{scale:.85,opacity:0}:{y:60,opacity:0};
-    gsap.from(el,{...from,duration:1.1,ease:'power3.out',delay:+(el.dataset.d||0),
-      immediateRender:false,
+    const to  =dir==='left'?{x:0,opacity:1}  :dir==='right'?{x:0,opacity:1}  :dir==='scale'?{scale:1,opacity:1}  :{y:0,opacity:1};
+    gsap.fromTo(el,from,{...to,duration:1.1,ease:'power3.out',delay:+(el.dataset.d||0),
       scrollTrigger:{trigger:el,start:'top bottom',toggleActions:'play none none none'}
     });
   });
 
-  // stagger containers
   gsap.utils.toArray('[data-stagger]').forEach(el=>{
     const children=el.children;
-    gsap.from(children,{y:50,opacity:0,stagger:+(el.dataset.stagger||.12),duration:1,ease:'power3.out',
-      immediateRender:false,
-      scrollTrigger:{trigger:el,start:'top bottom',toggleActions:'play none none none'}
-    });
+    gsap.fromTo(children,
+      {y:50,opacity:0},
+      {y:0,opacity:1,stagger:+(el.dataset.stagger||.12),duration:1,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top bottom',toggleActions:'play none none none'}
+      }
+    );
   });
 }
 

@@ -168,19 +168,19 @@ window.addEventListener('load',function(){
 
 /* Service items slide in alternating */
 document.querySelectorAll('.sv-item').forEach((el,i)=>{
-  gsap.from(el,{
-    x:i%2===0?-70:70, opacity:0, duration:1.1, ease:'power3.out',
-    immediateRender:false,
-    scrollTrigger:{trigger:el,start:'top bottom',toggleActions:'play none none none'}
-  });
+  gsap.fromTo(el,
+    {x:i%2===0?-70:70, opacity:0},
+    {x:0, opacity:1, duration:1.1, ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top bottom',toggleActions:'play none none none'}}
+  );
 });
 
 /* Tools stagger pop */
-gsap.from('.tool',{
-  scale:0,opacity:0,stagger:{each:.04,from:'random'},duration:.5,ease:'back.out(2)',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.tools-grid',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.tool',
+  {scale:0,opacity:0},
+  {scale:1,opacity:1,stagger:{each:.04,from:'random'},duration:.5,ease:'back.out(2)',
+    scrollTrigger:{trigger:'.tools-grid',start:'top bottom',toggleActions:'play none none none'}}
+);
 
 /* btn-o fills */
 document.querySelectorAll('.btn-o').forEach(btn=>{

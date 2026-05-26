@@ -516,45 +516,40 @@ gsap.to('#hero-canvas',{opacity:0,ease:'none',scrollTrigger:{trigger:'#hero',sta
 /* immediateRender:false = elements stay visible at CSS defaults until trigger fires,
    preventing blank-section flash. Start:'top bottom' fires the moment element enters viewport. */
 
-gsap.from('.svc-card',{
-  y:70,opacity:0,stagger:.12,duration:1.1,ease:'power3.out',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.svc-grid',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.svc-card',
+  {y:70,opacity:0},
+  {y:0,opacity:1,stagger:.12,duration:1.1,ease:'power3.out',
+    scrollTrigger:{trigger:'.svc-grid',start:'top bottom',toggleActions:'play none none none'}});
 
-gsap.from('.w-card',{
-  y:80,opacity:0,scale:.96,stagger:.1,duration:1.1,ease:'power3.out',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.work-grid',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.w-card',
+  {y:80,opacity:0,scale:.96},
+  {y:0,opacity:1,scale:1,stagger:.1,duration:1.1,ease:'power3.out',
+    scrollTrigger:{trigger:'.work-grid',start:'top bottom',toggleActions:'play none none none'}});
 
-gsap.from('.stat-box',{
-  y:50,opacity:0,stagger:.12,duration:.9,ease:'power3.out',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.stats-inner',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.stat-box',
+  {y:50,opacity:0},
+  {y:0,opacity:1,stagger:.12,duration:.9,ease:'power3.out',
+    scrollTrigger:{trigger:'.stats-inner',start:'top bottom',toggleActions:'play none none none'}});
 
-gsap.from('.phil-left',{
-  x:-60,opacity:0,duration:1.1,ease:'power3.out',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.phil-sec',start:'top bottom',toggleActions:'play none none none'}
-});
-gsap.from('.phil-right',{
-  x:60,opacity:0,duration:1.1,ease:'power3.out',delay:.12,
-  immediateRender:false,
-  scrollTrigger:{trigger:'.phil-sec',start:'top bottom',toggleActions:'play none none none'}
-});
-gsap.from('.badge',{
-  scale:0,opacity:0,stagger:.06,duration:.55,ease:'back.out(2)',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.badges',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.phil-left',
+  {x:-60,opacity:0},
+  {x:0,opacity:1,duration:1.1,ease:'power3.out',
+    scrollTrigger:{trigger:'.phil-sec',start:'top bottom',toggleActions:'play none none none'}});
 
-gsap.from('.cta-box',{
-  scale:.93,opacity:0,duration:1.1,ease:'power3.out',
-  immediateRender:false,
-  scrollTrigger:{trigger:'.cta-sec',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.phil-right',
+  {x:60,opacity:0},
+  {x:0,opacity:1,duration:1.1,ease:'power3.out',delay:.12,
+    scrollTrigger:{trigger:'.phil-sec',start:'top bottom',toggleActions:'play none none none'}});
+
+gsap.fromTo('.badge',
+  {scale:0,opacity:0},
+  {scale:1,opacity:1,stagger:.06,duration:.55,ease:'back.out(2)',
+    scrollTrigger:{trigger:'.badges',start:'top bottom',toggleActions:'play none none none'}});
+
+gsap.fromTo('.cta-box',
+  {scale:.93,opacity:0},
+  {scale:1,opacity:1,duration:1.1,ease:'power3.out',
+    scrollTrigger:{trigger:'.cta-sec',start:'top bottom',toggleActions:'play none none none'}});
 
 /* ════ BTN-O hover fill ════ */
 document.querySelectorAll('.btn-o').forEach(btn=>{

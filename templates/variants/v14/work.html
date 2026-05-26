@@ -120,13 +120,11 @@ window.addEventListener('load',function(){
 });
 
 /* grid items scroll-in with stagger */
-gsap.from('.pi',{
-  y:60,opacity:0,scale:.96,
-  stagger:{each:.07,from:'start'},
-  duration:1,ease:'power3.out',
-  immediateRender:false,
-  scrollTrigger:{trigger:'#port-grid',start:'top bottom',toggleActions:'play none none none'}
-});
+gsap.fromTo('.pi',
+  {y:60,opacity:0,scale:.96},
+  {y:0,opacity:1,scale:1,stagger:{each:.07,from:'start'},duration:1,ease:'power3.out',
+    scrollTrigger:{trigger:'#port-grid',start:'top bottom',toggleActions:'play none none none'}}
+);
 
 /* filter buttons */
 document.querySelectorAll('.f-btn').forEach(btn=>{
