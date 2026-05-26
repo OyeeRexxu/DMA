@@ -16,5 +16,5 @@ env/
 # Node modules
 node_modules/
 
-# Static/media user uploads
-media/
+# Static/media user uploads — tracked so production server gets the images
+# media/
