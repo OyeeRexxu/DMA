@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Django database
-db.sqlite3
+# db.sqlite3   ← tracked so production gets project image associations
 db_empty_backup.sqlite3
 
 # Virtual Environments
