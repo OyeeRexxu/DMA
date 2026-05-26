@@ -141,6 +141,13 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:80
   .n-links,.n-btn{display:none}.n-ham{display:flex}
   footer{padding:56px 24px 28px}.ft-cols{gap:36px}
 }
+
+/* ─── PRE-HIDE SCROLL-ANIMATED ELEMENTS ─────────────
+   Elements start invisible so GSAP never has to jump
+   them from visible→opacity:0 mid-scroll.            */
+[data-reveal]{opacity:0}
+[data-stagger]>*{opacity:0}
+
 {% block extra_css %}{% endblock %}
 </style>
 </head>
